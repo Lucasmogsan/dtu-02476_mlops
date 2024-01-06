@@ -4,18 +4,18 @@
 </p>
 
 # Table of Contents
-- [Project Description](#project-description)
-- [Installation](#installation)
+- [Project Description](#mortar_board-project-description)
+- [Installation](#hammer_and_wrench-installation)
 - [Usage](#rocket-usage)
-- [Report](#report)
-- [Project Organization](#project-organization)
+- [Report](#scroll-report)
+- [Project Organization](#file_folder-project-organization)
 - [Contributors](#wave-contributors)
-- [Credits](#credits)
-- [License](#license)
+- [Credits](#pray-credits)
+- [License](#key-license)
 
 
 
-# Project Description
+# :mortar_board: Project Description
 
 1. **Overall goal:**
 The goal is to classify five different varieties of rice (Arborio, Basmati, Ipsala, Jasmine and Karacadag). A framework and model(s) is chosen alongside a simple dataset, to focus on the utilization and implementation of frameworks and tools within MLOps. The main focus will thus be on reproducability, profiling, visualizing and monitoring multiple experiments to assess model performance.
@@ -30,31 +30,30 @@ The rice image [dataset](https://www.kaggle.com/datasets/muratkokludataset/rice-
 For the classification process we will use two different Convolutional Neural Network, comparing the best and the worst network, EVA and MobileNet-V3 respectively based on the ImageNet validataion set. [(reference)](https://github.com/huggingface/pytorch-image-models/blob/main/results/results-imagenetv2-matched-frequency.csv)
 
 
-# Installation
+# :hammer_and_wrench: Installation
 TBD
 
 # :rocket: Usage
 TBD
 
 
-# Report
+# :scroll: Report
 The report for the course is found in the [reports](reports/) folder.
 
-# Project Organization
+# :file_folder: Project Organization
 TBD
 
 # :wave: Contributors
+TBD
+generate image?
 
 This project exists thanks to all the people who contribute.
 <a href="https://github.com/Lucasmogsan/dtu-02476_mlops/graphs/contributors"><img src="https://opencollective.com/readme-md-generator/contributors.svg?width=890&button=false" /></a>
 
-https://opencollective.com/dtu-02476_mlops/contributors.svg?width=890&button=false
-https://github.com/Lucasmogsan/dtu-02476_mlops/graphs/contributors
 
-
-# Credits
+# :pray: Credits
 TBD
 
-# License
+# :key: License
 TBD
 
