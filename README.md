@@ -1,18 +1,31 @@
+<p align="center"> 
+  <img src="assets/rice_in_bowl.png" alt="Rice in bowl" width="100px">
+</p>
+
 <p align="center">
     <h1 align="center">:ear_of_rice: :rice: Image Classification of Rice :rice: :ear_of_rice: </h1>
     <p align="center">Repository for the final project - course <a href="https://kurser.dtu.dk/course/02476">02476</a> at DTU.</p>
 </p>
 
-# Table of Contents
-- [Project Description](#mortar_board-project-description)
-- [Installation](#hammer_and_wrench-installation)
-- [Usage](#rocket-usage)
-- [Report](#scroll-report)
-- [Project Organization](#file_folder-project-organization)
-- [Contributors](#wave-contributors)
-- [Credits](#pray-credits)
-- [License](#key-license)
+<p align="center"> 
+  <img src="assets/rice_eater.gif" alt="Animated gif rice eater" height="150">
+</p>
 
+# :book: Table of Contents
+
+<details open="open">
+  <summary>Table of Contents</summary>
+  <ol>
+    <li><a href="#mortar_board-project-description"> ➤ Project Description</a></li>
+    <li><a href="#hammer_and_wrench-installation"> ➤ Installation</a></li>
+    <li><a href="#rocket-usage"> ➤ Usage</a></li>
+    <li><a href="#scroll-report"> ➤ Report </a></li>
+    <li><a href="#file_folder-project-organization"> ➤ Project Organization </a></li>
+    <li><a href="#wave-contributors"> ➤ Contributors </a></li>
+    <li><a href="#pray-credits"> ➤ Credits </a></li>
+    <li><a href="#key-license"> ➤ License </a></li>
+  </ol>
+</details>
 
 
 # :mortar_board: Project Description
@@ -29,26 +42,30 @@ The rice image [dataset](https://www.kaggle.com/datasets/muratkokludataset/rice-
 4. **Deep learning models used?**
 For the classification process we will use two different Convolutional Neural Network, comparing the best and the worst network, EVA and MobileNet-V3 respectively based on the ImageNet validataion set. [(reference)](https://github.com/huggingface/pytorch-image-models/blob/main/results/results-imagenetv2-matched-frequency.csv)
 
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 # :hammer_and_wrench: Installation
 TBD
 
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
+
 # :rocket: Usage
 TBD
 
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 # :scroll: Report
 The report for the course is found in the [reports](reports/) folder.
 
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
+
 # :file_folder: Project Organization
 TBD
 
-# :wave: Contributors
-TBD
-generate image?
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
-This project exists thanks to the following contributors
-<!-- <a href="https://github.com/Lucasmogsan/dtu-02476_mlops/graphs/contributors"><img src="https://opencollective.com/readme-md-generator/contributors.svg?width=890&button=false" /></a> -->
+# :wave: Contributors
+This project exists thanks to the following contributors:
 
 <!-- readme: contributors -start -->
 <table>
@@ -63,10 +80,16 @@ This project exists thanks to the following contributors
 </table>
 <!-- readme: contributors -end -->
 
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 # :pray: Credits
 TBD
 
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
+
 # :key: License
 TBD
 
+<p align="center"> 
+  <img src="assets/rice_meme.jpg" alt="Rice meme" height="350">
+</p>
