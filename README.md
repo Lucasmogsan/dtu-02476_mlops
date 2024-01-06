@@ -1,5 +1,5 @@
 <p align="center">
-    <h1 align="center">Image Classification of Rice</h1>
+    <h1 align="center">:ear_of_rice: :rice: Image Classification of Rice :rice: :ear_of_rice: </h1>
     <p align="center">Repository for the final project - course <a href="https://kurser.dtu.dk/course/02476">02476</a> at DTU.</p>
 </p>
 
