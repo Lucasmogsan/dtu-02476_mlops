@@ -222,7 +222,7 @@ end of the project.
 
 ### Week 1
 
-* [ ] Create a git repository
+* [X] Create a git repository
 * [ ] Make sure that all team members have write access to the github repository
 * [ ] Create a dedicated environment for you project to keep track of your packages
 * [ ] Create the initial file structure using cookiecutter
@@ -277,18 +277,14 @@ end of the project.
 >
 > Answer:
 
---- question 1 fill here ---
+Group 8
 
 ### Question 2
 > **Enter the study number for each member in the group**
 >
-> Example:
->
-> *sXXXXXX, sXXXXXX, sXXXXXX*
->
 > Answer:
 
---- question 2 fill here ---
+*s223093, s223189, s230025, s230003*
 
 ### Question 3
 > **What framework did you choose to work with and did it help you complete the project?**
