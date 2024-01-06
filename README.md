@@ -1,7 +1,3 @@
-<p align="center"> 
-  <img src="assets/rice_in_bowl.png" alt="Rice in bowl" width="100px">
-</p>
-
 <p align="center">
     <h1 align="center">:ear_of_rice: :rice: Image Classification of Rice :rice: :ear_of_rice: </h1>
     <p align="center">Repository for the final project - course <a href="https://kurser.dtu.dk/course/02476">02476</a> at DTU.</p>
@@ -10,6 +6,8 @@
 <p align="center"> 
   <img src="assets/rice_eater.gif" alt="Animated gif rice eater" height="150">
 </p>
+
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 # :book: Table of Contents
 
@@ -27,6 +25,7 @@
   </ol>
 </details>
 
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 # :mortar_board: Project Description
 
