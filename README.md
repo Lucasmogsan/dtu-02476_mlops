@@ -47,7 +47,7 @@ TBD
 TBD
 generate image?
 
-This project exists thanks to the following contributors.
+This project exists thanks to the following contributors
 <!-- <a href="https://github.com/Lucasmogsan/dtu-02476_mlops/graphs/contributors"><img src="https://opencollective.com/readme-md-generator/contributors.svg?width=890&button=false" /></a> -->
 
 <!-- readme: contributors -start -->
