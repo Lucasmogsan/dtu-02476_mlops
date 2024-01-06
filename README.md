@@ -51,6 +51,16 @@ This project exists thanks to the following contributors
 <!-- <a href="https://github.com/Lucasmogsan/dtu-02476_mlops/graphs/contributors"><img src="https://opencollective.com/readme-md-generator/contributors.svg?width=890&button=false" /></a> -->
 
 <!-- readme: contributors -start -->
+<table>
+<tr>
+    <td align="center">
+        <a href="https://github.com/Lucasmogsan">
+            <img src="https://avatars.githubusercontent.com/u/106976128?v=4" width="100;" alt="Lucasmogsan"/>
+            <br />
+            <sub><b>Lucas Sandby</b></sub>
+        </a>
+    </td></tr>
+</table>
 <!-- readme: contributors -end -->
 
 
