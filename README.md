@@ -4,8 +4,19 @@
 </p>
 
 
+# Project description
 
-[Dataset](https://www.kaggle.com/datasets/muratkokludataset/rice-image-dataset/data)
+1. **Overall goal:**
+The goal is to classify rice grains based on  scientific papers into seven research areas based on [this dataset](https://www.kaggle.com/datasets/muratkokludataset/rice-image-dataset/data) with 75.000 images of five different describing content of the paper.
+2. **Framework:**
+For this project the [PyTorch-Geometric](https://pytorch-geometric.readthedocs.io/en/latest/#) ecosystem was used.   It   implements   neural network
+layers specific for graphs and defines convolutional operations on the graphs.
+3. **Data:**
+The Cora dataset consisting of 2,708 scientific publications   classified   among   seven   classes.   The   citation network consists of 10,556 links. Each publication is described by   a   binary   label   indicating   the   absence/presence   of   the corresponding word from the dictionary, which consists of 1,433 unique   words.   This   data   is   [publicly   available](https://deepai.org/dataset/cora). We will load it using PyTorch-Geometric interface.
+4. **Deep learning models used?**
+We are using Graph   Neural   Network   models   and   incorporating different Graph Convolutional Network (GCN) layer, implemented in Pytorch Geometric. As the focus of the project is MLOps, the model is not extremely complex, but it is able to classify the papers to a satisfyingly high degree. 
+
+
 
 
 
@@ -24,15 +35,7 @@ Template from other team
 
 This repository contains the project work carried out by group 5 in the MLOps course taught at DTU ([course website](https://skaftenicki.github.io/dtu_mlops/)). Group 5 consists of: Eigil Y. H. Lippert, Kasia Otko, Lenka Hýlová and Sara D. Nielsen (see contributors list for individual github pages). 
 
-1. **Overall goal:**
-The   goal   is   to   classify   scientific   papers   into   seven   research areas based on a citation network and a dictionary describing content of the paper.
-2. **Framework:**
-For this project the [PyTorch-Geometric](https://pytorch-geometric.readthedocs.io/en/latest/#) ecosystem was used.   It   implements   neural   network
-layers specific for graphs and defines convolutional operations on the graphs.
-3. **Data:**
-The Cora dataset consisting of 2,708 scientific publications   classified   among   seven   classes.   The   citation network consists of 10,556 links. Each publication is described by   a   binary   label   indicating   the   absence/presence   of   the corresponding word from the dictionary, which consists of 1,433 unique   words.   This   data   is   [publicly   available](https://deepai.org/dataset/cora). We will load it using PyTorch-Geometric interface.
-4. **Deep learning models used?**
-We are using Graph   Neural   Network   models   and   incorporating different Graph Convolutional Network (GCN) layer, implemented in Pytorch Geometric. As the focus of the project is MLOps, the model is not extremely complex, but it is able to classify the papers to a satisfyingly high degree. 
+
 
 ## Project flowchart
 ![Alt text](reports/figures/flowchart.png?raw=true "Flowchart")
