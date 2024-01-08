@@ -77,6 +77,13 @@ This project exists thanks to the following contributors:
         </a>
     </td>
     <td align="center">
+        <a href="https://github.com/Tran97">
+            <img src="https://avatars.githubusercontent.com/u/70841724?v=4" width="100;" alt="Tran97"/>
+            <br />
+            <sub><b>Steven</b></sub>
+        </a>
+    </td>
+    <td align="center">
         <a href="https://github.com/esquivelrs">
             <img src="https://avatars.githubusercontent.com/u/14069332?v=4" width="100;" alt="esquivelrs"/>
             <br />
