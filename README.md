@@ -80,7 +80,7 @@ This project exists thanks to the following contributors:
         <a href="https://github.com/esquivelrs">
             <img src="https://avatars.githubusercontent.com/u/14069332?v=4" width="100;" alt="esquivelrs"/>
             <br />
-            <sub><b>Null</b></sub>
+            <sub><b>esquivelrs</b></sub>
         </a>
     </td></tr>
 </table>
