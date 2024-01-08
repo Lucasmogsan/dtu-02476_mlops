@@ -67,16 +67,6 @@ TBD
 This project exists thanks to the following contributors:
 
 <!-- readme: contributors -start -->
-<table>
-<tr>
-    <td align="center">
-        <a href="https://github.com/Lucasmogsan">
-            <img src="https://avatars.githubusercontent.com/u/106976128?v=4" width="100;" alt="Lucasmogsan"/>
-            <br />
-            <sub><b>Lucas Sandby</b></sub>
-        </a>
-    </td></tr>
-</table>
 <!-- readme: contributors -end -->
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
