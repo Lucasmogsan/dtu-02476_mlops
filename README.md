@@ -44,7 +44,7 @@ For the classification process we will use two different Convolutional Neural Ne
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 # :hammer_and_wrench: Installation
-To be decided
+TBD: To be decided
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
