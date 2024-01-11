@@ -20,7 +20,7 @@ def predict(
     #     project='rice_classification',
     #     entity='mlops_group8',
     #     job_type='predict',   # or 'eval'
-    #     dir='./wandb_output'
+    #     dir='./outputs'
     #     )
     # wandb.log({'prediction': model(dataloader)})
 

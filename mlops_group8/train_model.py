@@ -2,7 +2,7 @@ import hydra
 import wandb
 import random
 
-@hydra.main(config_path='mlops_group8/config', config_name='default_config.yaml')
+@hydra.main(version_base=None, config_path='config', config_name='default_config.yaml')
 def train(cfg):
     hparams = cfg.experiment
     # Read hyperparameters for experiment
@@ -17,20 +17,20 @@ def train(cfg):
 
     # Initialize wandb
     wandb_cfg = {
-        'epochs': cfg.epochs,
-        'learning_rate': cfg.lr,
-        'batch_size': cfg.batch_size,
-        'latent_dim': cfg.latent_dim,
-        'hidden_dim': cfg.hidden_dim,
-        'x_dim': cfg.x_dim,
-        # 'seed': cfg.seed,
+        'epochs': epochs,
+        'learning_rate': lr,
+        'batch_size': batch_size,
+        'latent_dim': latent_dim,
+        'hidden_dim': hidden_dim,
+        'x_dim': x_dim,
+        # 'seed': seed,
     }
     wandb.init(
-        project='rice_classification',
+        project='train_test',
         entity='mlops_group8',
         config=wandb_cfg,
-        job_type='train',   # or 'eval'
-        dir='./wandb_output',
+        job_type='train',
+        dir='./outputs',
     )
 
     # Simulate training
