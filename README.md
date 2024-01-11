@@ -3,7 +3,7 @@
     <h4 align="center">Repository for the final project - course <a href="https://kurser.dtu.dk/course/02476">02476</a> at DTU</h4>
 </p>
 
-<p align="center"> 
+<p align="center">
   <img src="assets/rice_eater.gif" alt="Animated gif rice eater" height="150">
 </p>
 
@@ -160,6 +160,6 @@ TBD
 # :key: License
 TBD
 
-<p align="center"> 
+<p align="center">
   <img src="assets/rice_meme.jpg" alt="Rice meme" height="350">
 </p>
