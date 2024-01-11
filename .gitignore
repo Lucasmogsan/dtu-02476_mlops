@@ -1,6 +1,9 @@
 # Data
 /data
 
+# .pt files
+*.pt
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -168,3 +171,4 @@ cython_debug/
 
 # files generated from hydra
 outputs/
+models/model_latest.pt
