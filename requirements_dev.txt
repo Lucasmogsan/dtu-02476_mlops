@@ -12,3 +12,13 @@ mkdocs <= 1.5.3
 mkdocs-material <= 9.4.6
 mkdocstrings <= 0.23.0
 mkdocstrings[python]>=0.18
+
+# packaging
+dvc == 3.37.0
+dvc[gs]
+kaggle
+tqdm >= 4.66.0
+pillow >= 10.2.0
+torch
+torchvision
+scikit-learn
