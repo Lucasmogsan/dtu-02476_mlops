@@ -1,4 +1,4 @@
-import timm 
+import timm
 import torch
 from torch.nn.functional import softmax
 import cv2
@@ -15,24 +15,24 @@ def cli():
 
 
 # Setup
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-LABLES = ["Arborio", "Basmati", "Ipsala", "Jasmine", "Karacadag"]
+device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+LABLES = ['Arborio', 'Basmati', 'Ipsala', 'Jasmine', 'Karacadag']
 
 # Use albumentations to augment the image (resize and normalize)
 transform = A.Compose([
     A.Resize(width=224, height=224),
     A.Normalize(),
-    ToTensorV2()
+    ToTensorV2(),
 ])
 
 
 ### Predict ###
 @click.command()
-@click.argument("input_path")
+@click.argument('input_path')
 def predict(input_path: str):
-    print("Predicting...")
-    
-    model = torch.load("models/model_latest.pt")
+    print('Predicting...')
+
+    model = torch.load('models/model_latest.pt')
     #model = timm.create_model("resnet50", pretrained=True, num_classes=5)
 
     # save the model to cpu
@@ -42,7 +42,7 @@ def predict(input_path: str):
         image = cv2.imread(input_path)  # (X, X, 3)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # (X, X, 3), now in rgb instead of bgr
 
-        image = transform(image=image)["image"] # (3, 224, 224), resized and normalized
+        image = transform(image=image)['image'] # (3, 224, 224), resized and normalized
         image = image.unsqueeze(0)  # (1, 3, 224, 224), added a dimension for batch size
 
         # Get the model output
@@ -62,7 +62,7 @@ def predict(input_path: str):
 # Add commands to the group
 cli.add_command(predict)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     cli()
 
-# RUN: python mlops_group8/predict_model.py predict data/raw/Arborio/Arborio\ \(1\).jpg 
+# RUN: python mlops_group8/predict_model.py predict data/raw/Arborio/Arborio\ \(1\).jpg
