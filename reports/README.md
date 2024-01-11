@@ -488,5 +488,3 @@ Group 8
 > Answer:
 
 --- question 27 fill here ---
-
-
