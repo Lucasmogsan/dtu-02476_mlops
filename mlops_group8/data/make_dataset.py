@@ -86,9 +86,9 @@ def process_data(dataset_folder_name):
             # Convert the image to a tensor
             image = image.unsqueeze(0)
             images.append(image)
-            # if count == 10:
-            #     break
-            # count += 1
+            if count == 500:
+                break
+            count += 1
             
         
         label = torch.tensor([i]*len(images))
