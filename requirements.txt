@@ -1,4 +1,4 @@
-hydracore
-pre-commit
+hydra-core == 1.3.2
+pre-commit == 3.6.0
 torch
 wandb == 0.16.2
