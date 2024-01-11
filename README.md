@@ -3,7 +3,7 @@
     <h4 align="center">Repository for the final project - course <a href="https://kurser.dtu.dk/course/02476">02476</a> at DTU</h4>
 </p>
 
-<p align="center"> 
+<p align="center">
   <img src="assets/rice_eater.gif" alt="Animated gif rice eater" height="150">
 </p>
 
@@ -103,10 +103,43 @@ Created using [mlops_template](https://github.com/SkafteNicki/mlops_template), a
 # :hammer_and_wrench: Installation
 TBD: To be decided
 
+**Local environment**
+Run the following:
+```bash
+cd dtu-02476-mlops
+make create_environment
+conda activate mlops_group8
+make requirements
+```
+
+
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 # :rocket: Usage
 TBD
+
+**Pre-commit**
+Enable the pre-commit
+```bash
+pre-commit install
+```
+Check the commit with pre-commit
+```bash
+pre-commit run --all-files
+```
+
+After this you can commit as normally.
+To omit/skip the pre-commit use:
+```bash
+git commit -m "<message>" --no-verify
+```
+
+**Timm**
+
+To see `eva` models available (use different model names if needed):
+```bash
+python -c "import timm; print(timm.list_models('*eva*'))"
+```
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
@@ -167,6 +200,6 @@ TBD
 # :key: License
 TBD
 
-<p align="center"> 
+<p align="center">
   <img src="assets/rice_meme.jpg" alt="Rice meme" height="350">
 </p>
