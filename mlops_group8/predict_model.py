@@ -5,6 +5,7 @@ import cv2
 import click
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
+import matplotlib.pyplot as plt
 
 # Create a click group
 @click.group()
@@ -30,14 +31,19 @@ transform = A.Compose([
 @click.argument("input_path")
 def predict(input_path: str):
     print("Predicting...")
-    model = timm.create_model("resnet50", pretrained=True, num_classes=5)
+    
+    model = torch.load("models/model_latest.pt")
+    #model = timm.create_model("resnet50", pretrained=True, num_classes=5)
+
+    # save the model to cpu
+    #torch.save(model.cpu(), "models/model_latest.pt")
 
     with torch.no_grad():
-        image = cv2.imread(input_path)
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        image = cv2.imread(input_path)  # (X, X, 3)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # (X, X, 3), now in rgb instead of bgr
 
-        image = transform(image=image)["image"] # -> (3, 224, 224) 
-        image = image.unsqueeze(0)  # -> (1, 3, 224, 224)
+        image = transform(image=image)["image"] # (3, 224, 224), resized and normalized
+        image = image.unsqueeze(0)  # (1, 3, 224, 224), added a dimension for batch size
 
         # Get the model output
         output = model(image.float().to(device))
