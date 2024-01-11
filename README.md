@@ -103,10 +103,27 @@ Created using [mlops_template](https://github.com/SkafteNicki/mlops_template), a
 # :hammer_and_wrench: Installation
 TBD: To be decided
 
+**Local environment**
+Run the following:
+```bash
+cd dtu-02476-mlops
+make create_environment
+conda activate mlops_group8
+make requirements
+```
+
+
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 # :rocket: Usage
 TBD
+
+**Timm**
+
+To see `eva` models available (use different model names if needed):
+```bash
+python -c "import timm; print(timm.list_models('*eva*'))"
+```
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 

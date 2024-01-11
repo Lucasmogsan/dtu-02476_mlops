@@ -3,3 +3,4 @@ timm
 albumentations
 opencv-python
 click
+matplotlib
