@@ -118,6 +118,22 @@ make requirements
 # :rocket: Usage
 TBD
 
+**Pre-commit**
+Enable the pre-commit
+```bash
+pre-commit install
+```
+Check the commit with pre-commit
+```bash
+pre-commit run --all-files
+```
+
+After this you can commit as normally.
+To omit/skip the pre-commit use:
+```bash
+git commit -m "<message>" --no-verify
+```
+
 **Timm**
 
 To see `eva` models available (use different model names if needed):
