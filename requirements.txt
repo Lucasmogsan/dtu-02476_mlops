@@ -1,3 +1,4 @@
+hydracore
 pre-commit
 torch
 wandb == 0.16.2

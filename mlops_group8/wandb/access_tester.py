@@ -23,6 +23,7 @@ wandb.init(
     'dataset': 'CIFAR-100',
     'epochs': 10,
     },
+    dir='./wandb_output',
 )
 
 # simulate training

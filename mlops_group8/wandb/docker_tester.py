@@ -13,6 +13,7 @@ wandb.init(
     project='wandb_docker_test',
     entity='mlops_group8',
     name='from-docker',
+    dir='./wandb_output',
 )
 for _ in range(100):
     wandb.log({'test_metric': random.random()})

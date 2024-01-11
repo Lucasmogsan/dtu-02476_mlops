@@ -160,4 +160,4 @@ cython_debug/
 #.idea/
 
 # files generated from weights and biases
-# wandb/
+wandb_output/
