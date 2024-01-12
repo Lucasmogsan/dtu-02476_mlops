@@ -21,6 +21,7 @@ processed_path = "data/processed"
 if not os.path.exists(processed_path):
     os.makedirs(processed_path)
 
+
 transform = A.Compose(
     [
         A.Resize(width=224, height=224),
@@ -47,6 +48,10 @@ def get_data():
     zip_file = [file for file in os.listdir(download_path) if file.endswith(".zip")][0]
     with ZipFile(os.path.join(download_path, zip_file), "r") as zip_ref:
         zip_ref.extractall(extract_path)
+
+    # delete zip file
+    print("Deleting zip file: ", download_path + "/" + zip_file)
+    os.remove(download_path + "/" + zip_file)
 
     extracted_folders = [name for name in os.listdir(extract_path) if os.path.isdir(os.path.join(extract_path, name))]
     if extracted_folders:
@@ -128,6 +133,7 @@ def process_data(dataset_folder_name):
 
 if __name__ == "__main__":
     # Get the data and process it
-    # get_data()
     path = extract_path + "/Rice_Image_Dataset"
+    if not os.path.exists(path):
+        get_data()
     process_data(path)
