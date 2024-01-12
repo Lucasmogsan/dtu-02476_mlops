@@ -1,6 +1,9 @@
 albumentations
 click
+dvc
+dvc[gs]
 hydra-core == 1.3.2
+kaggle
 matplotlib
 opencv-python
 pre-commit == 3.6.0

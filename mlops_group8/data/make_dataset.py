@@ -2,29 +2,33 @@ import os
 from zipfile import ZipFile
 from pathlib import Path
 from kaggle.api.kaggle_api_extended import KaggleApi
-import requests
 from tqdm import tqdm
 import torch
 import cv2
-import torchvision.transforms as transforms
 from sklearn.model_selection import train_test_split
 import json
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
 
 
-
-
 # Set the dataset details
 dataset_name = "muratkokludataset/rice-image-dataset"
 download_path = "data/raw"
 extract_path = "data/raw"
+processed_path = "data/processed"
 
-transform = A.Compose([
-    A.Resize(width=224, height=224),
-    A.Normalize(mean=[0.5], std=[0.5]),
-    ToTensorV2()
-])
+# Create the directories if they don't exist
+if not os.path.exists(processed_path):
+    os.makedirs(processed_path)
+
+transform = A.Compose(
+    [
+        A.Resize(width=224, height=224),
+        A.Normalize(mean=[0.5], std=[0.25]),
+        ToTensorV2(),
+    ],
+)
+
 
 def get_data():
     # Authenticate with Kaggle API
@@ -40,8 +44,8 @@ def get_data():
 
     # Extract the dataset
     print(f"Extracting dataset '{dataset_name}' to '{extract_path}'...")
-    zip_file = [file for file in os.listdir(download_path) if file.endswith('.zip')][0]
-    with ZipFile(os.path.join(download_path, zip_file), 'r') as zip_ref:
+    zip_file = [file for file in os.listdir(download_path) if file.endswith(".zip")][0]
+    with ZipFile(os.path.join(download_path, zip_file), "r") as zip_ref:
         zip_ref.extractall(extract_path)
 
     extracted_folders = [name for name in os.listdir(extract_path) if os.path.isdir(os.path.join(extract_path, name))]
@@ -53,23 +57,22 @@ def get_data():
     else:
         print("No folder found in the extraction path.")
         exit(1)
-        
-    
+
+
 def process_data(dataset_folder_name):
-    #clasess = ['Arborio', 'Basmati', 'Ipsala', 'Jasmine', 'Karacadag']
+    # clasess = ['Arborio', 'Basmati', 'Ipsala', 'Jasmine', 'Karacadag']
     clasess = [f.name for f in os.scandir(dataset_folder_name) if f.is_dir()]
 
     num_classes = len(clasess)
 
     print("Number of classes:", num_classes)
     print("Class names:", clasess)
-    
+
     # load images from each class folder
     classes_dict = {}
-    data_images_train, data_images_test = [], []
-    data_labels_train, data_labels_test = [], []
-    for i,class_type in enumerate(clasess):
-
+    # data_images_train, data_images_test = [], []
+    # data_labels_train, data_labels_test = [], []
+    for i, class_type in enumerate(clasess):
         print("Processing class: ", class_type)
         classes_dict[i] = class_type
         path = os.path.join(dataset_folder_name, class_type)
@@ -81,7 +84,7 @@ def process_data(dataset_folder_name):
             # Load the image with PIL
             image = cv2.imread(os.path.join(path, img))
             # image to gray scale
-            image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY) 
+            image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
             image = transform(image=image)["image"]
             # Convert the image to a tensor
             image = image.unsqueeze(0)
@@ -89,44 +92,42 @@ def process_data(dataset_folder_name):
             if count == 500:
                 break
             count += 1
-            
-        
-        label = torch.tensor([i]*len(images))
+
+        label = torch.tensor([i] * len(images))
         images_data = torch.cat(images, dim=0)
         print(images_data.shape)
-        images_train, images_test, labels_train, labels_test = train_test_split(images_data, label, test_size=0.2, random_state=42)
-        #print(images_train.shape)
-        
+        images_train, images_test, labels_train, labels_test = train_test_split(
+            images_data,
+            label,
+            test_size=0.2,
+            random_state=42,
+        )
+        # print(images_train.shape)
+
         print("Train data shape: ", images_train.shape)
         print("Test data shape: ", images_test.shape)
         print("Train labels shape: ", labels_train.shape)
         print("Test labels shape: ", labels_test.shape)
-                
+
         train_data = torch.utils.data.TensorDataset(images_train, labels_train)
         test_data = torch.utils.data.TensorDataset(images_test, labels_test)
-        
-        torch.save(train_data, f"data/processed/train_data_{i}.pt")
-        torch.save(test_data, f"data/processed/test_data_{i}.pt")
-        
+
+        # Split the data into train image and labels again:
+        # train_img = train_data[:][0]
+
+        torch.save(train_data, processed_path + f"/train_data_{i}.pt")
+        torch.save(test_data, processed_path + f"/test_data_{i}.pt")
+
     # save dict classes
-    
-    with open('data/processed/classes.json', 'w') as f:
+
+    with open(processed_path + "/classes.json", "w") as f:
         json.dump(classes_dict, f)
-    
+
     print("Data saved!")
-    
-
-if __name__ == '__main__':
-    # Get the data and process it
-    #get_data()
-    path = 'data/raw/Rice_Image_Dataset'
-    process_data(path)  
 
 
-
-
-=======
 if __name__ == "__main__":
     # Get the data and process it
-    pass
-
+    # get_data()
+    path = extract_path + "/Rice_Image_Dataset"
+    process_data(path)

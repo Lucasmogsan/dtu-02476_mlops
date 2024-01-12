@@ -15,7 +15,7 @@ def cli():
 
 # Setup
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-LABLES = ["Arborio", "Basmati", "Ipsala", "Jasmine", "Karacadag"]
+LABLES = ["Jasmine", "Ipsala", "Basmati", "Karacadag", "Arborio"]
 
 # Use albumentations to augment the image (resize and normalize)
 transform = A.Compose(
@@ -33,7 +33,7 @@ transform = A.Compose(
 def predict(input_image_path: str):
     print("Predicting...")
 
-    model = torch.load("models/model_latest.pt")
+    model = torch.load("models/model_latest1.pt")
     # model = timm.create_model("eva02_base_patch14_224", pretrained=True, num_classes=5, in_chans=1).to(device)
     # torch.save(model.cpu(), "models/model_latest.pt")  # save the model to cpu
 
