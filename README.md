@@ -220,7 +220,7 @@ This project exists thanks to the following contributors:
         <a href="https://github.com/yufanana">
             <img src="https://avatars.githubusercontent.com/u/58071981?v=4" width="100;" alt="yufanana"/>
             <br />
-            <sub><b>Yufan</b></sub>
+            <sub><b>Yu Fan</b></sub>
         </a>
     </td></tr>
 </table>
