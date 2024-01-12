@@ -176,6 +176,12 @@ python mlops_group8/predict_model.py predict data/raw/Arborio/Arborio\ \(1\).jpg
 make predict_test
 ```
 
+**Unit Testing**
+```bash
+pytest tests/               # to run all unit tests
+pytest tests/test_data.py   # to run a specific unit test
+```
+
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 

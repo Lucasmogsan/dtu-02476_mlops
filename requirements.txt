@@ -4,6 +4,7 @@ dvc
 dvc[gs]
 hydra-core == 1.3.2
 kaggle
+lark == 1.1.9
 matplotlib
 opencv-python
 pre-commit == 3.6.0

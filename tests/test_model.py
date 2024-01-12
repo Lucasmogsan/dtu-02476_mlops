@@ -1,35 +1,34 @@
-from tests import _PROJECT_ROOT, _PATH_DATA
-from mlops_group8.models.model import MyNeuralNet
 import torch
 import pytest
+from tests import _MODEL_PATH
+
 
 # Assert given input with shape X, model returns output with shape Y
-def test_model():
-    x = torch.randn((1,784))
-    model = MyNeuralNet()
+def test_model_forward():
+    x = torch.randn((1, 224, 224))
+    x = x.unsqueeze(0)  # (1, 1, 224, 224), added a dimension for batch size
+    model = torch.load(_MODEL_PATH + "model_latest1.pt")
     y = model.forward(x)
-    # assert y.shape == torch.Size([10])
-    assert y.shape == (1,10), 'Model output should have shape (1,10)'
+    assert y.shape == (1, 5), "Model output should have shape (1,5)"
+
 
 def test_model_raises():
-    '''Check that model makes the correct raises'''
-    with pytest.raises(
-        ValueError, match='Expected input tensor to have 2 dimensions, '
-        'got tensor with shape {x.shape}',
-    ):
-        x = torch.randn((1,784,1))
-        model = MyNeuralNet()
-        y = model.forward(x)
+    """Check that model makes the correct raises"""
 
+    # Missing batch dimension
     with pytest.raises(
-        ValueError, match='Expected input tensor to have 784 features, '
-        'got tensor with shape {x.shape}',
+        ValueError,
+        match="not enough values to unpack",
     ):
-        x = torch.randn((1,800))
-        model = MyNeuralNet()
-        y = model.forward(x)
+        x = torch.randn((1, 224, 224))
+        model = torch.load(_MODEL_PATH + "model_latest1.pt")
+        _ = model.forward(x)
 
-# Parametrize test
-@pytest.mark.parametrize('test_input,expected', [('3+5', 8), ('2+4', 6), ('6*9', 54)])
-def test_eval(test_input, expected):
-    assert eval(test_input) == expected
+    # # Wrong image size
+    # with pytest.raises(
+    #     AssertionError,
+    #     match=f"Input height ," "doesn't match model",
+    # ):
+    #     x = torch.randn((1, 1, 200, 200))
+    #     model = torch.load(_MODEL_PATH+"model_latest1.pt")
+    #     _ = model.forward(x)
