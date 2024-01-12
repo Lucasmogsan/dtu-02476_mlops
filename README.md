@@ -165,6 +165,24 @@ make data
 make train
 ```
 
+**Evaluate**
+NB: You need a model in `models` folder and specify this in your `config` file.
+
+```bash
+make evaluate
+```
+
+**Predict**
+NB: You need a model in `models` folder and specify this in your `config` file.
+
+```bash
+python mlops_group8/predict_model.py predict data/raw/Arborio/Arborio\ \(1\).jpg
+```
+
+```bash
+make predict_test
+```
+
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 

@@ -32,7 +32,7 @@ def main(cfg):
     x_dim = hparams["x_dim"]
     seed = hparams["seed"]
     model_name = hparams["model_name"]
-    classes_to_train = hparams["classes_to_train"]
+    classes_to_train = hparams["classes"]
 
     # wandb
     wandb_cfg = {

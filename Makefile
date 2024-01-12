@@ -48,6 +48,14 @@ data:
 train:
 	python $(PROJECT_NAME)/train_model.py
 
+## Evaluate model
+evaluate:
+	python $(PROJECT_NAME)/eval_model.py
+
+## Predict
+predict_test:
+	python $(PROJECT_NAME)/predict_model.py predict data/test/Arborio_test.jpg
+
 #################################################################################
 # Documentation RULES                                                           #
 #################################################################################
