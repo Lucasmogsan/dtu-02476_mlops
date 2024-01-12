@@ -167,9 +167,13 @@ cython_debug/
 # files generated from hydra
 outputs/
 
+<<<<<<< HEAD
 # Models and checkpoints
 *.pt
 models/model_latest.pt
 
 # Kaggle API credentials
 kaggle.json
+=======
+data/raw/
+>>>>>>> e909763e6ac8a14a141af8f10073e9d748ed06ca
