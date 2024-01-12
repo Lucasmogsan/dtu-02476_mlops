@@ -155,12 +155,6 @@ NB: You need a model in `models` folder and specify this in your `config` file.
 make predict_test
 ```
 
-**Unit Testing**
-```bash
-pytest tests/               # to run all unit tests
-pytest tests/test_data.py   # to run a specific unit test
-```
-
 ```bash
 python mlops_group8/predict_model.py predict <path-to-image-file>
 ```
@@ -168,6 +162,12 @@ python mlops_group8/predict_model.py predict <path-to-image-file>
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 # :computer: Development
+
+## Unit Testing
+```bash
+pytest tests/               # to run all unit tests
+pytest tests/test_data.py   # to run a specific unit test
+```
 
 ## Pre-commit
 Enable the pre-commit

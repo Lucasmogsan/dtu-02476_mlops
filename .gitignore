@@ -167,7 +167,6 @@ cython_debug/
 # files generated from hydra
 outputs/
 
-<<<<<<< HEAD
 # Models and checkpoints
 *.pt
 models/model_latest.pt
@@ -177,5 +176,3 @@ kaggle.json
 
 # logs (e.g. from profiling)
 log/
-
-data/raw/
