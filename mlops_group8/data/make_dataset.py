@@ -65,6 +65,7 @@ def get_data():
 
 
 def process_data(dataset_folder_name):
+    n_samples = 500  # per class
     # clasess = ['Arborio', 'Basmati', 'Ipsala', 'Jasmine', 'Karacadag']
     clasess = [f.name for f in os.scandir(dataset_folder_name) if f.is_dir()]
 
@@ -94,9 +95,9 @@ def process_data(dataset_folder_name):
             # Convert the image to a tensor
             image = image.unsqueeze(0)
             images.append(image)
-            if count == 500:
-                break
             count += 1
+            if count == n_samples:
+                break
 
         label = torch.tensor([i] * len(images))
         images_data = torch.cat(images, dim=0)
@@ -109,10 +110,10 @@ def process_data(dataset_folder_name):
         )
         # print(images_train.shape)
 
-        print("Train data shape: ", images_train.shape)
-        print("Test data shape: ", images_test.shape)
-        print("Train labels shape: ", labels_train.shape)
-        print("Test labels shape: ", labels_test.shape)
+        print("Train data shape: ", images_train.shape)  # torch.Size([400, 1, 224, 224])
+        print("Test data shape: ", images_test.shape)  # torch.Size([100, 1, 224, 224])
+        print("Train labels shape: ", labels_train.shape)  # torch.Size([400])
+        print("Test labels shape: ", labels_test.shape)  # torch.Size([100])
 
         train_data = torch.utils.data.TensorDataset(images_train, labels_train)
         test_data = torch.utils.data.TensorDataset(images_test, labels_test)
