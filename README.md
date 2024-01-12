@@ -165,6 +165,17 @@ make data
 make train
 ```
 
+**Predict**
+NB: You need a model in `models` folder
+
+```bash
+python mlops_group8/predict_model.py predict data/raw/Arborio/Arborio\ \(1\).jpg
+```
+
+```bash
+make predict_test
+```
+
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
