@@ -59,5 +59,3 @@ cli.add_command(predict)
 
 if __name__ == "__main__":
     cli()
-
-# RUN: python mlops_group8/predict_model.py predict data/raw/Arborio/Arborio\ \(1\).jpg
