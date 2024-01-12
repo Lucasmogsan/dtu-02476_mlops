@@ -173,3 +173,6 @@ models/model_latest.pt
 
 # Kaggle API credentials
 kaggle.json
+
+# logs (e.g. from profiling)
+log/
