@@ -3,6 +3,7 @@
 ## See https://www.gnu.org/software/make/manual/html_node/Phony-Targets.html
 ## Remove this if you want to use this Makefile for real targets
 .PHONY: *
+.ONESHELL:
 
 #################################################################################
 # GLOBALS                                                                       #
@@ -12,6 +13,9 @@ PROJECT_NAME = mlops_group8
 PYTHON_VERSION = 3.11
 PYTHON_INTERPRETER = python
 
+SHELL = /bin/bash
+CONDA_ACTIVATE = source $$(conda info --base)/etc/profile.d/conda.sh ; conda activate ; conda activate
+
 #################################################################################
 # COMMANDS                                                                      #
 #################################################################################
@@ -19,6 +23,9 @@ PYTHON_INTERPRETER = python
 ## Set up python interpreter environment
 create_environment:
 	conda create --name $(PROJECT_NAME) python=$(PYTHON_VERSION) --no-default-packages -y
+
+activate_environment:
+	$(CONDA_ACTIVATE) mlops_group8
 
 ## Install Python Dependencies
 requirements:
@@ -41,7 +48,7 @@ clean:
 #################################################################################
 
 ## Process raw data into processed data
-data:
+data: requirements
 	python $(PROJECT_NAME)/data/make_dataset.py
 
 ## Train model
