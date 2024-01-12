@@ -1,37 +1,25 @@
-import click
 import torch
 import timm
 import os
 import matplotlib.pyplot as plt
 import hydra
 import wandb
+from utility.util_functions import set_directories, load_data
 
 
-@click.group()
-def cli():
-    """Command line interface."""
-    pass
-
-
+# Set device
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-visualization_dir = "reports/figures"
-models_dir = "models"
-
-if not os.path.exists(models_dir):
-    os.makedirs(models_dir)
-if not os.path.exists(visualization_dir):
-    os.makedirs(visualization_dir)
-if not os.path.exists("outputs"):
-    os.makedirs("outputs")
+# Directories
+processed_path, outputs_dir, models_dir, visualization_dir = set_directories()
 
 
 ### TRAINING ###
-@click.command()
 @hydra.main(version_base=None, config_path="config", config_name="default_config.yaml")
-def train(cfg):
-    """Train a model on MNIST."""
+def main(cfg):
+    """Train a model on processed data"""
 
+    print("### Training setup ###")
     # Hydra config
     hparams = cfg.experiment
     # Read hyperparameters for experiment
@@ -44,6 +32,7 @@ def train(cfg):
     x_dim = hparams["x_dim"]
     seed = hparams["seed"]
     model_name = hparams["model_name"]
+    classes_to_train = hparams["classes"]
 
     # wandb
     wandb_cfg = {
@@ -66,21 +55,18 @@ def train(cfg):
     # Set seed (for reproducibility)
     torch.manual_seed(seed)
 
-    print("Training day and night")
+    print("### Loading data ###")
 
     # Import model
-    model = timm.create_model("resnet50", pretrained=True, num_classes=5).to(device)
+    model = timm.create_model(
+        "eva02_tiny_patch14_224",
+        pretrained=False,
+        num_classes=len(classes_to_train),
+        in_chans=1,
+    ).to(device)
 
     # Import data
-    train_dataset = torch.load("data/processed/train.pt")
-    train_data = train_dataset[0]
-    train_labels = train_data[1]
-    # Convert to dataloader (to convert to batches)
-    train_dataloader = torch.utils.data.DataLoader(
-        torch.utils.data.TensorDataset(train_data, train_labels),
-        batch_size=batch_size,
-        shuffle=True,
-    )
+    train_dataloader = load_data(classes_to_train, batch_size, processed_path, train=True)
 
     # Train model hyperparameters
     criterion = torch.nn.CrossEntropyLoss()
@@ -90,9 +76,12 @@ def train(cfg):
     # For visualization
     train_loss = []
 
+    print("### Training model ###")
     # Training loop
     for epoch in range(num_epochs):
-        for batch in train_dataloader:
+        for i, batch in enumerate(train_dataloader):
+            # print iteration of total iterations for this epoch
+            print(f"Epoch: {epoch+1}/{num_epochs}, Iteration: {i+1}/{len(train_dataloader)}")
             optimizer.zero_grad()
 
             images, labels = batch
@@ -106,79 +95,35 @@ def train(cfg):
             loss.backward()
 
             optimizer.step()
-        print(f"Epoch: {epoch}, Loss: {loss.item()}")
+        print(f"Epoch: {epoch+1}, Loss: {loss.item()}")
         train_loss.append(loss.item())
         acc = 1
 
         wandb.log({"acc": acc, "loss": loss})
 
     # Prepare plot
+    print("### Make visualizations ###")
     plt.plot(train_loss)
     plt.xlabel("Epochs")
     plt.ylabel("Loss")
     plt.title("Training loss")
 
+    print("### Saving model and plot ###")
+
     # Save model (and plot)
     # If model_name exists, make new name (add _1, _2, etc.)
     if os.path.exists(models_dir + f"/{model_name}.pt"):
         i = 1
-        while os.path.exists(models_dir + f"/{model_name}.pt"):
+        while os.path.exists(models_dir + f"/{model_name}{i}.pt"):
             i += 1
-        torch.save(model, models_dir + f"/{model_name}.pt")  # save model
-        plt.savefig(visualization_dir + f"/train_loss_{i}.png")  # save plot
+        torch.save(model, models_dir + f"/{model_name}{i}.pt")  # save model
+        plt.savefig(visualization_dir + f"/train_loss{i}.png")  # save plot
     else:
-        torch.save(model, models_dir + f"models/{model_name}.pt")
+        torch.save(model, models_dir + f"/{model_name}.pt")
         plt.savefig(visualization_dir + "/train_loss.png")
 
-    return loss.item()
-
-
-### EVALUATION ###
-@click.command()
-@click.argument("model_checkpoint")
-def evaluate(model_checkpoint):
-    """Evaluate a trained model."""
-    print("Evaluating like my life dependends on it")
-    print(model_checkpoint)
-
-    # Import model
-    model = torch.load(os.path.join(models_dir, model_checkpoint))
-
-    # Import data
-    test_dataset = torch.load("data/processed/test.pt")
-    test_data = test_dataset[0]
-    test_labels = test_dataset[1]
-    # Convert to dataloader (to convert to batches)
-    test_dataloader = torch.utils.data.DataLoader(
-        torch.utils.data.TensorDataset(test_data, test_labels),
-        batch_size=64,
-        shuffle=False,
-    )
-
-    test_predictions = []
-    test_labels = []
-
-    # Evaluation loop
-    with torch.no_grad():
-        for batch in test_dataloader:
-            images, labels = batch
-            images = images.to(device)
-            labels = labels.to(device)
-
-            output = model(images)
-
-            test_predictions.append(output.argmax(dim=1).cpu())
-            test_labels.append(labels.cpu())
-
-        test_predictions = torch.cat(test_predictions, dim=0)
-        test_labels = torch.cat(test_labels, dim=0)
-
-    print("Accuracy: ", (test_predictions == test_labels).float().mean().item())
-
-
-cli.add_command(train)
-cli.add_command(evaluate)
+    print("### Finished ###")
 
 
 if __name__ == "__main__":
-    cli()
+    main()

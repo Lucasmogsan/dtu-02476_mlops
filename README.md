@@ -116,9 +116,60 @@ make requirements
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 # :rocket: Usage
-TBD
 
-**Pre-commit**
+**Data**
+Pull from Google Cloud Bucket:
+```bash
+dvc pull
+```
+
+Create locally from Kaggle dataset:
+1. Have the `Rice_Image_Dataset` folder saved to `data/raw`
+
+2. *Kaggle API:*
+  - Go to [www.kaggle.com](www.kaggle.com) and log in
+  - Go to Settings -> API -> Create new token
+  - Save the json file to your local `home/user/.kaggle` folder
+
+3. Run the make_dataset file
+```bash
+make data
+```
+
+**Training**
+```bash
+make train
+```
+
+**Evaluate**
+NB: You need a model in `models` folder and specify this in your `config` file.
+
+```bash
+make evaluate
+```
+
+**Predict**
+NB: You need a model in `models` folder and specify this in your `config` file.
+
+```bash
+make predict_test
+```
+
+```bash
+python mlops_group8/predict_model.py predict <path-to-image-file>
+```
+
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
+
+# :computer: Development
+
+## Unit Testing
+```bash
+pytest tests/               # to run all unit tests
+pytest tests/test_data.py   # to run a specific unit test
+```
+
+## Pre-commit
 Enable the pre-commit
 ```bash
 pre-commit install
@@ -134,12 +185,36 @@ To omit/skip the pre-commit use:
 git commit -m "<message>" --no-verify
 ```
 
-**Timm**
-
+## Timm
 To see `eva` models available (use different model names if needed):
 ```bash
 python -c "import timm; print(timm.list_models('*eva*'))"
 ```
+Choose a model with size 224 (to match the image size in the pipeline)
+
+
+## Profiling
+Profiling is added to the evaluation script to show how it can be used. It can be done with the **python profilers** and **Tensorboard**.
+
+**Using python [profilers](https://docs.python.org/3/library/profile.html)**
+
+Saving profiling to output file:
+```bash
+mkdir outputs/profiling
+python -m cProfile -o outputs/profiling/profiling_output.txt mlops_group8/eval_model.py
+```
+
+Show output from the file:
+```bash
+python mlops_group8/utility/profiling_pstats.py
+```
+
+**Using Tensorflow [Tensorboard](https://www.tensorflow.org/tensorboard/tensorboard_profiling_keras)**
+```bash
+tensorboard --logdir=./log
+```
+
+
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
@@ -184,7 +259,7 @@ This project exists thanks to the following contributors:
         <a href="https://github.com/yufanana">
             <img src="https://avatars.githubusercontent.com/u/58071981?v=4" width="100;" alt="yufanana"/>
             <br />
-            <sub><b>Yufan</b></sub>
+            <sub><b>Yu Fan</b></sub>
         </a>
     </td></tr>
 </table>
