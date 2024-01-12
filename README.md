@@ -116,30 +116,6 @@ make requirements
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 # :rocket: Usage
-TBD
-
-**Pre-commit**
-Enable the pre-commit
-```bash
-pre-commit install
-```
-Check the commit with pre-commit
-```bash
-pre-commit run --all-files
-```
-
-After this you can commit as normally.
-To omit/skip the pre-commit use:
-```bash
-git commit -m "<message>" --no-verify
-```
-
-**Timm**
-To see `eva` models available (use different model names if needed):
-```bash
-python -c "import timm; print(timm.list_models('*eva*'))"
-```
-Choose a model with size 224 (to match the image size in the pipeline)
 
 **Data**
 Pull from Google Cloud Bucket:
@@ -165,12 +141,15 @@ make data
 make train
 ```
 
-**Predict**
-NB: You need a model in `models` folder
+**Evaluate**
+NB: You need a model in `models` folder and specify this in your `config` file.
 
 ```bash
-python mlops_group8/predict_model.py predict data/raw/Arborio/Arborio\ \(1\).jpg
+make evaluate
 ```
+
+**Predict**
+NB: You need a model in `models` folder and specify this in your `config` file.
 
 ```bash
 make predict_test
@@ -181,6 +160,60 @@ make predict_test
 pytest tests/               # to run all unit tests
 pytest tests/test_data.py   # to run a specific unit test
 ```
+
+```bash
+python mlops_group8/predict_model.py predict <path-to-image-file>
+```
+
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
+
+# :computer: Development
+
+## Pre-commit
+Enable the pre-commit
+```bash
+pre-commit install
+```
+Check the commit with pre-commit
+```bash
+pre-commit run --all-files
+```
+
+After this you can commit as normally.
+To omit/skip the pre-commit use:
+```bash
+git commit -m "<message>" --no-verify
+```
+
+## Timm
+To see `eva` models available (use different model names if needed):
+```bash
+python -c "import timm; print(timm.list_models('*eva*'))"
+```
+Choose a model with size 224 (to match the image size in the pipeline)
+
+
+## Profiling
+Profiling is added to the evaluation script to show how it can be used. It can be done with the **python profilers** and **Tensorboard**.
+
+**Using python [profilers](https://docs.python.org/3/library/profile.html)**
+
+Saving profiling to output file:
+```bash
+mkdir outputs/profiling
+python -m cProfile -o outputs/profiling/profiling_output.txt mlops_group8/eval_model.py
+```
+
+Show output from the file:
+```bash
+python mlops_group8/utility/profiling_pstats.py
+```
+
+**Using Tensorflow [Tensorboard](https://www.tensorflow.org/tensorboard/tensorboard_profiling_keras)**
+```bash
+tensorboard --logdir=./log
+```
+
 
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)

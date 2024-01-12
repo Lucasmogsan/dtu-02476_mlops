@@ -56,6 +56,8 @@ train:
 	python $(PROJECT_NAME)/train_model.py
 
 ## Evaluate model
+evaluate:
+	python $(PROJECT_NAME)/eval_model.py
 
 ## Predict
 predict_test:
