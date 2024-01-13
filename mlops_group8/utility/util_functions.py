@@ -26,11 +26,11 @@ def load_data(classes_to_train, batch_size, processed_path, train=True):
     else:
         file_name = "/test_data_"
 
-    dataset = torch.load(processed_path + file_name + str(0) + ".pt")
+    dataset = torch.load(processed_path + file_name + str(classes_to_train[0]) + ".pt")
     # Iterate over the rest of the classes and concatenate them
     if len(classes_to_train) > 1:
         for _, i in enumerate(classes_to_train):
-            if i == 0:
+            if i == classes_to_train[0]:
                 continue
             dataset_intermediate = torch.load(processed_path + file_name + str(i) + ".pt")
             dataset = torch.utils.data.ConcatDataset([dataset, dataset_intermediate])
