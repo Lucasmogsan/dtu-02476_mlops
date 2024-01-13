@@ -65,7 +65,7 @@ def get_data():
 
 
 def process_data(dataset_folder_name):
-    n_samples = 500  # per class
+    n_samples = 50  # per class
     # clasess = ['Arborio', 'Basmati', 'Ipsala', 'Jasmine', 'Karacadag']
     clasess = [f.name for f in os.scandir(dataset_folder_name) if f.is_dir()]
 
