@@ -14,15 +14,12 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 processed_path, outputs_dir, models_dir, visualization_dir = set_directories()
 
 
-### TRAINING ###
-@hydra.main(version_base=None, config_path="config", config_name="default_config.yaml")
-def main(cfg):
+def train(cfg, job_type="train") -> list:
     """Train a model on processed data"""
 
     print("### Training setup ###")
-    # Hydra config
-    hparams = cfg.experiment
     # Read hyperparameters for experiment
+    hparams = cfg.experiment
     # dataset_path = hparams["dataset_path"]
     epochs = hparams["epochs"]
     lr = hparams["lr"]
@@ -48,7 +45,7 @@ def main(cfg):
         project="rice_classification",
         entity="mlops_group8",
         config=wandb_cfg,
-        job_type="train",
+        job_type=job_type,
         dir="./outputs",
     )
 
@@ -73,11 +70,9 @@ def main(cfg):
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
     num_epochs = epochs
 
-    # For visualization
-    train_loss = []
-
-    print("### Training model ###")
     # Training loop
+    train_loss = []
+    print("### Training model ###")
     for epoch in range(num_epochs):
         for i, batch in enumerate(train_dataloader):
             # print iteration of total iterations for this epoch
@@ -109,8 +104,6 @@ def main(cfg):
     plt.title("Training loss")
 
     print("### Saving model and plot ###")
-
-    # Save model (and plot)
     # If model_name exists, make new name (add _1, _2, etc.)
     if os.path.exists(models_dir + f"/{model_name}.pt"):
         i = 1
@@ -123,6 +116,15 @@ def main(cfg):
         plt.savefig(visualization_dir + "/train_loss.png")
 
     print("### Finished ###")
+
+    return train_loss
+
+
+### TRAINING ###
+@hydra.main(version_base=None, config_path="config", config_name="default_config.yaml")
+def main(cfg):
+    """Train a model on processed data"""
+    _ = train(cfg)
 
 
 if __name__ == "__main__":
