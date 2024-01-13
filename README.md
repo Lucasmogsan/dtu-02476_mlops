@@ -17,6 +17,7 @@
     <li><a href="#mortar_board-project-description"> ➤ Project Description</a></li>
     <li><a href="#hammer_and_wrench-installation"> ➤ Installation</a></li>
     <li><a href="#rocket-usage"> ➤ Usage</a></li>
+    <li><a href="#computer-development"> ➤ Development</a></li>
     <li><a href="#scroll-report"> ➤ Report </a></li>
     <li><a href="#file_folder-project-organization"> ➤ Project Organization </a></li>
     <li><a href="#wave-contributors"> ➤ Contributors </a></li>
@@ -118,7 +119,7 @@ make requirements
 # :rocket: Usage
 
 **Data**
-Pull from Google Cloud Bucket:
+Pull from Google Cloud Bucket (must be logged in to gcp):
 ```bash
 dvc pull
 ```
@@ -213,6 +214,25 @@ python mlops_group8/utility/profiling_pstats.py
 ```bash
 tensorboard --logdir=./log
 ```
+
+## Docker
+
+**Locally**
+
+TRAINING:
+1. Build the image from the dockerfile
+```bash
+docker build -f dockerfiles/train_model.dockerfile . -t mlops_trainer:latest
+```
+
+2. Update the shell script `docker-run-train.sh` with your wandb API key
+
+3. Run the shell script:
+```bash
+chmod +rwx docker-run-train.sh
+./docker-run-train.sh
+```
+
 
 
 
