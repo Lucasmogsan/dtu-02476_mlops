@@ -142,6 +142,16 @@ make data
 make train
 ```
 
+In the cloud:
+1. Create a compute instance from the image
+```bash
+gcloud compute instances create-with-container training-instance \
+    --container-image=gcr.io/nifty-byway-410709/train_model:latest \
+    --container-env=WANDB_API_KEY=<your-api-key-here> \
+    --zone europe-west1-b
+```
+
+
 **Evaluate**
 NB: You need a model in `models` folder and specify this in your `config` file.
 
