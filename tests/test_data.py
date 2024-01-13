@@ -1,15 +1,17 @@
 import pytest
-from tests import _PATH_DATA
+from tests import _DATA_PATH
 import torch
 import os.path
 
 
 # Assert length of dataset loaded
-data_folder = _PATH_DATA + "processed/"
+data_folder = _DATA_PATH + "processed/"
 
 n_files = 5
-n_train_per_file = 400
-n_test_per_file = 100
+n_samples = 500
+test_size = 0.2
+n_train_per_file = (1 - test_size) * n_samples
+n_test_per_file = test_size * n_samples
 
 # Load pt files
 train_dataset = []
@@ -22,7 +24,7 @@ test_dataset = torch.utils.data.ConcatDataset(test_dataset)
 
 
 # Skip test if data files are not found
-@pytest.mark.skipif(not os.path.exists(_PATH_DATA), reason="Data files not found")
+@pytest.mark.skipif(not os.path.exists(_DATA_PATH), reason="Data files not found")
 def test_data_length():
     expected_train = n_files * n_train_per_file
     expected_test = n_files * n_test_per_file
@@ -50,3 +52,6 @@ def test_data_labels():
     test_labels = set(test_labels)
     assert len(train_labels) == 5, "Train labels should have 5 classes"
     assert len(test_labels) == 5, "Test labels should have 5 classes"
+
+
+# TODO: test make_dataset.py

@@ -64,8 +64,11 @@ def get_data():
         exit(1)
 
 
-def process_data(dataset_folder_name):
-    n_samples = 500  # per class
+def process_data(dataset_folder_name, n_samples=500, test_size=0.2):
+    """
+    Create a dataset (images, labels) containing n_samples for each class,
+    and split into train and test sets.
+    """
     # clasess = ['Arborio', 'Basmati', 'Ipsala', 'Jasmine', 'Karacadag']
     clasess = [f.name for f in os.scandir(dataset_folder_name) if f.is_dir()]
 
@@ -105,7 +108,7 @@ def process_data(dataset_folder_name):
         images_train, images_test, labels_train, labels_test = train_test_split(
             images_data,
             label,
-            test_size=0.2,
+            test_size=test_size,
             random_state=42,
         )
         # print(images_train.shape)
@@ -125,7 +128,6 @@ def process_data(dataset_folder_name):
         torch.save(test_data, processed_path + f"/test_data_{i}.pt")
 
     # save dict classes
-
     with open(processed_path + "/classes.json", "w") as f:
         json.dump(classes_dict, f)
 

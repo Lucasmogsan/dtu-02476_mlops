@@ -24,11 +24,12 @@ def test_model_raises():
         model = torch.load(_MODEL_PATH + "model_latest1.pt")
         _ = model.forward(x)
 
-    # # Wrong image size
-    # with pytest.raises(
-    #     AssertionError,
-    #     match=f"Input height ," "doesn't match model",
-    # ):
-    #     x = torch.randn((1, 1, 200, 200))
-    #     model = torch.load(_MODEL_PATH+"model_latest1.pt")
-    #     _ = model.forward(x)
+    # Wrong image input size
+    input_size = 200
+    with pytest.raises(
+        AssertionError,
+        match=f"Input height \\({input_size}\\) doesn't match model \\(224\\)",
+    ):
+        x = torch.randn((1, 1, input_size, input_size))
+        model = torch.load(_MODEL_PATH + "model_latest1.pt")
+        _ = model.forward(x)
