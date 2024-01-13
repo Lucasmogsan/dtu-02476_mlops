@@ -176,3 +176,4 @@ kaggle.json
 
 # logs (e.g. from profiling)
 log/
+/data
