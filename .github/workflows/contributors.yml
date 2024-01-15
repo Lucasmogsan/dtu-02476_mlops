@@ -2,9 +2,8 @@ name: "README Contributors"
 
 on:
     push:
-        branches: [main]
-    pull_request:
-        branches: [main]
+      branches-ignore:
+        - main
 
 jobs:
     contrib-readme-job:

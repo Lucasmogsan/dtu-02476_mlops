@@ -3,6 +3,7 @@ import timm
 import os
 import hydra
 import wandb
+import matplotlib.pyplot as plt
 from utility.util_functions import set_directories, load_data
 
 
