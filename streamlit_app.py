@@ -1,6 +1,7 @@
 import streamlit as st
 from mlops_group8.predict_model import predict
 from google.cloud import storage
+import random
 
 
 storage_client = storage.Client()
@@ -25,9 +26,12 @@ print(model_path)
 
 st.write(
     """
-# Rice Predictor!*
+# Rice Classificator! :sunglasses:
 """,
 )
+
+st.subheader("dtu-02476-mlops: Group 8")
+
 
 uploaded_file = st.file_uploader("Choose a rice image...", type="jpg")
 # display image
@@ -41,4 +45,10 @@ if uploaded_file is not None:
     img = "image.jpg"
     preds = predict(model_path, img)
 
-    st.title(f"Predicted Class: {preds}")
+    st.header(f"Predicted Class: {preds}", divider="rainbow")
+    st.header("Meme of the day:")
+
+    # random number
+    number = random.randint(1, 4)
+
+    st.image(f"assets/rice_meme{number}.jpg")
