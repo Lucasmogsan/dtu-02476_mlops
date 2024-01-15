@@ -21,4 +21,5 @@ RUN pip install streamlit
 COPY models/ models/
 COPY mlops_group8/streamlit_app.py streamlit_app.py
 
-ENTRYPOINT ["streamlit", "run", "streamlit_app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+## ENTRYPOINT ["streamlit", "run", "streamlit_app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+CMD exec streamlit run streamlit_app.py --server.port=$PORT --server.address=0.0.0.0
