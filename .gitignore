@@ -159,11 +159,6 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-# Data files - NB: Except the test file:
-/data/processed
-/data/raw
-
-
 # files generated from weights and biases
 /wandb
 
@@ -179,3 +174,8 @@ kaggle.json
 
 # logs (e.g. from profiling)
 log/
+
+# Data files - NB: Except the test file:
+/data/processed
+/data/raw
+!tests/data/*
