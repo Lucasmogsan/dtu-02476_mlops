@@ -50,6 +50,7 @@ clean:
 ## Process raw data into processed data
 data: requirements
 	python $(PROJECT_NAME)/data/make_dataset.py
+	cp data/processed/classes.json models/classes.json
 
 ## Train model
 train:

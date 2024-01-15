@@ -1,21 +1,17 @@
 import torch
 from torch.nn.functional import softmax
 import cv2
-import click
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
-
-
-# Create a click group
-@click.group()
-def cli():
-    """Command line interface."""
-    pass
-
+import json
 
 # Setup
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-LABLES = ["Jasmine", "Ipsala", "Basmati", "Karacadag", "Arborio"]
+device = torch.device("cpu")
+# LABLES = ["Jasmine", "Ipsala", "Basmati", "Karacadag", "Arborio"]
+# load the class label dict from json file
+LABLES = json.load(open("models/classes.json"))
+
 
 # Use albumentations to augment the image (resize and normalize)
 transform = A.Compose(
@@ -27,15 +23,13 @@ transform = A.Compose(
 )
 
 
-### Predict ###
-@click.command()
-@click.argument("input_image_path")
-def predict(input_image_path: str):
+def predict(model_path, input_image_path: str):
     print("Predicting...")
 
-    model = torch.load("models/model_latest1.pt")
+    model = torch.load(model_path)
     # model = timm.create_model("eva02_base_patch14_224", pretrained=True, num_classes=5, in_chans=1).to(device)
     # torch.save(model.cpu(), "models/model_latest.pt")  # save the model to cpu
+    #
 
     # prepare image
     image = cv2.imread(input_image_path)  # (X, X, 3)
@@ -51,11 +45,5 @@ def predict(input_image_path: str):
         probabilities = softmax(output[0], dim=0)
         prediction = probabilities.argmax(dim=0).cpu().item()
 
-        print(LABLES[prediction])
-
-
-# Add commands to the group
-cli.add_command(predict)
-
-if __name__ == "__main__":
-    cli()
+        print(LABLES[str(prediction)])
+        return LABLES[str(prediction)]
