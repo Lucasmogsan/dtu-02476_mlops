@@ -1,3 +1,5 @@
+name: "README Contributors"
+
 on:
     push:
         branches: [main]
