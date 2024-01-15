@@ -20,4 +20,10 @@ RUN pip install -r requirements.txt --no-cache-dir
 RUN pip install . --no-deps --no-cache-dir
 
 
-#ENTRYPOINT ["python", "-u", "mlops_group8/container_test.py"]
+# Set up the entrypoint
+COPY ./docker/predict/entrypoint.sh .
+RUN chmod 777 / entrypoint.sh
+
+ENTRYPOINT [ "/DTU-02476_MLOPS/entrypoint.sh" ]
+
+
