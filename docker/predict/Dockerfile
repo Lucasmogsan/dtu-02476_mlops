@@ -25,5 +25,3 @@ COPY ./docker/predict/entrypoint.sh .
 RUN chmod 777 / entrypoint.sh
 
 ENTRYPOINT [ "/DTU-02476_MLOPS/entrypoint.sh" ]
-
-
