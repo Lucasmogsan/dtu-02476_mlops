@@ -1,0 +1,7 @@
+steps:
+# Build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-f', 'dockerfiles/train_model.dockerfile', '.', '-t', 'gcr.io/nifty-byway-410709/train_model:latest']
+# Push the container image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/nifty-byway-410709/train_model:latest']

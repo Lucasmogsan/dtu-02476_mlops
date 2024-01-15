@@ -1,7 +1,6 @@
 import torch
 import timm
 import os
-import matplotlib.pyplot as plt
 import hydra
 import wandb
 from utility.util_functions import set_directories, load_data
@@ -105,15 +104,14 @@ def train(cfg, job_type="train") -> list:
 
     print("### Saving model and plot ###")
     # If model_name exists, make new name (add _1, _2, etc.)
+
     if os.path.exists(models_dir + f"/{model_name}.pt"):
         i = 1
         while os.path.exists(models_dir + f"/{model_name}{i}.pt"):
             i += 1
         torch.save(model, models_dir + f"/{model_name}{i}.pt")  # save model
-        plt.savefig(visualization_dir + f"/train_loss{i}.png")  # save plot
     else:
-        torch.save(model, models_dir + f"/{model_name}.pt")
-        plt.savefig(visualization_dir + "/train_loss.png")
+        torch.save(model, models_dir + f"/{model_name}.pt")  # save model
 
     print("### Finished ###")
 

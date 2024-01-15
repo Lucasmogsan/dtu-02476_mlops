@@ -69,6 +69,7 @@ def process_data(dataset_folder_name, n_samples=500, test_size=0.2):
     Create a dataset (images, labels) containing n_samples for each class,
     and split into train and test sets.
     """
+
     # clasess = ['Arborio', 'Basmati', 'Ipsala', 'Jasmine', 'Karacadag']
     clasess = [f.name for f in os.scandir(dataset_folder_name) if f.is_dir()]
 
