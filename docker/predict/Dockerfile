@@ -21,4 +21,3 @@ RUN pip install . --no-deps --no-cache-dir
 
 
 #ENTRYPOINT ["python", "-u", "mlops_group8/container_test.py"]
-

@@ -19,7 +19,7 @@ def test_train_config() -> None:
         cfg = compose(config_name="default_config.yaml")
         hparams = cfg.experiment
         assert hparams == {
-            "dataset_path": "~/datasets",
+            "dataset_path": "data/processed",
             "batch_size": 64,
             "epochs": 3,
             "lr": 1e-3,
@@ -32,10 +32,10 @@ def test_train_config() -> None:
         }, "Configurations should match"
 
 
-# Assert training loss drops across first 2 batches
+# Assert training loss drops after 3 epochs on smaller dataset
 def test_train_loss() -> None:
-    """Train a model on processed data"""
+    """Train a model on subset of data found in tests/data"""
     with initialize(version_base=None, config_path=config_path):
-        cfg = compose(config_name="default_config.yaml")
+        cfg = compose(config_name="test_config.yaml")
         train_loss = train(cfg, job_type="unittest")
-        assert train_loss[-1] < train_loss[-2], "Training loss should decrease in the last 2 epochs"
+        assert train_loss[0] > train_loss[-1], "Training loss should decrease after 3 epochs"

@@ -11,27 +11,8 @@ import albumentations as A
 from albumentations.pytorch import ToTensorV2
 
 
-# Set the dataset details
-dataset_name = "muratkokludataset/rice-image-dataset"
-download_path = "data/raw"
-extract_path = "data/raw"
-processed_path = "data/processed"
-
-# Create the directories if they don't exist
-if not os.path.exists(processed_path):
-    os.makedirs(processed_path)
-
-
-transform = A.Compose(
-    [
-        A.Resize(width=224, height=224),
-        A.Normalize(mean=[0.5], std=[0.25]),
-        ToTensorV2(),
-    ],
-)
-
-
-def get_data():
+def download_data(dataset_name: str, download_path: str, extract_path: str) -> None:
+    """Download the dataset from Kaggle"""
     # Authenticate with Kaggle API
     api = KaggleApi()
     api.authenticate()
@@ -43,13 +24,15 @@ def get_data():
     print(f"Downloading dataset '{dataset_name}' to '{download_path}'...")
     api.dataset_download_files(dataset_name, path=download_path, unzip=False)
 
-    # Extract the dataset
+
+def extract_data(download_path: str, extract_path: str, dataset_name: str) -> None:
+    """Extract the dataset"""
     print(f"Extracting dataset '{dataset_name}' to '{extract_path}'...")
     zip_file = [file for file in os.listdir(download_path) if file.endswith(".zip")][0]
     with ZipFile(os.path.join(download_path, zip_file), "r") as zip_ref:
         zip_ref.extractall(extract_path)
 
-    # delete zip file
+    # Delete zip file
     print("Deleting zip file: ", download_path + "/" + zip_file)
     os.remove(download_path + "/" + zip_file)
 
@@ -58,42 +41,48 @@ def get_data():
         dataset_folder_name = extracted_folders[0]  # Assuming there's only one folder in the extraction path
         dataset_folder_path = os.path.join(extract_path, dataset_folder_name)
         print(f"The dataset was extracted to: {dataset_folder_path}")
-        return dataset_folder_path
     else:
         print("No folder found in the extraction path.")
         exit(1)
 
 
-def process_data(dataset_folder_name, n_samples=500, test_size=0.2):
+def process_data(dataset_folder_name: str, processed_path: str, n_samples=100, test_size=0.2) -> None:
     """
     Create a dataset (images, labels) containing n_samples for each class,
     and split into train and test sets.
     """
 
-    # clasess = ['Arborio', 'Basmati', 'Ipsala', 'Jasmine', 'Karacadag']
-    clasess = [f.name for f in os.scandir(dataset_folder_name) if f.is_dir()]
+    # classes = ['Arborio', 'Basmati', 'Ipsala', 'Jasmine', 'Karacadag']
+    classes = [f.name for f in os.scandir(dataset_folder_name) if f.is_dir()]
 
-    num_classes = len(clasess)
+    num_classes = len(classes)
 
     print("Number of classes:", num_classes)
-    print("Class names:", clasess)
+    print("Class names:", classes)
 
-    # load images from each class folder
+    # Load images from each class folder
     classes_dict = {}
-    # data_images_train, data_images_test = [], []
-    # data_labels_train, data_labels_test = [], []
-    for i, class_type in enumerate(clasess):
-        print("Processing class: ", class_type)
-        classes_dict[i] = class_type
-        path = os.path.join(dataset_folder_name, class_type)
-        # example of image path data/raw/Rice_Image_Dataset/Arborio/Arborio (1).jpg
-        # load all images in the directory
+
+    transform = A.Compose(
+        [
+            A.Resize(width=224, height=224),
+            A.Normalize(mean=[0.5], std=[0.25]),
+            ToTensorV2(),
+        ],
+    )
+
+    for i, class_name in enumerate(classes):
+        print("\nProcessing class: ", class_name)
+        classes_dict[i] = class_name
+        path = os.path.join(dataset_folder_name, class_name)
+        # Example of image path data/raw/Rice_Image_Dataset/Arborio/Arborio (1).jpg
+        # Load images in the directory up to n_samples
         images = []
         count = 0
         for img in tqdm(os.listdir(path)):
             # Load the image with PIL
             image = cv2.imread(os.path.join(path, img))
-            # image to gray scale
+            # Mmage to gray scale
             image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
             image = transform(image=image)["image"]
             # Convert the image to a tensor
@@ -105,20 +94,19 @@ def process_data(dataset_folder_name, n_samples=500, test_size=0.2):
 
         label = torch.tensor([i] * len(images))
         images_data = torch.cat(images, dim=0)
-        print(images_data.shape)
+        # print(images_data.shape)
+
         images_train, images_test, labels_train, labels_test = train_test_split(
             images_data,
             label,
             test_size=test_size,
             random_state=42,
         )
-        # print(images_train.shape)
 
         print("Train data shape: ", images_train.shape)  # torch.Size([400, 1, 224, 224])
         print("Test data shape: ", images_test.shape)  # torch.Size([100, 1, 224, 224])
         print("Train labels shape: ", labels_train.shape)  # torch.Size([400])
         print("Test labels shape: ", labels_test.shape)  # torch.Size([100])
-
         train_data = torch.utils.data.TensorDataset(images_train, labels_train)
         test_data = torch.utils.data.TensorDataset(images_test, labels_test)
 
@@ -128,7 +116,7 @@ def process_data(dataset_folder_name, n_samples=500, test_size=0.2):
         torch.save(train_data, processed_path + f"/train_data_{i}.pt")
         torch.save(test_data, processed_path + f"/test_data_{i}.pt")
 
-    # save dict classes
+    # Save dict classes
     with open(processed_path + "/classes.json", "w") as f:
         json.dump(classes_dict, f)
 
@@ -136,8 +124,19 @@ def process_data(dataset_folder_name, n_samples=500, test_size=0.2):
 
 
 if __name__ == "__main__":
+    # Set the dataset details
+    dataset_name = "muratkokludataset/rice-image-dataset"
+    download_path = "data/raw"
+    extract_path = "data/raw"
+    processed_path = "tests/data"
+
+    # Create the directories if they don't exist
+    if not os.path.exists(processed_path):
+        os.makedirs(processed_path)
+
     # Get the data and process it
     path = extract_path + "/Rice_Image_Dataset"
     if not os.path.exists(path):
-        get_data()
-    process_data(path)
+        download_data(download_path, extract_path, dataset_name)
+        extract_data(download_path, extract_path, dataset_name)
+    process_data(path, processed_path, n_samples=500, test_size=0.2)

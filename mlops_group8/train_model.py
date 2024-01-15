@@ -3,6 +3,7 @@ import timm
 import os
 import hydra
 import wandb
+import matplotlib.pyplot as plt
 from utility.util_functions import set_directories, load_data
 
 
@@ -19,7 +20,7 @@ def train(cfg, job_type="train") -> list:
     print("### Training setup ###")
     # Read hyperparameters for experiment
     hparams = cfg.experiment
-    # dataset_path = hparams["dataset_path"]
+    dataset_path = hparams["dataset_path"]
     epochs = hparams["epochs"]
     lr = hparams["lr"]
     batch_size = hparams["batch_size"]
@@ -30,7 +31,7 @@ def train(cfg, job_type="train") -> list:
     model_name = hparams["model_name"]
     classes_to_train = hparams["classes"]
 
-    # wandb
+    # wandb setup
     wandb_cfg = {
         "epochs": epochs,
         "learning_rate": lr,
@@ -62,7 +63,7 @@ def train(cfg, job_type="train") -> list:
     ).to(device)
 
     # Import data
-    train_dataloader = load_data(classes_to_train, batch_size, processed_path, train=True)
+    train_dataloader = load_data(classes_to_train, batch_size, dataset_path, train=True)
 
     # Train model hyperparameters
     criterion = torch.nn.CrossEntropyLoss()
@@ -77,22 +78,16 @@ def train(cfg, job_type="train") -> list:
             # print iteration of total iterations for this epoch
             print(f"Epoch: {epoch+1}/{num_epochs}, Iteration: {i+1}/{len(train_dataloader)}")
             optimizer.zero_grad()
-
             images, labels = batch
             images = images.to(device)
             labels = labels.to(device)
-
             output = model(images)
-
             loss = criterion(output, labels)
-
             loss.backward()
-
             optimizer.step()
         print(f"Epoch: {epoch+1}, Loss: {loss.item()}")
         train_loss.append(loss.item())
         acc = 1
-
         wandb.log({"acc": acc, "loss": loss})
 
     # Prepare plot
@@ -104,7 +99,6 @@ def train(cfg, job_type="train") -> list:
 
     print("### Saving model and plot ###")
     # If model_name exists, make new name (add _1, _2, etc.)
-
     if os.path.exists(models_dir + f"/{model_name}.pt"):
         i = 1
         while os.path.exists(models_dir + f"/{model_name}{i}.pt"):
