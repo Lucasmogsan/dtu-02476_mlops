@@ -180,6 +180,13 @@ pytest tests/               # to run all unit tests
 pytest tests/test_data.py   # to run a specific unit test
 ```
 
+To run pytest together with coverage,
+```bash
+coverage run -m pytest tests/
+coverage report       # to get simple coverage report
+coverage report -m    # to get missing lines
+```
+
 ## Pre-commit
 Enable the pre-commit
 ```bash
