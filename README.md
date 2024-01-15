@@ -284,10 +284,10 @@ This project exists thanks to the following contributors:
         </a>
     </td>
     <td align="center">
-        <a href="https://github.com/Tran97">
-            <img src="https://avatars.githubusercontent.com/u/70841724?v=4" width="100;" alt="Tran97"/>
+        <a href="https://github.com/yufanana">
+            <img src="https://avatars.githubusercontent.com/u/58071981?v=4" width="100;" alt="yufanana"/>
             <br />
-            <sub><b>Steven</b></sub>
+            <sub><b>Yu Fan</b></sub>
         </a>
     </td>
     <td align="center">
@@ -298,10 +298,10 @@ This project exists thanks to the following contributors:
         </a>
     </td>
     <td align="center">
-        <a href="https://github.com/yufanana">
-            <img src="https://avatars.githubusercontent.com/u/58071981?v=4" width="100;" alt="yufanana"/>
+        <a href="https://github.com/Tran97">
+            <img src="https://avatars.githubusercontent.com/u/70841724?v=4" width="100;" alt="Tran97"/>
             <br />
-            <sub><b>Yu Fan</b></sub>
+            <sub><b>Steven</b></sub>
         </a>
     </td></tr>
 </table>
