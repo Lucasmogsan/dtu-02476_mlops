@@ -13,4 +13,4 @@ WORKDIR /
 RUN pip install -r requirements.txt --no-cache-dir
 RUN pip install . --no-deps --no-cache-dir
 
-ENTRYPOINT ["python", "-u", "mlops_group8/train_model.py"]
+ENTRYPOINT ["python", "-u", "mlops_group8/predict_model.py"]

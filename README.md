@@ -17,6 +17,7 @@
     <li><a href="#mortar_board-project-description"> ➤ Project Description</a></li>
     <li><a href="#hammer_and_wrench-installation"> ➤ Installation</a></li>
     <li><a href="#rocket-usage"> ➤ Usage</a></li>
+    <li><a href="#computer-development"> ➤ Development</a></li>
     <li><a href="#scroll-report"> ➤ Report </a></li>
     <li><a href="#file_folder-project-organization"> ➤ Project Organization </a></li>
     <li><a href="#wave-contributors"> ➤ Contributors </a></li>
@@ -118,7 +119,7 @@ make requirements
 # :rocket: Usage
 
 **Data**
-Pull from Google Cloud Bucket:
+Pull from Google Cloud Bucket (must be logged in to gcp):
 ```bash
 dvc pull
 ```
@@ -140,6 +141,16 @@ make data
 ```bash
 make train
 ```
+
+In the cloud:
+1. Create a compute instance from the image
+```bash
+gcloud compute instances create-with-container training-instance \
+    --container-image=gcr.io/nifty-byway-410709/train_model:latest \
+    --container-env=WANDB_API_KEY=<your-api-key-here> \
+    --zone europe-west1-b
+```
+
 
 **Evaluate**
 NB: You need a model in `models` folder and specify this in your `config` file.
@@ -167,6 +178,13 @@ python mlops_group8/predict_model.py predict <path-to-image-file>
 ```bash
 pytest tests/               # to run all unit tests
 pytest tests/test_data.py   # to run a specific unit test
+```
+
+To run pytest together with coverage,
+```bash
+coverage run -m pytest tests/
+coverage report       # to get simple coverage report
+coverage report -m    # to get missing lines
 ```
 
 ## Pre-commit
@@ -214,6 +232,25 @@ python mlops_group8/utility/profiling_pstats.py
 tensorboard --logdir=./log
 ```
 
+## Docker
+
+**Locally**
+
+TRAINING:
+1. Build the image from the dockerfile
+```bash
+docker build -f dockerfiles/train_model.dockerfile . -t mlops_trainer:latest
+```
+
+2. Update the shell script `docker-run-train.sh` with your wandb API key
+
+3. Run the shell script:
+```bash
+chmod +rwx docker-run-train.sh
+./docker-run-train.sh
+```
+
+
 
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
@@ -242,10 +279,10 @@ This project exists thanks to the following contributors:
         </a>
     </td>
     <td align="center">
-        <a href="https://github.com/Tran97">
-            <img src="https://avatars.githubusercontent.com/u/70841724?v=4" width="100;" alt="Tran97"/>
+        <a href="https://github.com/yufanana">
+            <img src="https://avatars.githubusercontent.com/u/58071981?v=4" width="100;" alt="yufanana"/>
             <br />
-            <sub><b>Steven</b></sub>
+            <sub><b>Yu Fan</b></sub>
         </a>
     </td>
     <td align="center">
@@ -256,10 +293,10 @@ This project exists thanks to the following contributors:
         </a>
     </td>
     <td align="center">
-        <a href="https://github.com/yufanana">
-            <img src="https://avatars.githubusercontent.com/u/58071981?v=4" width="100;" alt="yufanana"/>
+        <a href="https://github.com/Tran97">
+            <img src="https://avatars.githubusercontent.com/u/70841724?v=4" width="100;" alt="Tran97"/>
             <br />
-            <sub><b>Yu Fan</b></sub>
+            <sub><b>Steven</b></sub>
         </a>
     </td></tr>
 </table>

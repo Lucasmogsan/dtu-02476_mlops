@@ -174,4 +174,8 @@ kaggle.json
 
 # logs (e.g. from profiling)
 log/
-/data
+
+# Data files - NB: Except the test file:
+/data/processed
+/data/raw
+!tests/data/*

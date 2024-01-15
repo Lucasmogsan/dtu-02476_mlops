@@ -1,9 +1,9 @@
 import torch
 import timm
 import os
-import matplotlib.pyplot as plt
 import hydra
 import wandb
+import matplotlib.pyplot as plt
 from utility.util_functions import set_directories, load_data
 
 
@@ -14,16 +14,13 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 processed_path, outputs_dir, models_dir, visualization_dir = set_directories()
 
 
-### TRAINING ###
-@hydra.main(version_base=None, config_path="config", config_name="default_config.yaml")
-def main(cfg):
+def train(cfg, job_type="train") -> list:
     """Train a model on processed data"""
 
     print("### Training setup ###")
-    # Hydra config
-    hparams = cfg.experiment
     # Read hyperparameters for experiment
-    # dataset_path = hparams["dataset_path"]
+    hparams = cfg.experiment
+    dataset_path = hparams["dataset_path"]
     epochs = hparams["epochs"]
     lr = hparams["lr"]
     batch_size = hparams["batch_size"]
@@ -34,7 +31,7 @@ def main(cfg):
     model_name = hparams["model_name"]
     classes_to_train = hparams["classes"]
 
-    # wandb
+    # wandb setup
     wandb_cfg = {
         "epochs": epochs,
         "learning_rate": lr,
@@ -48,7 +45,7 @@ def main(cfg):
         project="rice_classification",
         entity="mlops_group8",
         config=wandb_cfg,
-        job_type="train",
+        job_type=job_type,
         dir="./outputs",
     )
 
@@ -66,39 +63,31 @@ def main(cfg):
     ).to(device)
 
     # Import data
-    train_dataloader = load_data(classes_to_train, batch_size, processed_path, train=True)
+    train_dataloader = load_data(classes_to_train, batch_size, dataset_path, train=True)
 
     # Train model hyperparameters
     criterion = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
     num_epochs = epochs
 
-    # For visualization
-    train_loss = []
-
-    print("### Training model ###")
     # Training loop
+    train_loss = []
+    print("### Training model ###")
     for epoch in range(num_epochs):
         for i, batch in enumerate(train_dataloader):
             # print iteration of total iterations for this epoch
             print(f"Epoch: {epoch+1}/{num_epochs}, Iteration: {i+1}/{len(train_dataloader)}")
             optimizer.zero_grad()
-
             images, labels = batch
             images = images.to(device)
             labels = labels.to(device)
-
             output = model(images)
-
             loss = criterion(output, labels)
-
             loss.backward()
-
             optimizer.step()
         print(f"Epoch: {epoch+1}, Loss: {loss.item()}")
         train_loss.append(loss.item())
         acc = 1
-
         wandb.log({"acc": acc, "loss": loss})
 
     # Prepare plot
@@ -109,20 +98,25 @@ def main(cfg):
     plt.title("Training loss")
 
     print("### Saving model and plot ###")
-
-    # Save model (and plot)
     # If model_name exists, make new name (add _1, _2, etc.)
     if os.path.exists(models_dir + f"/{model_name}.pt"):
         i = 1
         while os.path.exists(models_dir + f"/{model_name}{i}.pt"):
             i += 1
         torch.save(model, models_dir + f"/{model_name}{i}.pt")  # save model
-        plt.savefig(visualization_dir + f"/train_loss{i}.png")  # save plot
     else:
-        torch.save(model, models_dir + f"/{model_name}.pt")
-        plt.savefig(visualization_dir + "/train_loss.png")
+        torch.save(model, models_dir + f"/{model_name}.pt")  # save model
 
     print("### Finished ###")
+
+    return train_loss
+
+
+### TRAINING ###
+@hydra.main(version_base=None, config_path="config", config_name="default_config.yaml")
+def main(cfg):
+    """Train a model on processed data"""
+    _ = train(cfg)
 
 
 if __name__ == "__main__":

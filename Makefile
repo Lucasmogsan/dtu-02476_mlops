@@ -25,7 +25,7 @@ create_environment:
 	conda create --name $(PROJECT_NAME) python=$(PYTHON_VERSION) --no-default-packages -y
 
 activate_environment:
-	$(CONDA_ACTIVATE) mlops_group8
+	$(CONDA_ACTIVATE) $(PROJECT_NAME)
 
 ## Install Python Dependencies
 requirements:

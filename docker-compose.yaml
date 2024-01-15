@@ -4,9 +4,10 @@ services:
     image: trainer:latest
     build:
       context: .
-      dockerfile: dockerfiles/train_model.dockerfile
+      dockerfile: docker/train/Dockerfile
+
   predict:
     image: predict:latest
     build:
       context: .
-      dockerfile: dockerfiles/predict_model.dockerfile
+      dockerfile: docker/predict/Dockerfile
