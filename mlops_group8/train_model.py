@@ -27,7 +27,7 @@ def train(cfg, job_type="train") -> list:
     # model_name = hparams["model_name"]
     classes_to_train = hparams["classes"]
 
-    # wandb setup
+    # ✨ W&B: setup
     wandb_cfg = {
         "epochs": epochs,
         "learning_rate": lr,
@@ -46,8 +46,9 @@ def train(cfg, job_type="train") -> list:
     torch.manual_seed(seed)
 
     # Import model
+    model_name = "eva02_tiny_patch14_224"
     model = timm.create_model(
-        "eva02_tiny_patch14_224",
+        model_name,
         pretrained=False,
         num_classes=len(classes_to_train),
         in_chans=1,
