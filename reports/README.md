@@ -139,12 +139,15 @@ For the project the [PyTorch Image Models](https://github.com/huggingface/pytorc
 > Answer length: 100-200 words
 >
 > Example:
+
 > *We used ... for managing our dependencies. The list of dependencies was auto-generated using ... . To get a*
 > *complete copy of our development environment, one would have to run the following commands*
 >
 > Answer:
 
---- question 4 fill here ---
+The Python dependencies were saved within the requirements file using pipreqs, a tool that exclusively records the utilized packages in the project. Each team member subsequently employed a virtual environment manager of their choosing, with some opting for conda, others for virtualenv, or simply the venv module. Within this designated environment, members installed the dependencies utilizing the requirements file.
+
+Establishment of a development container was also experimented with, seeking a fully reproducible development environment containing GCP packages and other dependencies. However, the process encountered intricacies, primarily stemming from the management of GCP authorization.
 
 ### Question 5
 
