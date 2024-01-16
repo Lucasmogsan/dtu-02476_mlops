@@ -56,6 +56,10 @@ unittest_data:
 	python $(PROJECT_NAME)/data/make_unittest_data.py
 
 
+unittest_data:
+	python $(PROJECT_NAME)/data/make_unittest_data.py
+
+
 ## Train model
 train-local:
 	python $(PROJECT_NAME)/train_model.py

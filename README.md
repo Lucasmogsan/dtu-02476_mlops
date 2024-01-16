@@ -179,10 +179,12 @@ Create locally from Kaggle dataset:
 ```bash
 make data
 ```
+
 To create a smaller dataset for unit tests,
 ```bash
 make unittest_data
 ```
+
 
 ## Unit Testing
 ```bash
