@@ -34,77 +34,20 @@
   The goal is to classify five different varieties of rice (Arborio, Basmati, Ipsala, Jasmine and Karacadag). A framework and model(s) is chosen alongside a simple dataset, to focus on the utilization and implementation of frameworks and tools within MLOps. The main focus will thus be on reproducability, profiling, visualizing and monitoring multiple experiments to assess model performance.
 
 2. **Framework:**
-  For the project the [PyTorch Image Models](https://github.com/huggingface/pytorch-image-models) (TIMM) is being used. This is a framework/collection of models with pretrained weights, data-loaders, traning/validation scripts, and more to be used for multiple different models.
+  For the project the [PyTorch Image Models](https://github.com/huggingface/pytorch-image-models) (TIMM) is being used. This is a framework/collection of models with pretrained weights, data-loaders, traning/validation scripts, and more to be used for multiple different models. Only the model functionality is used in the project.
 
 3. **Data:**
-  The rice image [dataset](https://www.kaggle.com/datasets/muratkokludataset/rice-image-dataset/data) publicly available on Kaggle contains 75.000 images with 15.000 pieces for each of the 5 classes. The total size of the dataset is 230MB. Each image is 250 x 250 pixels with a single grain of rice against a black background.
+  The rice image [dataset](https://www.kaggle.com/datasets/muratkokludataset/rice-image-dataset/data) publicly available on Kaggle contains 75.000 images with 15.000 pieces for each of the 5 classes. The total size of the dataset is 230MB. Each image is 250 x 250 pixels with a single grain of rice against a black background. This is
 
 4. **Deep learning models used?**
-  For the classification process we will use two different Convolutional Neural Network, comparing the best and the worst network, EVA and MobileNet-V3 respectively based on the ImageNet validataion set. [(reference)](https://github.com/huggingface/pytorch-image-models/blob/main/results/results-imagenetv2-matched-frequency.csv)
-
-## Project structure
-
-The directory structure of the project looks like this:
-
-```txt
-├── Makefile             <- Makefile with convenience commands like `make data` or `make train`
-├── README.md            <- The top-level README for developers using this project.
-├── data
-│   ├── processed        <- The final, canonical data sets for modeling.
-│   └── raw              <- The original, immutable data dump.
-│
-├── docs                 <- Documentation folder
-│   │
-│   ├── index.md         <- Homepage for your documentation
-│   │
-│   ├── mkdocs.yml       <- Configuration file for mkdocs
-│   │
-│   └── source/          <- Source directory for documentation files
-│
-├── models               <- Trained and serialized models, model predictions, or model summaries
-│
-├── notebooks            <- Jupyter notebooks.
-│
-├── pyproject.toml       <- Project configuration file
-│
-├── reports              <- Generated analysis as HTML, PDF, LaTeX, etc.
-│   └── figures          <- Generated graphics and figures to be used in reporting
-│
-├── requirements.txt     <- The requirements file for reproducing the analysis environment
-|
-├── requirements_dev.txt <- The requirements file for reproducing the analysis environment
-│
-├── tests                <- Test files
-│
-├── mlops_group8  <- Source code for use in this project.
-│   │
-│   ├── __init__.py      <- Makes folder a Python module
-│   │
-│   ├── data             <- Scripts to download or generate data
-│   │   ├── __init__.py
-│   │   └── make_dataset.py
-│   │
-│   ├── models           <- model implementations, training script and prediction script
-│   │   ├── __init__.py
-│   │   ├── model.py
-│   │
-│   ├── visualization    <- Scripts to create exploratory and results oriented visualizations
-│   │   ├── __init__.py
-│   │   └── visualize.py
-│   ├── train_model.py   <- script for training the model
-│   └── predict_model.py <- script for predicting from a model
-│
-└── LICENSE              <- Open-source license if one is chosen
-```
-
-Created using [mlops_template](https://github.com/SkafteNicki/mlops_template), a [cookiecutter template](https://github.com/cookiecutter/cookiecutter) for getting started with Machine Learning Operations (MLOps).
+  For the classification process we will use a Convolutional Neural Network, specifically the model EVA which is the best performing model as of Jan23 based on the ImageNet validataion set [(reference)](https://github.com/huggingface/pytorch-image-models/blob/main/results/results-imagenetv2-matched-frequency.csv).
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 # :hammer_and_wrench: Installation
-TBD: To be decided
 
 **Local environment**
+
 Run the following:
 ```bash
 cd dtu-02476-mlops
@@ -113,12 +56,97 @@ conda activate mlops_group8
 make requirements
 ```
 
+**Using the cloud (GCP)**
+
+A Google Cloud Platform (GCP) account with credits is necessary for:
+- **Buckets** (storing data and model)
+- **Container Registry** (storing Docker images)
+- **Trigger** (automatically building the Docker images from dockerfiles from the GitHub repository)
+- **Vertex AI** (running the training)
+- **Cloud Run** (to host the inference API)
+
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 # :rocket: Usage
 
-**Data**
+## Training
+
+**Locally**
+1. Pull data
+```bash
+dvc pull -r remote_storage data.dvc
+```
+2. Run training
+```bash
+make train
+```
+3. (if desired) Push data:
+```bash
+dvc add models
+dvc push -r remote_storage_models_train models.dvc
+```
+
+**Local container**
+
+*NB: This uses `dvc` pull and push from/to `gcp` buckets.*
+See [docker/train/](docker/train/) folder for entrypoint and dockerfile.
+1. Build container from dockerfile and run image:
+```bash
+make train-container
+```
+2. (If you dont want to rebuild the image) Run:
+```bash
+docker compose up trainer
+```
+
+
+**In the cloud (using [Vertex AI](https://cloud.google.com/vertex-ai)):**
+1. On `gcp` a `trigger` has been set up for the GitHub repository using the [cloudbuild_dockerfiles.yaml](cloudbuild_dockerfiles.yaml) every time the main branch is updated. This rebuilds the training image (from this [Dockerfile](docker/train/Dockerfile)).
+2. Following creates a compute instance and runs the image (pulled from gcp `container registry`). This will pull from the `data bucket`, do training, and push to the `models bucket` after training. See [docker/train/](docker/train/) folder to see entrypoint and dockerfile used.
+```bash
+make train-cloud
+```
+
+
+## Evaluate
+
+TODO: Write eval instuctions
+
+**Locally**
+
+NB: You need a model in `models` folder and specify this in your `config` file.
+
+```bash
+make evaluate
+```
+
+## Predict
+
+TODO: Write predict instructions
+
+**Locally**
+
+NB: You need a model in `models` folder and specify this in your `config` file.
+
+```bash
+make predict_test
+```
+
+```bash
+python mlops_group8/predict_model.py predict <path-to-image-file>
+```
+
+**Using API and Cloud Run**
+
+
+
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
+
+# :computer: Development
+
+
+## Data
 Pull from Google Cloud Bucket (must be logged in to gcp):
 ```bash
 dvc pull
@@ -136,57 +164,6 @@ Create locally from Kaggle dataset:
 ```bash
 make data
 ```
-
-**Training**
-
-Locally:
-1. Pull data
-```bash
-dvc pull -r remote_storage data.dvc
-```
-2. Run training
-```bash
-make train
-```
-3. (if desired) Push data:
-```bash
-dvc add models
-dvc push -r remote_storage_models_train models.dvc
-```
-
-
-In the cloud (using [Vertex AI](https://cloud.google.com/vertex-ai)):
-1. On `gcp` a `trigger` has been set up for the GitHub repository using the [cloudbuild_dockerfiles.yaml](cloudbuild_dockerfiles.yaml) every time the main branch is updated. This rebuilds the training image (from this [Dockerfile](docker/train/Dockerfile)).
-2. Following creates a compute instance and runs the image (pulled from gcp `container registry`). This will pull from the `data bucket`, do training, and push to the `models bucket` after training. See [docker/train/](docker/train/) folder to see entrypoint and dockerfile used.
-```bash
-gcloud ai custom-jobs create \
-    --region=europe-west1 \
-    --display-name=test-training \
-    --config=config_vertexai_train_cpu.yaml
-```
-
-
-**Evaluate**
-NB: You need a model in `models` folder and specify this in your `config` file.
-
-```bash
-make evaluate
-```
-
-**Predict**
-NB: You need a model in `models` folder and specify this in your `config` file.
-
-```bash
-make predict_test
-```
-
-```bash
-python mlops_group8/predict_model.py predict <path-to-image-file>
-```
-
-![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
-
-# :computer: Development
 
 ## Unit Testing
 ```bash
@@ -246,26 +223,6 @@ python mlops_group8/utility/profiling_pstats.py
 tensorboard --logdir=./log
 ```
 
-## Docker
-
-**Locally**
-
-TRAINING:
-1. Build the image from the dockerfile
-```bash
-docker build -f dockerfiles/train_model.dockerfile . -t mlops_trainer:latest
-```
-
-2. Update the shell script `docker-run-train.sh` with your wandb API key
-
-3. Run the shell script:
-```bash
-chmod +rwx docker-run-train.sh
-./docker-run-train.sh
-```
-
-
-
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
@@ -275,7 +232,59 @@ The report for the course is found in the [reports](reports/) folder.
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 # :file_folder: Project Organization
-TBD
+
+The directory structure of the project looks like this:
+
+```txt
+├── Makefile             <- Makefile with convenience commands like `make data` or `make train`
+├── README.md            <- The top-level README for developers using this project.
+├── data
+│   ├── processed        <- The final, canonical data sets for modeling.
+│   └── raw              <- The original, immutable data dump.
+│
+├── docs                 <- Documentation folder
+│   │
+│   ├── index.md         <- Homepage for your documentation
+│   │
+│   ├── mkdocs.yml       <- Configuration file for mkdocs
+│   │
+│   └── source/          <- Source directory for documentation files
+│
+├── models               <- Trained and serialized models, model predictions, or model summaries
+│
+├── notebooks            <- Jupyter notebooks.
+│
+├── pyproject.toml       <- Project configuration file
+│
+├── reports              <- Generated analysis as HTML, PDF, LaTeX, etc.
+│   └── figures          <- Generated graphics and figures to be used in reporting
+│
+├── requirements.txt     <- The requirements file for reproducing the analysis environment
+|
+├── requirements_dev.txt <- The requirements file for reproducing the analysis environment
+│
+├── tests                <- Test files
+│
+├── mlops_group8  <- Source code for use in this project.
+│   │
+│   ├── __init__.py      <- Makes folder a Python module
+│   │
+│   ├── data             <- Scripts to download or generate data
+│   │   ├── __init__.py
+│   │   └── make_dataset.py
+│   │
+│   ├── models           <- model implementations, training script and prediction script
+│   │   ├── __init__.py
+│   │   ├── model.py
+│   │
+│   ├── visualization    <- Scripts to create exploratory and results oriented visualizations
+│   │   ├── __init__.py
+│   │   └── visualize.py
+│   ├── train_model.py   <- script for training the model
+│   └── predict_model.py <- script for predicting from a model
+│
+└── LICENSE              <- Open-source license if one is chosen
+```
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
@@ -319,7 +328,8 @@ This project exists thanks to the following contributors:
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 # :pray: Credits
-TBD
+
+- DTU MLOps course using this [registry](https://github.com/SkafteNicki/dtu_mlops) for a great [course](https://skaftenicki.github.io/dtu_mlops/).
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
@@ -329,3 +339,5 @@ TBD
 <p align="center">
   <img src="assets/rice_meme.jpg" alt="Rice meme" height="350">
 </p>
+
+Created using [mlops_template](https://github.com/SkafteNicki/mlops_template), a [cookiecutter template](https://github.com/cookiecutter/cookiecutter) for getting started with Machine Learning Operations (MLOps).

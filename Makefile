@@ -53,8 +53,18 @@ data: requirements
 	cp data/processed/classes.json models/classes.json
 
 ## Train model
-train:
+train-local:
 	python $(PROJECT_NAME)/train_model.py
+
+train-container:
+	docker compose build trainer
+	docker compose up trainer
+
+train-cloud:
+	gcloud ai custom-jobs create \
+    --region=europe-west1 \
+    --display-name=test-training \
+    --config=config_vertexai_train_cpu.yaml
 
 ## Evaluate model
 evaluate:

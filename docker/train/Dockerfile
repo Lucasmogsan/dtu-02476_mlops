@@ -12,7 +12,7 @@ COPY .dvc/ .dvc/
 COPY data.dvc data.dvc
 COPY models.dvc models.dvc
 COPY .git .git
-COPY requirements.txt requirements.txt
+COPY requirements_train.txt requirements.txt
 
 #Install requirements
 RUN pip install -r requirements.txt --no-cache-dir
