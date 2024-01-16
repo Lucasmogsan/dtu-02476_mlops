@@ -109,16 +109,14 @@ make train-cloud
 ```
 
 
-## Evaluate
-
-TODO: Write eval instuctions
+## Validate
 
 **Locally**
 
 NB: You need a model in `models` folder and specify this in your `config` file.
 
 ```bash
-make evaluate
+make validate
 ```
 
 ## Predict
@@ -180,6 +178,10 @@ Create locally from Kaggle dataset:
 3. Run the make_dataset file
 ```bash
 make data
+```
+To create a smaller dataset for unit tests,
+```bash
+make unittest_data
 ```
 
 ## Unit Testing

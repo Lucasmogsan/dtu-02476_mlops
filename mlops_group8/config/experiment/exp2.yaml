@@ -3,9 +3,9 @@ dataset_path: 'data/processed'
 batch_size: 64
 epochs: 3
 lr: 1e-3
-x_dim: 784
-hidden_dim: 400
-latent_dim: 50
 seed: 123
-model_name: 'model_latest1'
+model_name: 'model_latest'
 classes: [0,1,2,3,4]
+test_size: 0.2
+val_size: 0.25
+n_samples: 500
