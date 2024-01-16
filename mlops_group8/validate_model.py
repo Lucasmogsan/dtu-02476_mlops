@@ -12,8 +12,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 processed_path, _, models_dir, _ = set_directories()
 
 
-NUM_BATCHES_TO_LOG = 5  # 79
-NUM_IMAGES_PER_BATCH = 2  # 128
+NUM_BATCHES_TO_LOG = 5
+NUM_IMAGES_PER_BATCH = 5
 
 
 def log_test_predictions(images, labels, outputs, predicted, val_table, log_counter):
@@ -53,7 +53,7 @@ def validate(cfg):
     class_names = load(open(processed_path + "/classes.json", "r"))
     class_names = list(class_names.values())
 
-    # wandb setup
+    # ✨ W&B: setup
     wandb_cfg = {
         # "epochs": epochs,
         # "learning_rate": lr,
@@ -71,6 +71,13 @@ def validate(cfg):
         dir="./outputs",
     )
 
+    # ✨ W&B: Create a Table to store predictions for each validation step
+    columns = ["batch_id", "image", "guess", "truth"]
+    for class_name in range(len(class_names)):
+        columns.append("score_" + class_name)
+    val_table = wandb.Table(columns=columns)
+
+    # Set seed for reproducibility
     torch.manual_seed(seed)
 
     print("Validating ", model_name)
@@ -86,13 +93,8 @@ def validate(cfg):
         job_type="val",
     )
 
-    # ✨ W&B: Create a Table to store predictions for each validation step
-    columns = ["batch_id", "image", "guess", "truth"]
-    for class_name in range(len(class_names)):
-        columns.append("score_" + class_name)
-    val_table = wandb.Table(columns=columns)
-
     # Validation loop
+    print("### Validating model ###")
     val_labels = []
     val_output = []
     log_counter = 0
@@ -133,6 +135,7 @@ def validate(cfg):
     val_accuracy = (val_top_preds == val_labels).float().mean().item()
     print("Accuracy: ", val_accuracy)
 
+    # ✨ W&B: Logging
     wandb.log(
         {
             "conf_mat": wandb.plot.confusion_matrix(
@@ -144,13 +147,12 @@ def validate(cfg):
         },
     )
     wandb.log({"val_acc": val_accuracy})
-
-    # ✨ W&B: Log predictions table to wandb
     wandb.log({"test_predictions": val_table})
 
     # Print from the 'prof' object created above:
     # print(prof.key_averages().table(sort_by="cpu_time_total", row_limit=10))
     # print(prof.key_averages(group_by_input_shape=True).table(sort_by="cpu_time_total", row_limit=30))
+    print("### Finished validation ###")
 
 
 if __name__ == "__main__":

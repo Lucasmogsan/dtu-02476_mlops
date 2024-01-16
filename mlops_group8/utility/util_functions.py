@@ -18,6 +18,8 @@ def set_directories():
         os.makedirs(visualization_dir)
     if not os.path.exists(outputs_dir):
         os.makedirs(outputs_dir)
+    if not os.path.exists(outputs_dir + "/hydra"):
+        os.makedirs(outputs_dir + "/hydra")
 
     return processed_data_path, outputs_dir, models_dir, visualization_dir
 

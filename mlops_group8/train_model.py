@@ -2,7 +2,6 @@ import torch
 import timm
 import hydra
 import wandb
-import matplotlib.pyplot as plt
 from utility.util_functions import set_directories, load_data
 from datetime import datetime
 
@@ -28,7 +27,7 @@ def train(cfg, job_type="train") -> list:
     # model_name = hparams["model_name"]
     classes_to_train = hparams["classes"]
 
-    # wandb setup
+    # ✨ W&B: setup
     wandb_cfg = {
         "epochs": epochs,
         "learning_rate": lr,
@@ -47,12 +46,14 @@ def train(cfg, job_type="train") -> list:
     torch.manual_seed(seed)
 
     # Import model
+    model_name = "eva02_tiny_patch14_224"
     model = timm.create_model(
-        "eva02_tiny_patch14_224",
+        model_name,
         pretrained=False,
         num_classes=len(classes_to_train),
         in_chans=1,
     ).to(device)
+    print("Training ", model_name)
 
     # Train model hyperparameters
     criterion = torch.nn.CrossEntropyLoss()
@@ -89,13 +90,13 @@ def train(cfg, job_type="train") -> list:
         wandb.log({"acc": acc, "loss": loss})
 
     # Prepare plot
-    print("### Make visualizations ###")
-    plt.plot(train_loss)
-    plt.xlabel("Epochs")
-    plt.ylabel("Loss")
-    plt.title("Training loss")
+    # print("### Make visualizations ###")
+    # plt.plot(train_loss)
+    # plt.xlabel("Epochs")
+    # plt.ylabel("Loss")
+    # plt.title("Training loss")
 
-    print("### Saving model and plot ###")
+    print("### Saving model ###")
     torch.save(model, models_dir + "/model_latest.pt")  # save as latest model
     date_time = datetime.now().strftime("%Y%m%d_%H%M")
     torch.save(model, models_dir + "/checkpoints/model_" + date_time + ".pt")

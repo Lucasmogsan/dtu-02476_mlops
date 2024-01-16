@@ -166,7 +166,6 @@ def main(cfg):
     if not os.path.exists(processed_path):
         os.makedirs(processed_path)
 
-    # test_size = cfg["test_size"]
     hparams = cfg.experiment
     test_size = hparams["test_size"]
     val_size = hparams["val_size"]
