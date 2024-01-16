@@ -1,4 +1,4 @@
-name: "Ruff code check"
+name: Ruff code check
 
 on:
   #push:
