@@ -1,10 +1,10 @@
 import torch
 import timm
-import os
 import hydra
 import wandb
 import matplotlib.pyplot as plt
 from utility.util_functions import set_directories, load_data
+from datetime import datetime
 
 
 # Set device
@@ -24,11 +24,8 @@ def train(cfg, job_type="train") -> list:
     epochs = hparams["epochs"]
     lr = hparams["lr"]
     batch_size = hparams["batch_size"]
-    latent_dim = hparams["latent_dim"]
-    hidden_dim = hparams["hidden_dim"]
-    x_dim = hparams["x_dim"]
     seed = hparams["seed"]
-    model_name = hparams["model_name"]
+    # model_name = hparams["model_name"]
     classes_to_train = hparams["classes"]
 
     # wandb setup
@@ -36,9 +33,6 @@ def train(cfg, job_type="train") -> list:
         "epochs": epochs,
         "learning_rate": lr,
         "batch_size": batch_size,
-        "latent_dim": latent_dim,
-        "hidden_dim": hidden_dim,
-        "x_dim": x_dim,
         "seed": seed,
     }
     wandb.init(
@@ -49,10 +43,8 @@ def train(cfg, job_type="train") -> list:
         dir="./outputs",
     )
 
-    # Set seed (for reproducibility)
+    # Set seed for reproducibility
     torch.manual_seed(seed)
-
-    print("### Loading data ###")
 
     # Import model
     model = timm.create_model(
@@ -61,22 +53,27 @@ def train(cfg, job_type="train") -> list:
         num_classes=len(classes_to_train),
         in_chans=1,
     ).to(device)
-
-    # Import data
-    train_dataloader = load_data(classes_to_train, batch_size, dataset_path, train=True)
-
     # Train model hyperparameters
     criterion = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-    num_epochs = epochs
+
+    print("### Loading data ###")
+    train_dataloader = load_data(
+        classes_to_train,
+        batch_size,
+        dataset_path,
+        job_type,
+    )
 
     # Training loop
     train_loss = []
     print("### Training model ###")
-    for epoch in range(num_epochs):
+    for epoch in range(epochs):
         for i, batch in enumerate(train_dataloader):
             # print iteration of total iterations for this epoch
-            print(f"Epoch: {epoch+1}/{num_epochs}, Iteration: {i+1}/{len(train_dataloader)}")
+            print(
+                f"Epoch: {epoch+1}/{epochs}, Iteration: {i+1}/{len(train_dataloader)}",
+            )
             optimizer.zero_grad()
             images, labels = batch
             images = images.to(device)
@@ -98,16 +95,11 @@ def train(cfg, job_type="train") -> list:
     plt.title("Training loss")
 
     print("### Saving model and plot ###")
-    # If model_name exists, make new name (add _1, _2, etc.)
-    if os.path.exists(models_dir + f"/{model_name}.pt"):
-        i = 1
-        while os.path.exists(models_dir + f"/{model_name}{i}.pt"):
-            i += 1
-        torch.save(model, models_dir + f"/{model_name}{i}.pt")  # save model
-    else:
-        torch.save(model, models_dir + f"/{model_name}.pt")  # save model
+    torch.save(model, models_dir + "/model_latest.pt")  # save as latest model
+    date_time = datetime.now().strftime("%Y%m%d_%H%M")
+    torch.save(model, models_dir + "/checkpoints/model_" + date_time + ".pt")
 
-    print("### Finished ###")
+    print("### Finished training ###")
 
     return train_loss
 

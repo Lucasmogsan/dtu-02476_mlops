@@ -12,6 +12,8 @@ def set_directories():
     # Create directories if they don't exist
     if not os.path.exists(models_dir):
         os.makedirs(models_dir)
+    if not os.path.exists(models_dir + "/checkpoints"):
+        os.makedirs(models_dir + "/checkpoints")
     if not os.path.exists(visualization_dir):
         os.makedirs(visualization_dir)
     if not os.path.exists(outputs_dir):
@@ -20,11 +22,15 @@ def set_directories():
     return processed_data_path, outputs_dir, models_dir, visualization_dir
 
 
-def load_data(classes_to_train, batch_size, processed_path, train=True):
-    if train:
+def load_data(classes_to_train, batch_size, processed_path, job_type: str):
+    if job_type == "train":
         file_name = "/train_data_"
-    else:
+    elif job_type == "val":
+        file_name = "/val_data_"
+    elif job_type == "test":
         file_name = "/test_data_"
+    else:
+        raise ValueError("job_type should be one of 'train', 'val', 'test'")
 
     dataset = torch.load(processed_path + file_name + str(classes_to_train[0]) + ".pt")
     # Iterate over the rest of the classes and concatenate them
