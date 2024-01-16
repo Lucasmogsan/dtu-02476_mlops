@@ -11,6 +11,8 @@ services:
     build:
       context: .
       dockerfile: docker/api_streamlit/Dockerfile
+    ports:
+      - 8015:8015
 
   api_fastapi:
     image: api_fastapi:latest
