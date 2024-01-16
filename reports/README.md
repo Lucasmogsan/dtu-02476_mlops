@@ -125,7 +125,7 @@ Group 8
 >
 > Answer:
 
-For the project the [PyTorch Image Models](https://github.com/huggingface/pytorch-image-models) (TIMM) is used to access the model architecture of various deep learning models, specifically the EVA CNN model. Only the functionality of getting the model architecture was used for training as both model and weights could then be saved to a generic `.pt` file which is loaded for the inference. This made it really easy as we could use a standard training and inference pipeline.
+For the project the [PyTorch Image Models](https://github.com/huggingface/pytorch-image-models) (TIMM) is used to access the model architecture of various deep learning models, specifically the EVA CNN model. Only the functionality of getting the model architecture was used for training as both model and weights could then be saved to a generic `.pt` file which is loaded for the inference. This made it really easy as we could use a more or less standard training and inference pipeline. Using the framework made it easier to make a good model, but it would not have been a huge task creating a simple moel ourselves instead. However it was a good exercise to use third party frameworks such as TIMM.
 
 ## Coding environment
 
@@ -145,6 +145,8 @@ For the project the [PyTorch Image Models](https://github.com/huggingface/pytorc
 >
 > Answer:
 
+TODO: Rollo or Yu Fan
+
 The Python dependencies were saved within the requirements file using pipreqs, a tool that exclusively records the utilized packages in the project. Each team member subsequently employed a virtual environment manager of their choosing, with some opting for conda, others for virtualenv, or simply the venv module. Within this designated environment, members installed the dependencies utilizing the requirements file.
 
 Establishment of a development container was also experimented with, seeking a fully reproducible development environment containing GCP packages and other dependencies. However, the process encountered intricacies, primarily stemming from the management of GCP authorization.
@@ -162,6 +164,8 @@ Establishment of a development container was also experimented with, seeking a f
 > *experiments.*
 > Answer:
 
+TODO: Everyone
+
 We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops_template) but did change the structure along the way by restructuring e.g. the docker files and added a utility folder to the project code folder.
 
 ### Question 6
@@ -173,6 +177,7 @@ We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops
 >
 > Answer:
 
+TODO: Yu Fan
 --- question 6 fill here ---
 
 ## Version control
@@ -192,6 +197,7 @@ We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops
 >
 > Answer:
 
+TODO: Yu Fan
 --- question 7 fill here ---
 
 ### Question 8
@@ -207,6 +213,7 @@ We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops
 >
 > Answer:
 
+TODO: Yu Fan
 --- question 8 fill here ---
 
 ### Question 9
@@ -222,7 +229,8 @@ We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops
 >
 > Answer:
 
-Both branches and PRs (pull requests) were used in this project. Everytime someone were to implement a new feature, then a new branch was created. Instead of everyone working on main and pushing directly to main, working on branches provided some security and 
+TODO: Yu Fan & Steven
+Both branches and PRs (pull requests) were used in this project. Everytime someone were to implement a new feature, then a new branch was created. Instead of everyone working on main and pushing directly to main, working on branches provided some security and
 
 ### Question 10
 
@@ -237,6 +245,7 @@ Both branches and PRs (pull requests) were used in this project. Everytime someo
 >
 > Answer:
 
+TODO: Rollo
 --- question 10 fill here ---
 
 ### Question 11
@@ -253,9 +262,10 @@ Both branches and PRs (pull requests) were used in this project. Everytime someo
 >
 > Answer:
 
+TODO: Yu Fan
 --- question 11 fill here ---
 
-When a pull request was created to merge with main, at least one other team member was required to do a review of the code. Furthermore, some unittests 
+When a pull request was created to merge with main, at least one other team member was required to do a review of the code. Furthermore, some unittests
 
 ## Running code and tracking experiments
 
@@ -274,6 +284,7 @@ When a pull request was created to merge with main, at least one other team memb
 >
 > Answer:
 
+TODO: Yu Fan & Lucas
 --- question 12 fill here ---
 
 ### Question 13
@@ -289,6 +300,7 @@ When a pull request was created to merge with main, at least one other team memb
 >
 > Answer:
 
+TODO: Yu Fan & Lucas
 --- question 13 fill here ---
 
 ### Question 14
@@ -306,6 +318,7 @@ When a pull request was created to merge with main, at least one other team memb
 >
 > Answer:
 
+TODO: Yu Fan
 --- question 14 fill here ---
 
 ### Question 15
@@ -321,6 +334,7 @@ When a pull request was created to merge with main, at least one other team memb
 >
 > Answer:
 
+TODO: Steven, Rollo
 --- question 15 fill here ---
 
 ### Question 16
@@ -336,6 +350,7 @@ When a pull request was created to merge with main, at least one other team memb
 >
 > Answer:
 
+TODO: Lucas profiling
 --- question 16 fill here ---
 
 ## Working in the cloud
@@ -353,7 +368,13 @@ When a pull request was created to merge with main, at least one other team memb
 >
 > Answer:
 
---- question 17 fill here ---
+TODO: Lucas
+In the project we made use of the following five services directly while some services (e.g. Compute Engine) is used indirectly:
+- **Buckets** for storing the (training) data and model (.pt files)
+- **Container Registry** for storing Docker images
+- **Trigger** for automatically building the Docker images from dockerfiles from the GitHub repository
+- **Vertex AI** for running the training
+- **Cloud Run** for hosting the inference API
 
 ### Question 18
 
@@ -368,6 +389,7 @@ When a pull request was created to merge with main, at least one other team memb
 >
 > Answer:
 
+TODO: Lucas or Steven (Vertex AI)
 --- question 18 fill here ---
 
 ### Question 19
@@ -377,6 +399,7 @@ When a pull request was created to merge with main, at least one other team memb
 >
 > Answer:
 
+TODO: Rollo
 --- question 19 fill here ---
 
 ### Question 20
@@ -386,6 +409,7 @@ When a pull request was created to merge with main, at least one other team memb
 >
 > Answer:
 
+TODO: Lucas
 --- question 20 fill here ---
 
 ### Question 21
@@ -395,6 +419,7 @@ When a pull request was created to merge with main, at least one other team memb
 >
 > Answer:
 
+TODO: Lucas
 --- question 21 fill here ---
 
 ### Question 22
@@ -411,6 +436,7 @@ When a pull request was created to merge with main, at least one other team memb
 >
 > Answer:
 
+TODO: Rollo
 --- question 22 fill here ---
 
 ### Question 23
@@ -426,6 +452,7 @@ When a pull request was created to merge with main, at least one other team memb
 >
 > Answer:
 
+TODO: All - Maybe implement?
 --- question 23 fill here ---
 
 ### Question 24
@@ -440,6 +467,7 @@ When a pull request was created to merge with main, at least one other team memb
 >
 > Answer:
 
+TODO: All
 --- question 24 fill here ---
 
 ## Overall discussion of project
@@ -461,6 +489,7 @@ When a pull request was created to merge with main, at least one other team memb
 >
 > Answer:
 
+TODO: All
 --- question 25 fill here ---
 
 ### Question 26
@@ -475,7 +504,8 @@ When a pull request was created to merge with main, at least one other team memb
 >
 > Answer:
 
---- question 26 fill here ---
+TODO: Rollo and Yu Fan maybe write some? Currently: 119 words
+The biggest challenges in the project was implementing gcp and administrating access, keys etc. across group members. In general the collaboration made it harder as the workflow - also on git using GitHub - had to be more strictly managed. This also caused some time spent on merging conflicts which however was one of the more simple tasks. To be mentioned is setting up the training pipeline with the training script and image, buckets, and Vertex AI. This was one of the more challenging tasks as it required extensive understanding of multiple aspects and the overall pipeline including access to the buckets and the training image on gcp, as well as running dvc for both pull and push within the container.
 
 ### Question 27
 
