@@ -3,11 +3,14 @@ import pytest
 from tests import _MODEL_PATH
 
 
+model_name = "model_latest.pt"
+
+
 # Assert given input with shape X, model returns output with shape Y
 def test_model_forward():
     x = torch.randn((1, 224, 224))
     x = x.unsqueeze(0)  # (1, 1, 224, 224), added a dimension for batch size
-    model = torch.load(_MODEL_PATH + "model_latest1.pt")
+    model = torch.load(_MODEL_PATH + model_name)
     y = model.forward(x)
     assert y.shape == (1, 5), "Model output should have shape (1,5)"
 
@@ -21,7 +24,7 @@ def test_model_raises():
         match="not enough values to unpack",
     ):
         x = torch.randn((1, 224, 224))
-        model = torch.load(_MODEL_PATH + "model_latest1.pt")
+        model = torch.load(_MODEL_PATH + model_name)
         _ = model.forward(x)
 
     # Wrong image input size
@@ -31,5 +34,5 @@ def test_model_raises():
         match=f"Input height \\({input_size}\\) doesn't match model \\(224\\)",
     ):
         x = torch.randn((1, 1, input_size, input_size))
-        model = torch.load(_MODEL_PATH + "model_latest1.pt")
+        model = torch.load(_MODEL_PATH + model_name)
         _ = model.forward(x)

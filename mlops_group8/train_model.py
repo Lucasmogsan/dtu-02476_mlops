@@ -53,6 +53,7 @@ def train(cfg, job_type="train") -> list:
         num_classes=len(classes_to_train),
         in_chans=1,
     ).to(device)
+
     # Train model hyperparameters
     criterion = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
