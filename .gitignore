@@ -179,3 +179,4 @@ log/
 /data/processed
 /data/raw
 !tests/data/*
+/models
