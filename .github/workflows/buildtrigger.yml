@@ -1,0 +1,24 @@
+name: Call GCP Build Trigger
+
+on:
+  workflow_run:
+    workflows: [Run unit tests]
+    branches: [main]
+    types:
+      - completed
+
+jobs:
+  call-gcp-build-trigger:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Call GCP Build Trigger
+      run: |
+        curl -X POST "https://cloudbuild.googleapis.com/v1/projects/mlops-group8/locations/europe-west1/triggers/build-and-push-project:webhook" \
+          -d "key=${{ secrets.API_KEY }}" \
+          -d "secret=${{ secrets.WEBHOOK_SECRET }}" \
+          -d "trigger=build-and-push-project" \
+          -d "projectId=mlops-group8"
+      env:
+        API_KEY: ${{ secrets.WEBHOOK }}
+        WEBHOOK_SECRET: ${{ secrets.WEBHOOK_SECRET }}
