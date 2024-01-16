@@ -1,6 +1,8 @@
 [core]
-    remote = remote_storage
-['remote "storage"']
-    url = gdrive://1xrEzVKYz2s1LGKmvCg8XZy5-kfrGFIR3
+    remote = remote_storage_models_train
+    autostage = true
 ['remote "remote_storage"']
     url = gs://mlops-group8/
+['remote "remote_storage_models_train"']
+    url = gs://mlops-group8_model_training/
+    version_aware = true

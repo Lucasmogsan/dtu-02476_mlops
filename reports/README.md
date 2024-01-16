@@ -125,7 +125,7 @@ Group 8
 >
 > Answer:
 
---- question 3 fill here ---
+For the project the [PyTorch Image Models](https://github.com/huggingface/pytorch-image-models) (TIMM) is used to access the model architecture of various deep learning models, specifically the EVA CNN model. Only the functionality of getting the model architecture was used for training as both model and weights could then be saved to a generic `.pt` file which is loaded for the inference. This made it really easy as we could use a standard training and inference pipeline.
 
 ## Coding environment
 
@@ -159,7 +159,7 @@ Group 8
 > *experiments.*
 > Answer:
 
---- question 5 fill here ---
+We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops_template) but did change the structure along the way by restructuring e.g. the docker files and added a utility folder to the project code folder.
 
 ### Question 6
 

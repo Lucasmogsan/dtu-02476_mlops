@@ -1,7 +1,11 @@
 steps:
-# Build the container image
+# Build the container image(s)
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-f', 'dockerfiles/train_model.dockerfile', '.', '-t', 'gcr.io/nifty-byway-410709/train_model:latest']
-# Push the container image to Container Registry
+  args: ['build', '-f', 'docker/train/Dockerfile', '.', '-t', 'gcr.io/mlops-group8/trainer:latest']
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/nifty-byway-410709/train_model:latest']
+  args: ['build', '-f', 'docker/predict/Dockerfile', '.', '-t', 'gcr.io/mlops-group8/predictor:latest']
+# Push the container image(s) to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/mlops-group8/trainer:latest']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/mlops-group8/predictor:latest']

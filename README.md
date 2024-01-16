@@ -138,17 +138,31 @@ make data
 ```
 
 **Training**
+
+Locally:
+1. Pull data
+```bash
+dvc pull -r remote_storage data.dvc
+```
+2. Run training
 ```bash
 make train
 ```
-
-In the cloud:
-1. Create a compute instance from the image
+3. (if desired) Push data:
 ```bash
-gcloud compute instances create-with-container training-instance \
-    --container-image=gcr.io/nifty-byway-410709/train_model:latest \
-    --container-env=WANDB_API_KEY=<your-api-key-here> \
-    --zone europe-west1-b
+dvc add models
+dvc push -r remote_storage_models_train models.dvc
+```
+
+
+In the cloud (using [Vertex AI](https://cloud.google.com/vertex-ai)):
+1. On `gcp` a `trigger` has been set up for the GitHub repository using the [cloudbuild_dockerfiles.yaml](cloudbuild_dockerfiles.yaml) every time the main branch is updated. This rebuilds the training image (from this [Dockerfile](docker/train/Dockerfile)).
+2. Following creates a compute instance and runs the image (pulled from gcp `container registry`). This will pull from the `data bucket`, do training, and push to the `models bucket` after training. See [docker/train/](docker/train/) folder to see entrypoint and dockerfile used.
+```bash
+gcloud ai custom-jobs create \
+    --region=europe-west1 \
+    --display-name=test-training \
+    --config=config_vertexai_train_cpu.yaml
 ```
 
 
