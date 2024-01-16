@@ -1,5 +1,5 @@
 # Install with cache
-name: Run unit tests
+name: unittests
 
 on:
   #push:
@@ -8,7 +8,7 @@ on:
     #branches: [ main ]
 on:
   workflow_run:
-    workflows: [Upload data]
+    workflows: [codecheck]
     types:
       - completed
 jobs:
