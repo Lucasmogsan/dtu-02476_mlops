@@ -3,7 +3,6 @@ import timm
 import os
 import hydra
 import wandb
-import matplotlib.pyplot as plt
 from utility.util_functions import set_directories, load_data
 
 
@@ -89,13 +88,6 @@ def train(cfg, job_type="train") -> list:
         train_loss.append(loss.item())
         acc = 1
         wandb.log({"acc": acc, "loss": loss})
-
-    # Prepare plot
-    print("### Make visualizations ###")
-    plt.plot(train_loss)
-    plt.xlabel("Epochs")
-    plt.ylabel("Loss")
-    plt.title("Training loss")
 
     print("### Saving model and plot ###")
     # If model_name exists, make new name (add _1, _2, etc.)
