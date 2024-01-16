@@ -2,10 +2,15 @@
 name: "Run unit tests"
 
 on:
-  push:
-    branches: [ main ]
+  #push:
+    #branches: [ main ]
   # pull_request:
   #   branches: [ main ]
+  workflow_run:
+    workflows: [Ruff code check]
+    branches: [main]
+    types:
+      - completed
 
 jobs:
   build:
