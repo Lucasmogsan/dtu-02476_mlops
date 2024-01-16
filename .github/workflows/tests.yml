@@ -7,7 +7,7 @@ on:
   # pull_request:
   #   branches: [ main ]
   workflow_run:
-    workflows: [Ruff code check]
+    workflows: ["Ruff code check"]
     branches: [main]
     types:
       - completed
