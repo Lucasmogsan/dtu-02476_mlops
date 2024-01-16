@@ -16,10 +16,12 @@ COPY mlops_group8/ mlops_group8/
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt --no-cache-dir
 RUN pip install streamlit
+RUN pip install google-cloud-storage
 
 
 COPY models/ models/
 COPY mlops_group8/streamlit_app.py streamlit_app.py
+COPY assets/ assets/
 
 ## ENTRYPOINT ["streamlit", "run", "streamlit_app.py", "--server.port=8501", "--server.address=0.0.0.0"]
 CMD exec streamlit run streamlit_app.py --server.port=$PORT --server.address=0.0.0.0
