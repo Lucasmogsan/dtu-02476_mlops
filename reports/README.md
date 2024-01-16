@@ -178,7 +178,7 @@ We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops
 > Answer:
 
 TODO: Yu Fan
---- question 6 fill here ---
+Ruff was used for code checking. Code check is activated using pre-commits and pull requests to the main branch. Other hooks in the pre-commit includes add-trailing-comma, trailing-whitespaces, and mypy static type checker. Having these rules improve readability for other users and helps catch bugs early on before they are pushed to the repository.
 
 ## Version control
 
@@ -198,7 +198,7 @@ TODO: Yu Fan
 > Answer:
 
 TODO: Yu Fan
---- question 7 fill here ---
+In total, 7 tests were implemented for the data, model, and training.
 
 ### Question 8
 
@@ -214,7 +214,7 @@ TODO: Yu Fan
 > Answer:
 
 TODO: Yu Fan
---- question 8 fill here ---
+The total code coverage of the source code is X%. If instead it was closer to 100%, it cannot be trusted to be error free as other forms of tests like integration tests are required.
 
 ### Question 9
 
