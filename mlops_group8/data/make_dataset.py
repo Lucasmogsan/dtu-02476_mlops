@@ -14,12 +14,6 @@ from sklearn.model_selection import train_test_split
 _SRC_PATH = os.path.dirname(os.path.dirname(__file__))
 
 
-@hydra.main(version_base=None, config_path=_SRC_PATH + "/config", config_name="default_config.yaml")
-def hydra_cfg(cfg) -> dict:
-    return cfg.experiment
-    # BUG: somehow returns a None type
-
-
 def download_data(dataset_name: str, download_path: str, extract_path: str) -> None:
     """Download the dataset from Kaggle"""
     # Authenticate with Kaggle API
@@ -157,7 +151,11 @@ def process_data(
     print("Data saved!")
 
 
-if __name__ == "__main__":
+print("SRC_PATH: ", _SRC_PATH)
+
+
+@hydra.main(version_base=None, config_path=_SRC_PATH + "/config", config_name="default_config.yaml")
+def main(cfg):
     # Set the dataset details
     dataset_name = "muratkokludataset/rice-image-dataset"
     download_path = "data/raw"
@@ -168,8 +166,7 @@ if __name__ == "__main__":
     if not os.path.exists(processed_path):
         os.makedirs(processed_path)
 
-    cfg = hydra_cfg()
-    test_size = cfg["test_size"]
+    # test_size = cfg["test_size"]
     hparams = cfg.experiment
     test_size = hparams["test_size"]
     val_size = hparams["val_size"]
@@ -181,3 +178,7 @@ if __name__ == "__main__":
         download_data(download_path, extract_path, dataset_name)
         extract_data(download_path, extract_path, dataset_name)
     process_data(path, processed_path, n_samples, test_size, val_size)
+
+
+if __name__ == "__main__":
+    main()
