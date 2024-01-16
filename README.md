@@ -137,6 +137,11 @@ Create locally from Kaggle dataset:
 make data
 ```
 
+To create a smaller dataset for unit tests,
+```bash
+make unittest_data
+```
+
 **Training**
 ```bash
 make train
@@ -152,11 +157,11 @@ gcloud compute instances create-with-container training-instance \
 ```
 
 
-**Evaluate**
-NB: You need a model in `models` folder and specify this in your `config` file.
+**Validate**
+NB: You need a `model_latest.pt` in the `models` folder.
 
 ```bash
-make evaluate
+make validate
 ```
 
 **Predict**
