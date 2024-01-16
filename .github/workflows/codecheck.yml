@@ -1,5 +1,4 @@
-name: Ruff code check
-
+name: Upload data
 on:
   #push:
     #branches: [ main ]

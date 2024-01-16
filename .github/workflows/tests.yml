@@ -6,12 +6,11 @@ on:
     #branches: [ main ]
   #pull_request:
     #branches: [ main ]
+on:
   workflow_run:
-    workflows:
-      - Ruff code check
+    workflows: [Upload data]
     types:
       - completed
-
 jobs:
   build:
 
