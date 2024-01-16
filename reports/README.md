@@ -222,7 +222,7 @@ We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops
 >
 > Answer:
 
---- question 9 fill here ---
+Both branches and PRs (pull requests) were used in this project. Everytime someone were to implement a new feature, then a new branch was created. Instead of everyone working on main and pushing directly to main, working on branches provided some security and 
 
 ### Question 10
 
@@ -254,6 +254,8 @@ We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops
 > Answer:
 
 --- question 11 fill here ---
+
+When a pull request was created to merge with main, at least one other team member was required to do a review of the code. Furthermore, some unittests 
 
 ## Running code and tracking experiments
 
