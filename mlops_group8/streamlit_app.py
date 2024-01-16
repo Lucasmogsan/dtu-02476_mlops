@@ -4,7 +4,8 @@ from google.cloud import storage
 import random
 
 
-storage_client = storage.Client()
+# storage_client = storage.Client()
+storage_client = storage.Client.create_anonymous_client()
 
 # mlops-group8_model_released/model_latest.pt
 

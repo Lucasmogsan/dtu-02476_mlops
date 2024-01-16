@@ -1,0 +1,11 @@
+steps:
+# Build the container image(s)
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-f', 'docker/api_fastapi/Dockerfile', '.', '-t', 'gcr.io/mlops-group8/api_fastapi:latest']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-f', 'docker/api_streamlit/Dockerfile', '.', '-t', 'gcr.io/mlops-group8/api_streamlit:latest']
+# Push the container image(s) to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/mlops-group8/api_fastapi:latest']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/mlops-group8/api_streamlit:latest']

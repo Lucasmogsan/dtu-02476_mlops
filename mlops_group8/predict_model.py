@@ -4,6 +4,7 @@ import cv2
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
 import json
+import sys
 
 # Setup
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -47,3 +48,8 @@ def predict(model_path, input_image_path: str):
 
         print(LABLES[str(prediction)])
         return LABLES[str(prediction)]
+
+
+if __name__ == "__main__":
+    _, model_path, input_image_path = sys.argv
+    predict(model_path, input_image_path)

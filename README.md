@@ -123,22 +123,39 @@ make evaluate
 
 ## Predict
 
-TODO: Write predict instructions
-
 **Locally**
 
-NB: You need a model in `models` folder and specify this in your `config` file.
+1. Run predict
 
 ```bash
-make predict_test
+make predict_test model=<path-to-model-file> path_image=<path-to-image-file>
 ```
 
+**Local container**
+NB: You can run both fastapi and streamlit.
+
+1. Build container from dockerfile and run image:
 ```bash
-python mlops_group8/predict_model.py predict <path-to-image-file>
+make <api-fastapi/api_streamlit>
+```
+2. (If you dont want to rebuild the image) Run:
+```bash
+docker compose up <api_fastapi/api_streamlit>
 ```
 
 **Using API and Cloud Run**
 
+1. On `gcp` a `trigger` has been set up for the GitHub repository using the [cloudbuild_dockerfiles_api.yaml](cloudbuild_dockerfiles_api.yaml) every time the main branch is updated. This rebuilds the api images.
+2. Create a [Cloud Run](https://cloud.google.com/run?hl=en) service for each api and use the docker image in gcr.io:
+
+Fastapi:
+```bash
+gcr.io/mlops-group8/api_fastapi:latest
+```
+Streamlit:
+```bash
+gcr.io/mlops-group8/api_streamlit:latest
+```
 
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)

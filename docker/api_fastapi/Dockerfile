@@ -1,4 +1,4 @@
-FROM python:3.9-slim
+FROM python:3.11-slim
 
 EXPOSE $PORT
 
@@ -19,10 +19,13 @@ RUN pip install fastapi
 RUN pip install pydantic
 RUN pip install uvicorn
 RUN pip install python-multipart
+RUN pip install google-cloud-storage
 
 
 COPY models/ models/
 COPY mlops_group8/predict_fastapi.py predict_fastapi.py
+
+ENV PORT=8000
 
 ##CMD exec predict_fastapi:app --port $PORT --host 0.0.0.0 --workers 1
 CMD exec uvicorn predict_fastapi:app --port $PORT --host 0.0.0.0 --workers 1
