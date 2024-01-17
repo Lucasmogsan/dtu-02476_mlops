@@ -185,7 +185,6 @@ To create a smaller dataset for unit tests,
 make unittest_data
 ```
 
-
 ## Unit Testing
 ```bash
 pytest tests/               # to run all unit tests
