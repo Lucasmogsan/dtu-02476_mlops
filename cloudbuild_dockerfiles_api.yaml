@@ -11,7 +11,7 @@ steps:
   args:
   - 'run'
   - 'deploy'
-  - 'run_fastapi'
+  - 'run-fastapi'
   - '--image'
   - 'gcr.io/mlops-group8/api_fastapi:latest'
   - '--region'
@@ -26,7 +26,7 @@ steps:
   args:
   - 'run'
   - 'deploy'
-  - 'run_streamlit'
+  - 'run-streamlit'
   - '--image'
   - 'gcr.io/mlops-group8/api_streamlit:latest'
   - '--region'
