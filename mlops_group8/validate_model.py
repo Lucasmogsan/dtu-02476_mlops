@@ -32,6 +32,7 @@ def validate(cfg):
     seed = hparams["seed"]
     # model_name = hparams["model_name"]
     classes_to_eval = hparams["classes"]
+    # optimizer_name = hparams["optimizer"]
 
     class_names = load(open(processed_path + "/classes.json", "r"))
     class_names = list(class_names.values())  # get the names only

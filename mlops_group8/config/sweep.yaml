@@ -1,0 +1,32 @@
+method: grid
+metric:
+    goal: minimize
+    name: loss
+name: sweep
+parameters:
+    epochs:
+        values:
+            - 2
+    lr:
+        values:
+            - 0.001
+            - 0.003
+    optimizer:
+        values:
+            - adam
+            - sgd
+    classes:
+        values:
+            - [0,1,2,3,4]
+    dataset_path:
+        values:
+            - 'data/processed'
+    batch_size:
+        values:
+            - 64
+    seed:
+        values:
+            - 123
+    model_name:
+        values:
+            - 'eva02_tiny_patch14_224'

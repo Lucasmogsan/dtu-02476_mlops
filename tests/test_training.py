@@ -29,6 +29,7 @@ def test_train_config() -> None:
             "test_size": 0.2,
             "val_size": 0.25,
             "n_samples": 500,
+            "optimizer": "sgd",
         }, "Configurations should match"
 
 

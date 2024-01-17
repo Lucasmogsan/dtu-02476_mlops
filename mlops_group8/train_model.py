@@ -4,7 +4,7 @@ import hydra
 import wandb
 from datetime import datetime
 from json import load
-from utility.util_functions import set_directories, load_data, log_test_predictions
+from utility.util_functions import set_directories, load_data, log_test_predictions, build_optimizer
 
 # hydra.outputs_subdir = "./outputs/hydra"
 
@@ -33,6 +33,7 @@ def train(cfg, job_type="train") -> list:
     seed = hparams["seed"]
     model_name = hparams["model_name"]
     classes_to_train = hparams["classes"]
+    optimizer_name = hparams["optimizer"]
 
     # Create a list of class names
     class_names = load(open(processed_path + "/classes.json", "r"))
@@ -75,7 +76,8 @@ def train(cfg, job_type="train") -> list:
 
     # Train model hyperparameters
     criterion = torch.nn.CrossEntropyLoss()
-    optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+    # optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+    optimizer = build_optimizer(model, optimizer_name, lr)
 
     # Load data
     print("### Loading data ###")
