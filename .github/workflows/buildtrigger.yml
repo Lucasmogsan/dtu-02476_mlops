@@ -2,7 +2,7 @@ name: Call GCP Build Trigger
 
 on:
   workflow_run:
-    workflows: [Ruff code check, Run unit tests]
+    workflows: [Run unit tests]
     types:
       - completed
 
