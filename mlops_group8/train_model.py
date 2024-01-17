@@ -1,10 +1,9 @@
-import torch
 import timm
 import os
 import hydra
 import wandb
 from utility.util_functions import set_directories, load_data
-
+import time
 
 patito = []
 
