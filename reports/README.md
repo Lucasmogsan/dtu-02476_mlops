@@ -145,8 +145,6 @@ For the project the [PyTorch Image Models](https://github.com/huggingface/pytorc
 >
 > Answer:
 
-TODO: Rollo or Yu Fan
-
 The Python dependencies were saved within the requirements file using pipreqs, a tool that exclusively records the utilized packages in the project. Each team member subsequently employed a virtual environment manager of their choosing, with some opting for conda, others for virtualenv, or simply the venv module. Within this designated environment, members installed the dependencies utilizing the requirements file.
 
 Establishment of a development container was also experimented with, seeking a fully reproducible development environment containing GCP packages and other dependencies. However, the process encountered intricacies, primarily stemming from the management of GCP authorization.
@@ -243,8 +241,8 @@ Both branches and PRs (pull requests) were used in this project. When a new feat
 >
 > Answer:
 
-TODO: Rollo
---- question 10 fill here ---
+We used DVC to manage the data in our project, following the guide provided in the course and applying the commands: `dvc add -> git add -> git commit -> git tag -> dvc push -> git push`. Initially, the data was pushed to a Google Drive folder, but due to authentication requirements, we moved the data to a bucket in Google Cloud Storage. We also decided to store the trained models in a separate bucket to keep track of them. For this, we created two configurations: `['remote "remote_storage"']` and `['remote "remote_storage_models_train"']`. Using a centralized storage area and keeping track of the data helped us maintain consistency in our results, as all team members used the same processed data. It also helped us to manage the data effectively.
+
 
 ### Question 11
 
@@ -346,8 +344,15 @@ TODO: Yu Fan
 >
 > Answer:
 
-TODO: Steven, Rollo
---- question 15 fill here ---
+In our project, we utilized Docker containers at multiple stages of the pipeline. We created three Docker images: one for training, one for the FastAPI app, and one for the Streamlit app. The training image automatically runs the training process upon container initialization, generating a model file and pushing it to the Google Cloud Storage bucket. The containers dedicated to the apps run the corresponding scripts, enabling users to utilize the models and classify rice images.
+
+By using these Docker containers, we were able to maintain reproducibility and consistency in our results.
+
+Docker container images:
+1. [Training](../docker/train/Dockerfile)
+2. [FastApi](../docker/api_fastapi/Dockerfile)
+3. [Streamlit](../docker/api_streamlit/Dockerfile)
+
 
 ### Question 16
 
@@ -404,7 +409,7 @@ In the project we made use of the following five services directly while some se
 
 As mentioned we didn't actually use the Compute Engines / VMs directly as we were able to do the preliminary tests locally on small datasets. However using the compute engines as a part of the Vertex AI was really beneficial as both storage and computational capabilities are much more flexible. We used the n1-highmem-2 machine type (vCPU). This was not much faster than our local computers but being able to run the training in the cloud made it possible to progress on other stuff meanwhile. It would be interesting optimizing and accelerating the training with GPU supported machines for further work.
 
-TODO: Rollo for prediciton??
+In addition, we used the Cloud Run service to host the applications for prediction, both services run docker container with the applications.
 
 ### Question 19
 
@@ -413,8 +418,14 @@ TODO: Rollo for prediciton??
 >
 > Answer:
 
-TODO: Rollo
---- question 19 fill here ---
+This is the bucket for the data (we used DVC to manage the data)):
+<p align="center">
+  <img src="figures/bucket_g8.png" height="150">
+</p>
+
+<p align="center">
+  <img src="figures/bucket_g8e.png" height="400">
+</p>
 
 ### Question 20
 
@@ -455,8 +466,10 @@ TODO: Lucas update this?
 >
 > Answer:
 
-TODO: Rollo
---- question 22 fill here ---
+After the model has been trained and certified to meet the acceptance criteria, it is pushed to a designated 'release bucket'. This bucket contains the most recent and advanced model. Two separate applications utilize the model. One of the applications uses FastAPI that can be invoked by using this command: *`curl -X 'POST' 'https://gcp-group8-app-yhdjmsx7ja-ew.a.run.app/predict/' -F 'data=@image.jpg'`*. And the second application is intended to provide an interactive use of the model, by running a Streamlit-based app that can be accessed on this [Link](https://gcp-group8-api-st-yhdjmsx7ja-ew.a.run.app/)
+
+These two applications operate in separate Docker containers. Initially, these containers were enabled locally and subsequently deployed as services on Google Cloud Run using a manual trigger in cloud build.
+
 
 ### Question 23
 
@@ -526,8 +539,11 @@ TODO: All
 >
 > Answer:
 
-TODO: Rollo and Yu Fan maybe write some? Currently: 119 words
-The biggest challenges in the project was implementing gcp and administrating access, keys etc. across group members. In general the collaboration made it harder as the workflow - also on git using GitHub - had to be more strictly managed. This also caused some time spent on merging conflicts which however was one of the more simple tasks. To be mentioned is setting up the training pipeline with the training script and image, buckets, and Vertex AI. This was one of the more challenging tasks as it required extensive understanding of multiple aspects and the overall pipeline including access to the buckets and the training image on gcp, as well as running dvc for both pull and push within the container.
+TODO: Yu Fan maybe write some? Currently: 171 words
+The biggest challenges in the project was implementing gcp and administrating access, keys etc. across group members. In general the collaboration made it harder as the workflow - also on git using GitHub - had to be more strictly managed. This also caused some time spent on merging conflicts which however was one of the more simple tasks. To be mentioned is setting up the training pipeline with the training script and image, buckets, and Vertex AI. This was one of the more challenging tasks as it required extensive understanding of multiple aspects and the overall pipeline including access to the buckets and the training image on gcp.
+
+We also encountered issues with DVC performance. The process of uploading and downloading data was extremely slow due to the large number of files (images). As a result, we had to reduce the size of the dataset. Additionally, we changed the DVC setting to `version_aware = false`. This grouped the files in DVC's own format, which helped reduce the number of files uploaded to the bucket.
+
 
 ### Question 27
 
