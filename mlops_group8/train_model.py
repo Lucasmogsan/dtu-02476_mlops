@@ -44,6 +44,7 @@ def train(cfg, job_type="train") -> list:
         config=wandb_cfg,
         job_type=job_type,
         dir="./outputs",
+        name="train_model_" + datetime.now().strftime("%Y%m%d_%H%M%S"),
     )
 
     # Set seed for reproducibility
@@ -67,6 +68,7 @@ def train(cfg, job_type="train") -> list:
         batch_size,
         dataset_path,
         job_type,
+        seed,
     )
 
     # Training loop

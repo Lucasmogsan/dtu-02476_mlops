@@ -79,7 +79,7 @@ dvc pull -r remote_storage data.dvc
 ```
 2. Run training
 ```bash
-make train
+make train-local
 ```
 3. (if desired) Push data:
 ```bash
