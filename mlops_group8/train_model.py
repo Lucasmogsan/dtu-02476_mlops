@@ -5,12 +5,16 @@ import wandb
 from utility.util_functions import set_directories, load_data
 from datetime import datetime
 
+# hydra.outputs_subdir = "./outputs/hydra"
 
 # Set device
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Directories
 processed_path, outputs_dir, models_dir, visualization_dir = set_directories()
+
+NUM_BATCHES_TO_LOG = 5
+NUM_IMAGES_PER_BATCH = 5
 
 
 def train(cfg, job_type="train") -> list:
@@ -24,29 +28,28 @@ def train(cfg, job_type="train") -> list:
     lr = hparams["lr"]
     batch_size = hparams["batch_size"]
     seed = hparams["seed"]
-    # model_name = hparams["model_name"]
+    model_name = hparams["model_name"]
     classes_to_train = hparams["classes"]
 
     # ✨ W&B: setup
-    wandb_cfg = {
-        "epochs": epochs,
-        "learning_rate": lr,
-        "batch_size": batch_size,
-        "seed": seed,
-    }
-    wandb.init(
-        project="rice_classification",
-        entity="mlops_group8",
-        config=wandb_cfg,
-        job_type=job_type,
-        dir="./outputs",
-    )
+    # wandb_cfg = {
+    #     "epochs": epochs,
+    #     "learning_rate": lr,
+    #     "batch_size": batch_size,
+    #     "seed": seed,
+    # }
+    # wandb.init(
+    #     project="rice_classification",
+    #     entity="mlops_group8",
+    #     config=wandb_cfg,
+    #     job_type=job_type,
+    #     dir="./outputs",
+    # )
 
     # Set seed for reproducibility
     torch.manual_seed(seed)
 
     # Import model
-    model_name = "eva02_tiny_patch14_224"
     model = timm.create_model(
         model_name,
         pretrained=False,
@@ -59,6 +62,7 @@ def train(cfg, job_type="train") -> list:
     criterion = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
 
+    # Load data
     print("### Loading data ###")
     train_dataloader = load_data(
         classes_to_train,
@@ -71,10 +75,11 @@ def train(cfg, job_type="train") -> list:
     train_loss = []
     print("### Training model ###")
     for epoch in range(epochs):
+        epoch_acc = []
         for i, batch in enumerate(train_dataloader):
-            # print iteration of total iterations for this epoch
             print(
-                f"Epoch: {epoch+1}/{epochs}, Iteration: {i+1}/{len(train_dataloader)}",
+                f"Epoch: {epoch+1}/{epochs}, \
+                  Iteration: {i+1}/{len(train_dataloader)}",
             )
             optimizer.zero_grad()
             images, labels = batch
@@ -84,20 +89,24 @@ def train(cfg, job_type="train") -> list:
             loss = criterion(output, labels)
             loss.backward()
             optimizer.step()
-        print(f"Epoch: {epoch+1}, Loss: {loss.item()}")
-        train_loss.append(loss.item())
-        acc = 1
-        wandb.log({"acc": acc, "loss": loss})
 
-    # Prepare plot
-    # print("### Make visualizations ###")
-    # plt.plot(train_loss)
-    # plt.xlabel("Epochs")
-    # plt.ylabel("Loss")
-    # plt.title("Training loss")
+            # Save labels and predictions
+            batch_labels = torch.cat([labels], dim=0)
+            batch_output = torch.cat([output], dim=0)
+            batch_top_preds = batch_output.argmax(axis=1)
+            epoch_acc.append((batch_top_preds == batch_labels))
+            # batch_acc = (batch_top_preds == batch_labels).float().mean().item()
+
+        # Appending after each epoch uses too much memory, freezes my computer
+        train_loss.append(loss.item())
+        epoch_acc = torch.cat(epoch_acc, dim=0).numpy().mean()
+        print(f"Epoch acc: {epoch_acc}")
+        wandb.log({"acc": epoch_acc, "loss": loss})
 
     print("### Saving model ###")
-    torch.save(model, models_dir + "/model_latest.pt")  # save as latest model
+    # Save as latest model
+    torch.save(model, models_dir + "/model_latest.pt")
+    # Save as model_YYYYmm_HHMM.pt
     date_time = datetime.now().strftime("%Y%m%d_%H%M")
     torch.save(model, models_dir + "/checkpoints/model_" + date_time + ".pt")
 
