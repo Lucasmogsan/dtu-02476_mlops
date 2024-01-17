@@ -6,6 +6,8 @@ import wandb
 from utility.util_functions import set_directories, load_data
 
 
+patito = []
+
 # Set device
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
