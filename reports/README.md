@@ -196,7 +196,7 @@ Ruff was used for code checking. Code check is activated using pre-commits and p
 > Answer:
 
 TODO: Yu Fan
-In total, 7 tests were implemented for the data, model, and training.
+In total, 7 tests were implemented for the data, model, and training. The data tests checked if the images and labels are loaded with the correct shapes. The training tests checked if the hydra configuration is loaded correctly, and it runs 3 training epochs to check for decreasing training loss. The model tests checks for correct input and output tensor shapes from the model, using `pytest.raises()`.
 
 ### Question 8
 
@@ -228,7 +228,7 @@ The total code coverage of the source code is X%. If instead it was closer to 10
 > Answer:
 
 TODO: Yu Fan & Steven
-Both branches and PRs (pull requests) were used in this project. Everytime someone were to implement a new feature, then a new branch was created. Instead of everyone working on main and pushing directly to main, working on branches provided some security and
+Both branches and PRs (pull requests) were used in this project. When a new feature is implemented, a new branch was created. Instead of everyone working on main and pushing directly to main, working on branches provided some security and
 
 ### Question 10
 
@@ -263,7 +263,7 @@ TODO: Rollo
 TODO: Yu Fan
 --- question 11 fill here ---
 
-When a pull request was created to merge with main, at least one other team member was required to do a review of the code. Furthermore, some unittests
+When a pull request was created to merge with main, at least one other team member was required to do a review of the code. Code check with Ruff and unit test workflows were set up as part of CI ([link](https://github.com/Lucasmogsan/dtu-02476_mlops/actions/workflows/codecheck.yml)). The workflows were tested on Windows-latest and Ubuntu-latest OS, with py3.11. Caching was used to speed up the dependencies installation, especially for the unit test workflow.
 
 ## Running code and tracking experiments
 
@@ -283,7 +283,20 @@ When a pull request was created to merge with main, at least one other team memb
 > Answer:
 
 TODO: Yu Fan & Lucas
---- question 12 fill here ---
+Hydra was used to set up configurations. There is a `default_config.yaml` file specifying the experiment number. And there are separate yaml files like `exp1.yaml`, `exp2.yaml` containing the hyperparameters for each experiment. A sample config file looks like this
+
+``` yaml
+dataset_path: 'data/processed'
+batch_size: 64
+epochs: 3
+lr: 1e-3
+seed: 123
+model_name: 'model_latest'
+classes: [0,1,2,3,4]
+test_size: 0.2
+val_size: 0.25
+n_samples: 500
+```
 
 ### Question 13
 
@@ -299,7 +312,7 @@ TODO: Yu Fan & Lucas
 > Answer:
 
 TODO: Yu Fan & Lucas
---- question 13 fill here ---
+Hydra generates an output to log the config used for each training run, allowing users to trace the history of their experiments. A seed to initialize torch was included in the configuration file. Also, parameters used to create the datasets are included to reproduce identical datasets.
 
 ### Question 14
 
