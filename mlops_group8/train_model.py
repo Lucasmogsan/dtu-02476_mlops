@@ -32,19 +32,19 @@ def train(cfg, job_type="train") -> list:
     classes_to_train = hparams["classes"]
 
     # ✨ W&B: setup
-    # wandb_cfg = {
-    #     "epochs": epochs,
-    #     "learning_rate": lr,
-    #     "batch_size": batch_size,
-    #     "seed": seed,
-    # }
-    # wandb.init(
-    #     project="rice_classification",
-    #     entity="mlops_group8",
-    #     config=wandb_cfg,
-    #     job_type=job_type,
-    #     dir="./outputs",
-    # )
+    wandb_cfg = {
+        "epochs": epochs,
+        "learning_rate": lr,
+        "batch_size": batch_size,
+        "seed": seed,
+    }
+    wandb.init(
+        project="rice_classification",
+        entity="mlops_group8",
+        config=wandb_cfg,
+        job_type=job_type,
+        dir="./outputs",
+    )
 
     # Set seed for reproducibility
     torch.manual_seed(seed)
