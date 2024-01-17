@@ -226,7 +226,7 @@ The total code coverage of the source code is X%. If instead it was closer to 10
 > Answer:
 
 TODO: Yu Fan & Steven
-Both branches and PRs (pull requests) were used in this project. When a new feature is implemented, a new branch was created. Instead of everyone working on main and pushing directly to main, working on branches provided some security and
+In our project, we used both branches and pull requests (PRs). Whenever a new feature was in the works, we created a new branch. Instead of everyone making changes directly to the main branch, working on branches added a layer of security and made collaboration smoother. Feature branches provided a safe space for development, free from interference by other team members' changes. This approach was super handy for juggling multiple features at the same time – you could easily hop between branches and work on different things without any hassle.
 
 ### Question 10
 
