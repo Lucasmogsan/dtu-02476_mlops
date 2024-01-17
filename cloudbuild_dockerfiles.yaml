@@ -5,3 +5,5 @@ steps:
 # Push the container image(s) to Container Registry
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/mlops-group8/trainer:latest']
+options:
+  machineType: 'E2_HIGHCPU_8'
