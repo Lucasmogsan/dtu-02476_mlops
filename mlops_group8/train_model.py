@@ -2,8 +2,9 @@ import torch
 import timm
 import hydra
 import wandb
-from utility.util_functions import set_directories, load_data
+from utility.util_functions import set_directories, load_data, log_test_predictions
 from datetime import datetime
+from json import load
 
 # hydra.outputs_subdir = "./outputs/hydra"
 
@@ -13,6 +14,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # Directories
 processed_path, outputs_dir, models_dir, visualization_dir = set_directories()
 
+# ✨ W&B: for table logging
 NUM_BATCHES_TO_LOG = 5
 NUM_IMAGES_PER_BATCH = 5
 
@@ -31,20 +33,31 @@ def train(cfg, job_type="train") -> list:
     model_name = hparams["model_name"]
     classes_to_train = hparams["classes"]
 
+    # Create a list of class names
+    class_names = load(open(processed_path + "/classes.json", "r"))
+    class_names = list(class_names.values())  # get the names only
+    class_names = [class_names[i] for i in classes_to_train]
+
     # ✨ W&B: setup
-    # wandb_cfg = {
-    #     "epochs": epochs,
-    #     "learning_rate": lr,
-    #     "batch_size": batch_size,
-    #     "seed": seed,
-    # }
-    # wandb.init(
-    #     project="rice_classification",
-    #     entity="mlops_group8",
-    #     config=wandb_cfg,
-    #     job_type=job_type,
-    #     dir="./outputs",
-    # )
+    wandb_cfg = {
+        "epochs": epochs,
+        "learning_rate": lr,
+        "batch_size": batch_size,
+        "seed": seed,
+    }
+    wandb.init(
+        project="rice_classification",
+        entity="mlops_group8",
+        config=wandb_cfg,
+        job_type=job_type,
+        dir="./outputs",
+    )
+
+    # ✨ W&B: Create a Table to store predictions for each validation step
+    columns = ["batch_id", "image", "guess", "truth"]
+    for class_name in class_names:
+        columns.append("score_" + class_name)
+    train_table = wandb.Table(columns=columns)
 
     # Set seed for reproducibility
     torch.manual_seed(seed)
@@ -73,6 +86,7 @@ def train(cfg, job_type="train") -> list:
 
     # Training loop
     train_loss = []
+    log_counter = 0
     print("### Training model ###")
     for epoch in range(epochs):
         epoch_acc = []
@@ -97,11 +111,26 @@ def train(cfg, job_type="train") -> list:
             epoch_acc.append((batch_top_preds == batch_labels))
             # batch_acc = (batch_top_preds == batch_labels).float().mean().item()
 
+            # Log with wandb
+            if log_counter < NUM_BATCHES_TO_LOG:
+                log_test_predictions(
+                    images,
+                    labels,
+                    output,
+                    batch_top_preds,
+                    train_table,
+                    log_counter,
+                    class_names,
+                    NUM_IMAGES_PER_BATCH,
+                )
+                log_counter += 1
+
         # Appending after each epoch uses too much memory, freezes my computer
         train_loss.append(loss.item())
         epoch_acc = torch.cat(epoch_acc, dim=0).numpy().mean()
         print(f"Epoch acc: {epoch_acc}")
         wandb.log({"acc": epoch_acc, "loss": loss})
+    wandb.log({"train_predictions": train_table})
 
     print("### Saving model ###")
     # Save as latest model
@@ -115,7 +144,6 @@ def train(cfg, job_type="train") -> list:
     return train_loss
 
 
-### TRAINING ###
 @hydra.main(version_base=None, config_path="config", config_name="default_config.yaml")
 def main(cfg):
     """Train a model on processed data"""

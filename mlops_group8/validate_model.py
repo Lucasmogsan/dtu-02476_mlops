@@ -10,6 +10,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 processed_path, _, models_dir, _ = set_directories()
 
+# ✨ W&B: for table logging
 NUM_BATCHES_TO_LOG = 5
 NUM_IMAGES_PER_BATCH = 5
 
@@ -92,7 +93,7 @@ def validate(cfg):
             val_labels.append(labels.cpu())
             val_output.append(output.cpu())
 
-            # Log with wandbb
+            # Log with wandbb=
             if log_counter < NUM_BATCHES_TO_LOG:
                 log_test_predictions(
                     images,
