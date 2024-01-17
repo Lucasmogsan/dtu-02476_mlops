@@ -6,8 +6,18 @@ services:
       context: .
       dockerfile: docker/train/Dockerfile
 
-  predict:
-    image: predict:latest
+  api_streamlit:
+    image: api_streamlit:latest
     build:
       context: .
-      dockerfile: docker/predict/Dockerfile
+      dockerfile: docker/api_streamlit/Dockerfile
+    ports:
+      - 8015:8015
+
+  api_fastapi:
+    image: api_fastapi:latest
+    build:
+      context: .
+      dockerfile: docker/api_fastapi/Dockerfile
+    ports:
+      - 8000:8000

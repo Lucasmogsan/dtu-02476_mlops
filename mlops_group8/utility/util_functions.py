@@ -27,7 +27,7 @@ def set_directories():
     return processed_data_path, outputs_dir, models_dir, visualization_dir
 
 
-def load_data(classes_to_train: list[int], batch_size: int, processed_path: str, job_type: str):
+def load_data(classes_to_train: list[int], batch_size: int, processed_path: str, job_type: str, seed: int):
     if job_type == "train":
         file_name = "/train_data_"
     elif job_type == "val":
@@ -52,6 +52,7 @@ def load_data(classes_to_train: list[int], batch_size: int, processed_path: str,
         dataset,
         batch_size=batch_size,
         shuffle=True,
+        worker_init_fn=seed,
     )
 
     return dataloader

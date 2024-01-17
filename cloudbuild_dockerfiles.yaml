@@ -2,10 +2,6 @@ steps:
 # Build the container image(s)
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-f', 'docker/train/Dockerfile', '.', '-t', 'gcr.io/mlops-group8/trainer:latest']
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-f', 'docker/predict/Dockerfile', '.', '-t', 'gcr.io/mlops-group8/predictor:latest']
 # Push the container image(s) to Container Registry
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/mlops-group8/trainer:latest']
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/mlops-group8/predictor:latest']

@@ -56,8 +56,18 @@ unittest_data:
 	python $(PROJECT_NAME)/data/make_unittest_data.py
 
 ## Train model
-train:
+train-local:
 	python $(PROJECT_NAME)/train_model.py
+
+train-container:
+	docker compose build trainer
+	docker compose up trainer
+
+train-cloud:
+	gcloud ai custom-jobs create \
+    --region=europe-west1 \
+    --display-name=test-training \
+    --config=config_vertexai_train_cpu.yaml
 
 ## Validate model
 validate:
@@ -65,7 +75,16 @@ validate:
 
 ## Predict
 predict_test:
-	python $(PROJECT_NAME)/predict_model.py predict data/test/Arborio_test.jpg
+	python $(PROJECT_NAME)/predict_model.py $(model) $(path_image)
+
+## API container
+api-fastapi:
+	docker compose build api_fastapi
+	docker compose up api_fastapi
+
+api-streamlit:
+	docker compose build api_streamlit
+	docker compose up api_streamlit
 
 #################################################################################
 # Documentation RULES                                                           #

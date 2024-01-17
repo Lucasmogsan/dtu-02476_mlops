@@ -54,6 +54,7 @@ def train(cfg, job_type="train") -> list:
         job_type=job_type,
         name=job_type + "_" + date_time,
         dir="./outputs",
+        name="train_model_" + datetime.now().strftime("%Y%m%d_%H%M%S"),
     )
 
     # ✨ W&B: Create a Table to store predictions for each validation step
@@ -72,8 +73,6 @@ def train(cfg, job_type="train") -> list:
         num_classes=len(classes_to_train),
         in_chans=1,
     ).to(device)
-    print("Training ", model_name)
-
     # Train model hyperparameters
     criterion = torch.nn.CrossEntropyLoss()
     # optimizer = torch.optim.Adam(model.parameters(), lr=lr)
@@ -86,6 +85,7 @@ def train(cfg, job_type="train") -> list:
         batch_size,
         dataset_path,
         job_type,
+        seed,
     )
 
     # Training loop
