@@ -258,10 +258,11 @@ We used DVC to manage the data in our project, following the guide provided in t
 >
 > Answer:
 
-TODO: Yu Fan
+TODO: Yu Fan & Steven
 --- question 11 fill here ---
 
 When a pull request was created to merge with main, at least one other team member was required to do a review of the code. Code check with Ruff and unit test workflows were set up as part of CI ([link](https://github.com/Lucasmogsan/dtu-02476_mlops/actions/workflows/codecheck.yml)). The workflows were tested on Windows-latest and Ubuntu-latest OS, with py3.11. Caching was used to speed up the dependencies installation, especially for the unit test workflow.
+A considerable amount of time was dedicated to ensuring that workflows executed sequentially. The objective was to initiate a code check, and upon completion, trigger an event to run unit tests. Subsequently, this event would lead to the execution of a final workflow, prompting a cloud build through a webhook. Nevertheless, complications arose with the webhook, primarily attributed to permission issues—an ongoing challenge throughout the project. Despite providing both an API key and a GCP secrets key, the problem persisted. Another aspect to consider in the sequential flow was that the first workflow would be based from the file located in the feature branch, while the subsequent workflows would be based on the files in the target branch, typically the main branch. Ideally, it should run the workflow files situated in the feature branch, however this issue is only relevant when actually modifying the workflow files.
 
 ## Running code and tracking experiments
 
