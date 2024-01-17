@@ -72,7 +72,16 @@ evaluate:
 
 ## Predict
 predict_test:
-	python $(PROJECT_NAME)/predict_model.py predict data/test/Arborio_test.jpg
+	python $(PROJECT_NAME)/predict_model.py $(model) $(path_image)
+
+## API container
+api-fastapi:
+	docker compose build api_fastapi
+	docker compose up api_fastapi
+
+api-streamlit:
+	docker compose build api_streamlit
+	docker compose up api_streamlit
 
 #################################################################################
 # Documentation RULES                                                           #
