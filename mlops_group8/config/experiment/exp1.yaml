@@ -1,7 +1,7 @@
 #config.yaml
 dataset_path: 'data/processed'
 batch_size: 64
-epochs: 3
+epochs: 20
 lr: 1e-3
 seed: 123
 model_name: 'eva02_tiny_patch14_224'
