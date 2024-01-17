@@ -105,4 +105,6 @@ def build_optimizer(model, optimizer, learning_rate):
             model.parameters(),
             lr=learning_rate,
         )
+    else:
+        raise ValueError("Optimizer should be one of 'sgd', 'adam'")
     return optimizer

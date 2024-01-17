@@ -29,12 +29,13 @@ def test_train_config() -> None:
             "test_size": 0.2,
             "val_size": 0.25,
             "n_samples": 500,
-            "optimizer": "sgd",
+            "optimizer": "adam",
         }, "Configurations should match"
 
 
 # Assert training loss drops after 3 epochs on smaller dataset
 def test_train_loss() -> None:
+    # TODO: call the right function
     """Train a model on subset of data found in tests/data"""
     with initialize(version_base=None, config_path=config_path):
         cfg = compose(config_name="test_config.yaml")

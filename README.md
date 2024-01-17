@@ -196,6 +196,7 @@ To run pytest together with coverage,
 coverage run -m pytest tests/
 coverage report       # to get simple coverage report
 coverage report -m    # to get missing lines
+coverage report -m --omit "/opt/ros/*"  # to omit certain files
 ```
 
 ## Pre-commit
