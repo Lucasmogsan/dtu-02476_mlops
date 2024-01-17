@@ -173,7 +173,6 @@ We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops
 >
 > Answer:
 
-TODO: Yu Fan
 Ruff was used for code checking. Code check is activated using pre-commits and pull requests to the main branch. Other hooks in the pre-commit includes add-trailing-comma, trailing-whitespaces, and mypy static type checker. Having these rules improve readability for other users and helps catch bugs early on before they are pushed to the repository.
 
 ## Version control
@@ -193,7 +192,6 @@ Ruff was used for code checking. Code check is activated using pre-commits and p
 >
 > Answer:
 
-TODO: Yu Fan
 In total, 7 tests were implemented for the data, model, and training. The data tests checked if the images and labels are loaded with the correct shapes. The training tests checked if the hydra configuration is loaded correctly, and it runs 3 training epochs to check for decreasing training loss. The model tests checks for correct input and output tensor shapes from the model, using `pytest.raises()`.
 
 ### Question 8
@@ -209,8 +207,8 @@ In total, 7 tests were implemented for the data, model, and training. The data t
 >
 > Answer:
 
-TODO: Yu Fan
-The total code coverage of the source code is X%. If instead it was closer to 100%, it cannot be trusted to be error free as other forms of tests like integration tests are required.
+The total code coverage of the source code is 48%. Which includes tests for the data, model, and training. This 48% coverage means that nearly half of our codebase is covered by tests, which is a significant portion, however, we are far from 100% coverage.
+
 
 ### Question 9
 
@@ -225,7 +223,6 @@ The total code coverage of the source code is X%. If instead it was closer to 10
 >
 > Answer:
 
-TODO: Yu Fan & Steven
 In our project, we used both branches and pull requests (PRs). Whenever a new feature was in the works, we created a new branch. Instead of everyone making changes directly to the main branch, working on branches added a layer of security and made collaboration smoother. Feature branches provided a safe space for development, free from interference by other team members' changes. This approach was super handy for juggling multiple features at the same time – you could easily hop between branches and work on different things without any hassle.
 
 ### Question 10
@@ -257,9 +254,6 @@ We used DVC to manage the data in our project, following the guide provided in t
 > *... . In particular for our ..., we used ... .An example of a triggered workflow can be seen here: <weblink>*
 >
 > Answer:
-
-TODO: Yu Fan & Steven
---- question 11 fill here ---
 
 When a pull request was created to merge with main, at least one other team member was required to do a review of the code. Code check with Ruff and unit test workflows were set up as part of CI ([link](https://github.com/Lucasmogsan/dtu-02476_mlops/actions/workflows/codecheck.yml)). The workflows were tested on Windows-latest and Ubuntu-latest OS, with py3.11. Caching was used to speed up the dependencies installation, especially for the unit test workflow.
 A considerable amount of time was dedicated to ensuring that workflows executed sequentially. The objective was to initiate a code check, and upon completion, trigger an event to run unit tests. Subsequently, this event would lead to the execution of a final workflow, prompting a cloud build through a webhook. Nevertheless, complications arose with the webhook, primarily attributed to permission issues—an ongoing challenge throughout the project. Despite providing both an API key and a GCP secrets key, the problem persisted. Another aspect to consider in the sequential flow was that the first workflow would be based from the file located in the feature branch, while the subsequent workflows would be based on the files in the target branch, typically the main branch. Ideally, it should run the workflow files situated in the feature branch, however this issue is only relevant when actually modifying the workflow files.
@@ -311,8 +305,9 @@ By changing the naming and having e.g. `exp1_training.yaml` we made sure to keep
 >
 > Answer:
 
-TODO: Yu Fan & Lucas
-Hydra generates an output to log the config used for each training run, allowing users to trace the history of their experiments. A seed to initialize torch was included in the configuration file. Also, parameters used to create the datasets are included to reproduce identical datasets.
+Hydra generates an output to log the config used for each training run, allowing users to trace the history of their experiments. A seed to initialize torch was included in the configuration file. This seed sets the initial state of the random number generator in PyTorch, ensuring that the stochastic elements of our model behave consistently across different runs.
+
+Also, parameters used to create the datasets are included this ensures that identical datasets can be reproduced, further enhancing the reproducibility of our experiments. By including these parameters, we can guarantee that any variations in results are due to changes in the model or training process, rather than differences in the data.
 
 ### Question 14
 
@@ -540,10 +535,9 @@ TODO: All
 >
 > Answer:
 
-TODO: Yu Fan maybe write some? Currently: 171 words
-The biggest challenges in the project was implementing gcp and administrating access, keys etc. across group members. In general the collaboration made it harder as the workflow - also on git using GitHub - had to be more strictly managed. This also caused some time spent on merging conflicts which however was one of the more simple tasks. To be mentioned is setting up the training pipeline with the training script and image, buckets, and Vertex AI. This was one of the more challenging tasks as it required extensive understanding of multiple aspects and the overall pipeline including access to the buckets and the training image on gcp.
+The biggest challenges in the project were implementing gcp and administrating access, keys, etc. across group members. In general, the collaboration made it harder as the workflow - also on git using GitHub - had to be more strictly managed. This also caused some time spent on merging conflicts which however was one of the more simple tasks. To be mentioned is setting up the training pipeline with the training script and image, buckets, and Vertex AI. This was one of the more challenging tasks as it required extensive understanding of multiple aspects and the overall pipeline including access to the buckets and the training image on gcp.
 
-We also encountered issues with DVC performance. The process of uploading and downloading data was extremely slow due to the large number of files (images). As a result, we had to reduce the size of the dataset. Additionally, we changed the DVC setting to `version_aware = false`. This grouped the files in DVC's own format, which helped reduce the number of files uploaded to the bucket.
+We also encountered issues with DVC performance. The process of uploading and downloading data was extremely slow due to the large number of files (images). As a result, we had to reduce the size of the dataset to one-third of the original data set. Additionally, we changed the DVC setting to `version_aware = false`. This grouped the files in DVC's format in md5 files, which helped reduce the number of files uploaded to the bucket and reduce the latency.
 
 
 ### Question 27
