@@ -1,12 +1,16 @@
 # Install with cache
 name: Run unit tests
 
+#on:
+  #workflow_run:
+    #workflows:
+      #- Ruff code check
+    #types:
+      #- completed
+
 on:
-  workflow_run:
-    workflows:
-      - Ruff code check
-    types:
-      - completed
+  pull_request:
+    branches: [ main ]
 
 jobs:
   build:
