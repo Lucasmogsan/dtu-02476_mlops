@@ -282,8 +282,7 @@ When a pull request was created to merge with main, at least one other team memb
 >
 > Answer:
 
-TODO: Yu Fan & Lucas
-Hydra was used to set up configurations. There is a `default_config.yaml` file specifying the experiment number. And there are separate yaml files like `exp1.yaml`, `exp2.yaml` containing the hyperparameters for each experiment. A sample config file looks like this
+Hydra was used to set up configurations. There is a `default_config.yaml` file specifying the experiment number. And there are separate yaml files like `exp1.yaml`, `exp2.yaml` containing the hyperparameters for each experiment. A sample config file looks like below.
 
 ``` yaml
 dataset_path: 'data/processed'
@@ -297,6 +296,8 @@ test_size: 0.2
 val_size: 0.25
 n_samples: 500
 ```
+
+By changing the naming and having e.g. `exp1_training.yaml` we made sure to keep track of which ones was more used for training and which ones for prediction etc. Additionally this information (hydra file used, scripts being run etc) will after each run be stored in the outputs folder.
 
 ### Question 13
 
