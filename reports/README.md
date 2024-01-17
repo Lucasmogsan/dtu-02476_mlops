@@ -125,7 +125,7 @@ Group 8
 >
 > Answer:
 
-For the project the [PyTorch Image Models](https://github.com/huggingface/pytorch-image-models) (TIMM) is used to access the model architecture of various deep learning models, specifically the EVA CNN model. Only the functionality of getting the model architecture was used for training as both model and weights could then be saved to a generic `.pt` file which is loaded for the inference. This made it really easy as we could use a standard training and inference pipeline.
+For the project the [PyTorch Image Models](https://github.com/huggingface/pytorch-image-models) (TIMM) is used to access the model architecture of various deep learning models, specifically the EVA CNN model. Only the functionality of getting the model architecture was used for training as both model and weights could then be saved to a generic `.pt` file which is loaded for the inference. This made it really easy as we could use a more or less standard training and inference pipeline. Using the framework made it easier to make a good model, but it would not have been a huge task creating a simple moel ourselves instead. However it was a good exercise to use third party frameworks such as TIMM.
 
 ## Coding environment
 
@@ -139,12 +139,17 @@ For the project the [PyTorch Image Models](https://github.com/huggingface/pytorc
 > Answer length: 100-200 words
 >
 > Example:
+
 > *We used ... for managing our dependencies. The list of dependencies was auto-generated using ... . To get a*
 > *complete copy of our development environment, one would have to run the following commands*
 >
 > Answer:
 
---- question 4 fill here ---
+TODO: Rollo or Yu Fan
+
+The Python dependencies were saved within the requirements file using pipreqs, a tool that exclusively records the utilized packages in the project. Each team member subsequently employed a virtual environment manager of their choosing, with some opting for conda, others for virtualenv, or simply the venv module. Within this designated environment, members installed the dependencies utilizing the requirements file.
+
+Establishment of a development container was also experimented with, seeking a fully reproducible development environment containing GCP packages and other dependencies. However, the process encountered intricacies, primarily stemming from the management of GCP authorization.
 
 ### Question 5
 
@@ -159,7 +164,7 @@ For the project the [PyTorch Image Models](https://github.com/huggingface/pytorc
 > *experiments.*
 > Answer:
 
-We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops_template) but did change the structure along the way by restructuring e.g. the docker files and added a utility folder to the project code folder.
+We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops_template) but did change the structure along the way by restructuring e.g. the docker files and added the `.dvc` folder. Additionally in the project folder a `config` folder is added for the config files used by Hydra and a `utility` folder is added for minor utility scripts used for various other scripts as well as scripts used for testing various stuff like connecting to wandb (no pytests in this folder). The `models` and `visualizations` folders are removed as the model is replaced by using the TIMM framework and the visualizations are generated in wandb. For minor tests etc. a `misc` folder is added. Furthermore and `output` folder is added for coverage reports, hydra config logs, and wandb logs. Also, additional `requirements files` are implemented to be used for the docker images in order to minimize the size of training and prediction image.
 
 ### Question 6
 
@@ -170,7 +175,8 @@ We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops
 >
 > Answer:
 
---- question 6 fill here ---
+TODO: Yu Fan
+Ruff was used for code checking. Code check is activated using pre-commits and pull requests to the main branch. Other hooks in the pre-commit includes add-trailing-comma, trailing-whitespaces, and mypy static type checker. Having these rules improve readability for other users and helps catch bugs early on before they are pushed to the repository.
 
 ## Version control
 
@@ -189,7 +195,8 @@ We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops
 >
 > Answer:
 
---- question 7 fill here ---
+TODO: Yu Fan
+In total, 7 tests were implemented for the data, model, and training. The data tests checked if the images and labels are loaded with the correct shapes. The training tests checked if the hydra configuration is loaded correctly, and it runs 3 training epochs to check for decreasing training loss. The model tests checks for correct input and output tensor shapes from the model, using `pytest.raises()`.
 
 ### Question 8
 
@@ -204,7 +211,8 @@ We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops
 >
 > Answer:
 
---- question 8 fill here ---
+TODO: Yu Fan
+The total code coverage of the source code is X%. If instead it was closer to 100%, it cannot be trusted to be error free as other forms of tests like integration tests are required.
 
 ### Question 9
 
@@ -219,7 +227,8 @@ We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops
 >
 > Answer:
 
---- question 9 fill here ---
+TODO: Yu Fan & Steven
+Both branches and PRs (pull requests) were used in this project. When a new feature is implemented, a new branch was created. Instead of everyone working on main and pushing directly to main, working on branches provided some security and
 
 ### Question 10
 
@@ -234,6 +243,7 @@ We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops
 >
 > Answer:
 
+TODO: Rollo
 --- question 10 fill here ---
 
 ### Question 11
@@ -250,7 +260,10 @@ We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops
 >
 > Answer:
 
+TODO: Yu Fan
 --- question 11 fill here ---
+
+When a pull request was created to merge with main, at least one other team member was required to do a review of the code. Code check with Ruff and unit test workflows were set up as part of CI ([link](https://github.com/Lucasmogsan/dtu-02476_mlops/actions/workflows/codecheck.yml)). The workflows were tested on Windows-latest and Ubuntu-latest OS, with py3.11. Caching was used to speed up the dependencies installation, especially for the unit test workflow.
 
 ## Running code and tracking experiments
 
@@ -269,7 +282,22 @@ We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops
 >
 > Answer:
 
---- question 12 fill here ---
+Hydra was used to set up configurations. There is a `default_config.yaml` file specifying the experiment number. And there are separate yaml files like `exp1.yaml`, `exp2.yaml` containing the hyperparameters for each experiment. A sample config file looks like below.
+
+``` yaml
+dataset_path: 'data/processed'
+batch_size: 64
+epochs: 3
+lr: 1e-3
+seed: 123
+model_name: 'model_latest'
+classes: [0,1,2,3,4]
+test_size: 0.2
+val_size: 0.25
+n_samples: 500
+```
+
+By changing the naming and having e.g. `exp1_training.yaml` we made sure to keep track of which ones was more used for training and which ones for prediction etc. Additionally this information (hydra file used, scripts being run etc) will after each run be stored in the outputs folder.
 
 ### Question 13
 
@@ -284,7 +312,8 @@ We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops
 >
 > Answer:
 
---- question 13 fill here ---
+TODO: Yu Fan & Lucas
+Hydra generates an output to log the config used for each training run, allowing users to trace the history of their experiments. A seed to initialize torch was included in the configuration file. Also, parameters used to create the datasets are included to reproduce identical datasets.
 
 ### Question 14
 
@@ -301,6 +330,7 @@ We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops
 >
 > Answer:
 
+TODO: Yu Fan
 --- question 14 fill here ---
 
 ### Question 15
@@ -316,6 +346,7 @@ We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops
 >
 > Answer:
 
+TODO: Steven, Rollo
 --- question 15 fill here ---
 
 ### Question 16
@@ -331,7 +362,10 @@ We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops
 >
 > Answer:
 
---- question 16 fill here ---
+The main bugs we have had have been due to access and integration to gcp or GitHub not the code itself. Regarding the coding bugs the whole group have been using the VSCode debugger as well as some from the group have been using the integrated Copilot chat function to VSCode.
+
+We did run profiling on the training and inference to see if we could decrease the time. However profiling the training script showed (as expected) that the model architecture is strictly speaking the only factor adding to increased training time and thus the profiling itself wasn't that interesting. As expected using a larger train dataset or more epoch naturally increased the training time which could be evaluated by comparing the two profilings.
+
 
 ## Working in the cloud
 
@@ -348,7 +382,12 @@ We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops
 >
 > Answer:
 
---- question 17 fill here ---
+In the project we made use of the following five services directly while some services (e.g. Compute Engine) is used indirectly:
+- **Buckets** for storing the (training) data and model (.pt files).
+- **Container Registry** for storing Docker images.
+- **Trigger** for automatically building the Docker images from dockerfiles from the GitHub repository.
+- **Vertex AI** for running the training (running the images - including pulling data, running the training script, and pushing the trained model).
+- **Cloud Run** for hosting the inference API (running the fastapi and streamlit images - including pulling the model, gets the user input from the API to save it locally, and runs the prediction script which outputs the result).
 
 ### Question 18
 
@@ -363,7 +402,9 @@ We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops
 >
 > Answer:
 
---- question 18 fill here ---
+As mentioned we didn't actually use the Compute Engines / VMs directly as we were able to do the preliminary tests locally on small datasets. However using the compute engines as a part of the Vertex AI was really beneficial as both storage and computational capabilities are much more flexible. We used the n1-highmem-2 machine type (vCPU). This was not much faster than our local computers but being able to run the training in the cloud made it possible to progress on other stuff meanwhile. It would be interesting optimizing and accelerating the training with GPU supported machines for further work.
+
+TODO: Rollo for prediciton??
 
 ### Question 19
 
@@ -372,6 +413,7 @@ We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops
 >
 > Answer:
 
+TODO: Rollo
 --- question 19 fill here ---
 
 ### Question 20
@@ -381,7 +423,10 @@ We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops
 >
 > Answer:
 
---- question 20 fill here ---
+TODO: Lucas update this?
+<p align="center">
+  <img src="figures/grp8-container_reg.png" height="150">
+</p>
 
 ### Question 21
 
@@ -390,7 +435,11 @@ We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops
 >
 > Answer:
 
---- question 21 fill here ---
+TODO: Lucas update this?
+
+<p align="center">
+  <img src="figures/grp8-cloud_build.png" height="150">
+</p>
 
 ### Question 22
 
@@ -406,6 +455,7 @@ We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops
 >
 > Answer:
 
+TODO: Rollo
 --- question 22 fill here ---
 
 ### Question 23
@@ -421,6 +471,7 @@ We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops
 >
 > Answer:
 
+TODO: All - Maybe implement?
 --- question 23 fill here ---
 
 ### Question 24
@@ -435,7 +486,11 @@ We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops
 >
 > Answer:
 
---- question 24 fill here ---
+As of wednesday afternoon including credits used for the exercises:
+- Group member 1 used 5 $ (from this account we ran triggers and VertexAI and stored container registry)
+- Group member 2 used 20 $ (from this account we stored the buckets and ran the Cloud Run)
+- Group member 3 used 33 $ (account mainly used for exercises - some buckets drained the budget...)
+- Group member 4 used 1 $ (account mainly used for exercises)
 
 ## Overall discussion of project
 
@@ -456,6 +511,7 @@ We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops
 >
 > Answer:
 
+TODO: All
 --- question 25 fill here ---
 
 ### Question 26
@@ -470,7 +526,8 @@ We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops
 >
 > Answer:
 
---- question 26 fill here ---
+TODO: Rollo and Yu Fan maybe write some? Currently: 119 words
+The biggest challenges in the project was implementing gcp and administrating access, keys etc. across group members. In general the collaboration made it harder as the workflow - also on git using GitHub - had to be more strictly managed. This also caused some time spent on merging conflicts which however was one of the more simple tasks. To be mentioned is setting up the training pipeline with the training script and image, buckets, and Vertex AI. This was one of the more challenging tasks as it required extensive understanding of multiple aspects and the overall pipeline including access to the buckets and the training image on gcp, as well as running dvc for both pull and push within the container.
 
 ### Question 27
 
@@ -487,4 +544,7 @@ We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops
 >
 > Answer:
 
---- question 27 fill here ---
+Student s230003 was in charge of setting up the environment including cookue cutter. Additionally s230003 was in charge of implementing both Hydra and WandB as well as the pyTest and GitHub workflows. s230003 was also involved in training and evaluation of the model as well as prediction.
+Student s223093 and s223189 were in charge of implementing the whole training pipeline including the docker images, training script and cloud integration using Vertex AI and dvc pull/push from/to gcp bukets. s223093 additionally worked on the evaluation of the model while s223189 was integrating GitHub workflows. s230025 was in charge of the deployment of the models and prediction pipeline including docker images, the back- and front-end APIs, as well as the cloud gcp setup. Also s230025 was in charge of the data preparation.
+
+NB: Everyone from the group has contributed equally and have committed to the project aligned with everyones expectation helping eachother and working together.
