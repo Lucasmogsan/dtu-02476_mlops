@@ -1,11 +1,38 @@
 steps:
-# Build the container image(s)
+# Build the first container image
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-f', 'docker/api_fastapi/Dockerfile', '.', '-t', 'gcr.io/mlops-group8/api_fastapi:latest']
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-f', 'docker/api_streamlit/Dockerfile', '.', '-t', 'gcr.io/mlops-group8/api_streamlit:latest']
-# Push the container image(s) to Container Registry
+# Push the first container image to Container Registry
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/mlops-group8/api_fastapi:latest']
+# Deploy the first container image to Cloud Run
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args:
+  - 'run'
+  - 'deploy'
+  - 'run_fastapi'
+  - '--image'
+  - 'gcr.io/mlops-group8/api_fastapi:latest'
+  - '--region'
+  - 'europe-west6'
+# Complete build, push and deployment for the second container image (streamlit)
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-f', 'docker/api_streamlit/Dockerfile', '.', '-t', 'gcr.io/mlops-group8/api_streamlit:latest']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/mlops-group8/api_streamlit:latest']
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args:
+  - 'run'
+  - 'deploy'
+  - 'run_streamlit'
+  - '--image'
+  - 'gcr.io/mlops-group8/api_streamlit:latest'
+  - '--region'
+  - 'europe-west6'
+
+# Images to be used in the pipeline
+images:
+  - 'gcr.io/mlops-group8/api_fastapi:latest'
+  - 'gcr.io/mlops-group8/api_streamlit:latest'
