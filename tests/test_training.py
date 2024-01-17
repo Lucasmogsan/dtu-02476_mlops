@@ -23,17 +23,19 @@ def test_train_config() -> None:
             "batch_size": 64,
             "epochs": 3,
             "lr": 1e-3,
-            "x_dim": 784,
-            "hidden_dim": 400,
-            "latent_dim": 50,
             "seed": 123,
-            "model_name": "model_latest1",
+            "model_name": "eva02_tiny_patch14_224",
             "classes": [0, 1, 2, 3, 4],
+            "test_size": 0.2,
+            "val_size": 0.25,
+            "n_samples": 500,
+            "optimizer": "adam",
         }, "Configurations should match"
 
 
 # Assert training loss drops after 3 epochs on smaller dataset
 def test_train_loss() -> None:
+    # TODO: call the right function
     """Train a model on subset of data found in tests/data"""
     with initialize(version_base=None, config_path=config_path):
         cfg = compose(config_name="test_config.yaml")

@@ -79,7 +79,7 @@ dvc pull -r remote_storage data.dvc
 ```
 2. Run training
 ```bash
-make train
+make train-local
 ```
 3. (if desired) Push data:
 ```bash
@@ -109,16 +109,14 @@ make train-cloud
 ```
 
 
-## Evaluate
-
-TODO: Write eval instuctions
+## Validate
 
 **Locally**
 
 NB: You need a model in `models` folder and specify this in your `config` file.
 
 ```bash
-make evaluate
+make validate
 ```
 
 ## Predict
@@ -182,6 +180,11 @@ Create locally from Kaggle dataset:
 make data
 ```
 
+To create a smaller dataset for unit tests,
+```bash
+make unittest_data
+```
+
 ## Unit Testing
 ```bash
 pytest tests/               # to run all unit tests
@@ -193,6 +196,7 @@ To run pytest together with coverage,
 coverage run -m pytest tests/
 coverage report       # to get simple coverage report
 coverage report -m    # to get missing lines
+coverage report -m --omit "/opt/ros/*"  # to omit certain files
 ```
 
 ## Pre-commit

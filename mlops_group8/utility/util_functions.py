@@ -1,5 +1,8 @@
 import torch
 import os
+import wandb
+import torch.nn.functional as F
+import torch.optim as optim
 
 
 def set_directories():
@@ -12,19 +15,29 @@ def set_directories():
     # Create directories if they don't exist
     if not os.path.exists(models_dir):
         os.makedirs(models_dir)
+    if not os.path.exists(models_dir + "/checkpoints"):
+        os.makedirs(models_dir + "/checkpoints")
     if not os.path.exists(visualization_dir):
         os.makedirs(visualization_dir)
     if not os.path.exists(outputs_dir):
         os.makedirs(outputs_dir)
+    # if not os.path.exists(outputs_dir + "/hydra"):
+    #     os.makedirs(outputs_dir + "/hydra")
 
     return processed_data_path, outputs_dir, models_dir, visualization_dir
 
 
-def load_data(classes_to_train, batch_size, processed_path, train=True):
-    if train:
+def load_data(classes_to_train: list[int], batch_size: int, processed_path: str, job_type: str, seed: int):
+    if job_type == "train":
+        file_name = "/train_data_"
+    elif job_type == "val":
+        file_name = "/val_data_"
+    elif job_type == "test":
+        file_name = "/test_data_"
+    elif job_type == "unittest":
         file_name = "/train_data_"
     else:
-        file_name = "/test_data_"
+        raise ValueError("job_type should be one of 'train', 'val', 'test'")
 
     dataset = torch.load(processed_path + file_name + str(classes_to_train[0]) + ".pt")
     # Iterate over the rest of the classes and concatenate them
@@ -39,6 +52,59 @@ def load_data(classes_to_train, batch_size, processed_path, train=True):
         dataset,
         batch_size=batch_size,
         shuffle=True,
+        worker_init_fn=seed,
     )
 
     return dataloader
+
+
+def log_test_predictions(
+    images,
+    labels,
+    outputs,
+    predicted,
+    val_table: wandb.Table,
+    log_counter: int,
+    class_names: list[str],
+    NUM_IMAGES_PER_BATCH: int,
+):
+    """Log predictions for a batch of images to W&B"""
+    # obtain confidence scores for all classes
+    scores = F.softmax(outputs.data, dim=1)
+    log_scores = scores.cpu().numpy()
+    log_images = images.cpu().numpy()
+    log_labels = labels.cpu().numpy()
+    log_preds = predicted.cpu().numpy()
+    # adding ids based on the order of the images
+    _id = 0
+    for img, label, pred, scores in zip(log_images, log_labels, log_preds, log_scores):
+        # add required info to data table:
+        # id, image pixels, model's guess, true label, scores for all classes
+        img_id = str(_id) + "_" + str(log_counter)
+        val_table.add_data(
+            img_id,
+            wandb.Image(img),
+            class_names[pred],
+            class_names[label],
+            *scores,
+        )
+        _id += 1
+        if _id == NUM_IMAGES_PER_BATCH:
+            break
+
+
+def build_optimizer(model, optimizer, learning_rate):
+    if optimizer == "sgd":
+        optimizer = optim.SGD(
+            model.parameters(),
+            lr=learning_rate,
+            momentum=0.9,
+        )
+    elif optimizer == "adam":
+        optimizer = optim.Adam(
+            model.parameters(),
+            lr=learning_rate,
+        )
+    else:
+        raise ValueError("Optimizer should be one of 'sgd', 'adam'")
+    return optimizer

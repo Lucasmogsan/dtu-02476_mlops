@@ -52,6 +52,9 @@ data: requirements
 	python $(PROJECT_NAME)/data/make_dataset.py
 	cp data/processed/classes.json models/classes.json
 
+unittest_data:
+	python $(PROJECT_NAME)/data/make_unittest_data.py
+
 ## Train model
 train-local:
 	python $(PROJECT_NAME)/train_model.py
@@ -66,8 +69,8 @@ train-cloud:
     --display-name=test-training \
     --config=config_vertexai_train_cpu.yaml
 
-## Evaluate model
-evaluate:
+## Validate model
+validate:
 	python $(PROJECT_NAME)/eval_model.py
 
 ## Predict
