@@ -2,9 +2,9 @@ import torch
 import timm
 import hydra
 import wandb
-from utility.util_functions import set_directories, load_data, log_test_predictions
 from datetime import datetime
 from json import load
+from utility.util_functions import set_directories, load_data, log_test_predictions
 
 # hydra.outputs_subdir = "./outputs/hydra"
 
@@ -21,6 +21,7 @@ NUM_IMAGES_PER_BATCH = 5
 
 def train(cfg, job_type="train") -> list:
     """Train a model on processed data"""
+    date_time = datetime.now().strftime("%Y%m%d_%H%M")
 
     print("### Training setup ###")
     # Read hyperparameters for experiment
@@ -50,6 +51,7 @@ def train(cfg, job_type="train") -> list:
         entity="mlops_group8",
         config=wandb_cfg,
         job_type=job_type,
+        name=job_type + "_" + date_time,
         dir="./outputs",
     )
 
@@ -136,7 +138,6 @@ def train(cfg, job_type="train") -> list:
     # Save as latest model
     torch.save(model, models_dir + "/model_latest.pt")
     # Save as model_YYYYmm_HHMM.pt
-    date_time = datetime.now().strftime("%Y%m%d_%H%M")
     torch.save(model, models_dir + "/checkpoints/model_" + date_time + ".pt")
 
     print("### Finished training ###")

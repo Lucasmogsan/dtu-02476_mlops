@@ -3,6 +3,7 @@ import hydra
 import wandb
 import os
 from json import load
+from datetime import datetime
 from utility.util_functions import set_directories, load_data, log_test_predictions
 # from torch.profiler import profile, tensorboard_trace_handler, ProfilerActivity
 
@@ -18,6 +19,8 @@ NUM_IMAGES_PER_BATCH = 5
 @hydra.main(version_base=None, config_path="config", config_name="default_config.yaml")
 def validate(cfg):
     """Validate a trained model."""
+    job_type = "val"
+    date_time = datetime.now().strftime("%Y%m%d_%H%M")
 
     print("### Evaluation setup ###")
     # Read hyperparameters for experiment
@@ -45,7 +48,8 @@ def validate(cfg):
         project="cm_test",
         entity="mlops_group8",
         config=wandb_cfg,
-        job_type="val",
+        job_type=job_type,
+        name=job_type + "_" + date_time,
         dir="./outputs",
     )
 

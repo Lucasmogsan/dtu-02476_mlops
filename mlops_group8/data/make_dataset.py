@@ -132,8 +132,7 @@ def process_data(
 
         print("Train data shape: ", images_train.shape)  # [300, 1, 224, 224]
         print("Train labels shape: ", labels_train.shape)  # [300]
-        # [100, 1, 224, 224]
-        print("Validation data shape: ", images_val.shape)
+        print("Validation data shape: ", images_val.shape)  # [100,1,224,224]
         print("Validation labels shape: ", labels_val.shape)  # [100]
         print("Test data shape: ", images_test.shape)  # [100, 1, 224, 224]
         print("Test labels shape: ", labels_test.shape)  # [100]
