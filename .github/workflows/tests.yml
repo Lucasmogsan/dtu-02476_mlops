@@ -1,11 +1,12 @@
 # Install with cache
-name: "Run unit tests"
+name: Run unit tests
 
 on:
-  push:
-    branches: [ main ]
-  # pull_request:
-  #   branches: [ main ]
+  workflow_run:
+    workflows:
+      - Ruff code check
+    types:
+      - completed
 
 jobs:
   build:
