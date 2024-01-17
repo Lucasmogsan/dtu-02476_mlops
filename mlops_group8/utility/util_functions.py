@@ -1,5 +1,7 @@
 import torch
 import os
+import wandb
+import torch.nn.functional as F
 
 
 def set_directories():
@@ -18,13 +20,13 @@ def set_directories():
         os.makedirs(visualization_dir)
     if not os.path.exists(outputs_dir):
         os.makedirs(outputs_dir)
-    if not os.path.exists(outputs_dir + "/hydra"):
-        os.makedirs(outputs_dir + "/hydra")
+    # if not os.path.exists(outputs_dir + "/hydra"):
+    #     os.makedirs(outputs_dir + "/hydra")
 
     return processed_data_path, outputs_dir, models_dir, visualization_dir
 
 
-def load_data(classes_to_train, batch_size, processed_path, job_type: str):
+def load_data(classes_to_train: list[int], batch_size: int, processed_path: str, job_type: str):
     if job_type == "train":
         file_name = "/train_data_"
     elif job_type == "val":
@@ -52,3 +54,38 @@ def load_data(classes_to_train, batch_size, processed_path, job_type: str):
     )
 
     return dataloader
+
+
+def log_test_predictions(
+    images,
+    labels,
+    outputs,
+    predicted,
+    val_table: wandb.Table,
+    log_counter: int,
+    class_names: list[str],
+    NUM_IMAGES_PER_BATCH: int,
+):
+    """Log predictions for a batch of images to W&B"""
+    # obtain confidence scores for all classes
+    scores = F.softmax(outputs.data, dim=1)
+    log_scores = scores.cpu().numpy()
+    log_images = images.cpu().numpy()
+    log_labels = labels.cpu().numpy()
+    log_preds = predicted.cpu().numpy()
+    # adding ids based on the order of the images
+    _id = 0
+    for img, label, pred, scores in zip(log_images, log_labels, log_preds, log_scores):
+        # add required info to data table:
+        # id, image pixels, model's guess, true label, scores for all classes
+        img_id = str(_id) + "_" + str(log_counter)
+        val_table.add_data(
+            img_id,
+            wandb.Image(img),
+            class_names[pred],
+            class_names[label],
+            *scores,
+        )
+        _id += 1
+        if _id == NUM_IMAGES_PER_BATCH:
+            break

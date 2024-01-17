@@ -68,6 +68,7 @@ def process_data(
     n_samples=100,
     test_size=0.2,
     val_size=0.25,
+    random_state=123,
 ) -> None:
     """
     Create a dataset (images, labels) containing n_samples for each class,
@@ -120,18 +121,19 @@ def process_data(
             images_data,
             label,
             test_size=test_size,
-            random_state=42,
+            random_state=random_state,
         )
         images_train, images_val, labels_train, labels_val = train_test_split(
             images_train,
             labels_train,
             test_size=val_size,
-            random_state=42,
+            random_state=random_state,
         )
 
         print("Train data shape: ", images_train.shape)  # [300, 1, 224, 224]
         print("Train labels shape: ", labels_train.shape)  # [300]
-        print("Validation data shape: ", images_val.shape)  # [100, 1, 224, 224]
+        # [100, 1, 224, 224]
+        print("Validation data shape: ", images_val.shape)
         print("Validation labels shape: ", labels_val.shape)  # [100]
         print("Test data shape: ", images_test.shape)  # [100, 1, 224, 224]
         print("Test labels shape: ", labels_test.shape)  # [100]
@@ -170,13 +172,21 @@ def main(cfg):
     test_size = hparams["test_size"]
     val_size = hparams["val_size"]
     n_samples = hparams["n_samples"]
+    random_state = hparams["seed"]
 
     # Get the data and process it
     path = extract_path + "/Rice_Image_Dataset"
     if not os.path.exists(path):
         download_data(download_path, extract_path, dataset_name)
         extract_data(download_path, extract_path, dataset_name)
-    process_data(path, processed_path, n_samples, test_size, val_size)
+    process_data(
+        path,
+        processed_path,
+        n_samples,
+        test_size,
+        val_size,
+        random_state,
+    )
 
 
 if __name__ == "__main__":

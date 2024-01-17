@@ -24,7 +24,7 @@ def test_train_config() -> None:
             "epochs": 3,
             "lr": 1e-3,
             "seed": 123,
-            "model_name": "model_latest",
+            "model_name": "eva02_tiny_patch14_224",
             "classes": [0, 1, 2, 3, 4],
             "test_size": 0.2,
             "val_size": 0.25,
