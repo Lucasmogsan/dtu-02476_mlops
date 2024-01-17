@@ -14,6 +14,7 @@ processed_path, outputs_dir, models_dir, visualization_dir = set_directories()
 
 
 def train(cfg, job_type="train") -> list:
+    
     """Train a model on processed data"""
 
     print("### Training setup ###")
@@ -53,6 +54,7 @@ def train(cfg, job_type="train") -> list:
 
     print("### Loading data ###")
 
+
     # Import model
     model = timm.create_model(
         "eva02_tiny_patch14_224",
@@ -60,6 +62,7 @@ def train(cfg, job_type="train") -> list:
         num_classes=len(classes_to_train),
         in_chans=1,
     ).to(device)
+
 
     # Import data
     train_dataloader = load_data(classes_to_train, batch_size, dataset_path, train=True)
