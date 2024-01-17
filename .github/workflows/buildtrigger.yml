@@ -1,10 +1,10 @@
 name: Call GCP Build Trigger
 
-on:
-  workflow_run:
-    workflows: [Ruff code check]
-    types:
-      - completed
+#on:
+  #workflow_run:
+    #workflows: [Ruff code check]
+    #types:
+      #- completed
 
 jobs:
   call-gcp-build-trigger:
