@@ -89,7 +89,7 @@ dvc push -r remote_storage_models_train models.dvc
 
 **Local container**
 
-*NB: This uses `dvc` pull and push from/to `gcp` buckets.*
+*NB: This uses `dvc` pull and push from/to `gcp` buckets as well as the config file specified*
 See [docker/train/](docker/train/) folder for entrypoint and dockerfile.
 1. Build container from dockerfile and run image:
 ```bash
@@ -102,7 +102,7 @@ docker compose up trainer
 
 
 **In the cloud (using [Vertex AI](https://cloud.google.com/vertex-ai)):**
-1. On `gcp` a `trigger` has been set up for the GitHub repository using the [cloudbuild_dockerfiles.yaml](cloudbuild_dockerfiles.yaml) every time the main branch is updated. This rebuilds the training image (from this [Dockerfile](docker/train/Dockerfile)).
+1. On `gcp` a `trigger` has been set up for the GitHub repository using the [cloudbuild_dockerfiles.yaml](cloudbuild_dockerfiles.yaml) every time the main branch is updated (also experimented with a webhook from the GitHub Workflows). This rebuilds the training image (from this [Dockerfile](docker/train/Dockerfile)) and thus the current config file is being used in the next step.
 2. Following creates a compute instance and runs the image (pulled from gcp `container registry`). This will pull from the `data bucket`, do training, and push to the `models bucket` after training. See [docker/train/](docker/train/) folder to see entrypoint and dockerfile used.
 ```bash
 make train-cloud
@@ -351,7 +351,7 @@ This project exists thanks to the following contributors:
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 # :key: License
-TBD
+`Apache-2.0`
 
 <p align="center">
   <img src="assets/rice_meme.jpg" alt="Rice meme" height="350">
