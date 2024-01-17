@@ -462,7 +462,7 @@ TODO: Lucas update this?
 >
 > Answer:
 
-After the model has been trained and certified to meet the acceptance criteria, it is pushed to a designated 'release bucket'. This bucket contains the most recent and advanced model. Two separate applications utilize the model. One of the applications uses FastAPI that can be invoked by using this command: *`curl -X 'POST' 'https://gcp-group8-app-yhdjmsx7ja-ew.a.run.app/predict/' -F 'data=@image.jpg'`*. And the second application is intended to provide an interactive use of the model, by running a Streamlit-based app that can be accessed on this [Link](https://gcp-group8-api-st-yhdjmsx7ja-ew.a.run.app/)
+After the model has been trained and certified to meet the acceptance criteria, it is pushed to a designated 'release bucket'. This bucket contains the most recent and advanced model. Two separate applications utilize the model. One of the applications uses FastAPI that can be invoked by using this command: *`curl -X 'POST' 'https://api-fastapi-yhdjmsx7ja-ew.a.run.app/predict/' -F 'data=@image.jpg'`*. And the second application is intended to provide an interactive use of the model, by running a Streamlit-based app that can be accessed on this [Link](https://api-streamlit-yhdjmsx7ja-ew.a.run.app)
 
 These two applications operate in separate Docker containers. Initially, these containers were enabled locally and subsequently deployed as services on Google Cloud Run using a manual trigger in cloud build.
 
