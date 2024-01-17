@@ -98,6 +98,27 @@ end of the project.
 * [ ] Make sure all group members have a understanding about all parts of the project
 * [ ] Uploaded all your code to github
 
+
+### Questions
+
+* []
+* []
+* []
+* []
+* []
+* []
+* []
+* []
+* []
+* []
+* []
+* []
+* []
+* []
+* []
+* []
+* []
+
 ## Group information
 
 ### Question 1
