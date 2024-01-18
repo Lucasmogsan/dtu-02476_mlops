@@ -42,7 +42,7 @@ def train_epoch(model, train_dataloader, optimizer_name, lr):
         train_acc.append((batch_top_preds == batch_labels))
 
     # Appending after each epoch uses too much memory -> computer freezes
-    train_acc = torch.cat(train_acc, dim=0).numpy().mean()
+    train_acc = torch.cat(train_acc, dim=0).cpu().numpy().mean()
     print(f"train_acc: {train_acc}")
 
     return train_acc, loss
