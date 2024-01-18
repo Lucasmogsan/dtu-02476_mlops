@@ -271,57 +271,83 @@ The report for the course is found in the [reports](reports/) folder.
 
 # :file_folder: Project Organization
 
-The directory structure of the project looks like this:
+The directory structure of the project looks like this (minor folders and files are omitted):
 
 ```txt
-├── Makefile             <- Makefile with convenience commands like `make data` or `make train`
-├── README.md            <- The top-level README for developers using this project.
+├── Makefile             <- makefile with convenience commands like `make data` or `make train`
+├── README.md            <- the top-level README for developers using this project.
 ├── data
-│   ├── processed        <- The final, canonical data sets for modeling.
-│   └── raw              <- The original, immutable data dump.
+│   ├── (processed)      <- the final data sets for modeling (only available after data pull or command)
+│   ├── (raw)            <- the original, immutable data dump (only available after data pull)
+│   └── test             <- test data
 │
-├── docs                 <- Documentation folder
+├── docker               <- dockerfiles and utilities (e.g. shell script for entrypoint)
+│   ├── api_fastapi/
+│   ├── api_streamlit/
+│   └── train/
+│
+├── docker-compose.yaml  <- Docker Compose configuration file for setting up project services
+│
+├── docs                 <- documentation folder (NOT used)
+│   ├── index.md         <- homepage for your documentation
+│   ├── mkdocs.yml       <- configuration file for mkdocs
+│   └── source/          <- source directory for documentation files
+│
+├── models               <- trained and serialized models, model predictions, or model summaries
+│
+├── notebooks            <- jupyter notebooks.
+│
+├── pyproject.toml       <- project configuration file
+│
+├── reports              <- generated analysis as HTML, PDF, LaTeX, etc.
+│   ├── figures          <- generated graphics and figures to be used in reporting
+│   ├── README.md        <- answers to the report questions
+│   └── report.py        <- script for checking the markdown file and generating a html from it
+│
+├── requirements.txt            <- the requirements file for reproducing the complete environment
+├── requirements_dev.txt        <- the requirements file for reproducing the complete environment for developers (exteneded installtions)
+├── requirements_predict.txt    <- the requirements file for reproducing the prediction environment
+├── requirements_tests.txt      <- the requirements file for reproducing the test environment (unittests)
+├── requirements_train.txt      <- the requirements file for reproducing the training environment
+│
+├── tests                <- test files for unittests
+│   └── data/            <- data used for the unittests
+│
+├── mlops_group8         <- source code for use in this project.
 │   │
-│   ├── index.md         <- Homepage for your documentation
+│   ├── __init__.py      <- makes folder a Python module
 │   │
-│   ├── mkdocs.yml       <- Configuration file for mkdocs
+│   ├── config           <- config files with hyperparameters and run settings
+│   │   ├── __init__.py
+│   │   ├── experiment/           <- individual config.yaml experiment files containing hyperparams etc.
+│   │   └── default_config.yaml   <- default config file used in training referring to experiment config.yaml file
 │   │
-│   └── source/          <- Source directory for documentation files
-│
-├── models               <- Trained and serialized models, model predictions, or model summaries
-│
-├── notebooks            <- Jupyter notebooks.
-│
-├── pyproject.toml       <- Project configuration file
-│
-├── reports              <- Generated analysis as HTML, PDF, LaTeX, etc.
-│   └── figures          <- Generated graphics and figures to be used in reporting
-│
-├── requirements.txt     <- The requirements file for reproducing the analysis environment
-|
-├── requirements_dev.txt <- The requirements file for reproducing the analysis environment
-│
-├── tests                <- Test files
-│
-├── mlops_group8  <- Source code for use in this project.
-│   │
-│   ├── __init__.py      <- Makes folder a Python module
-│   │
-│   ├── data             <- Scripts to download or generate data
+│   ├── data             <- scripts to download and/or generate data
 │   │   ├── __init__.py
 │   │   └── make_dataset.py
 │   │
-│   ├── models           <- model implementations, training script and prediction script
+│   ├── utility          <- scripts used as utility functions in multiple main scripts or minor misc. scripts used for testing functions etc.
 │   │   ├── __init__.py
-│   │   ├── model.py
+│   │   └── ...
 │   │
-│   ├── visualization    <- Scripts to create exploratory and results oriented visualizations
-│   │   ├── __init__.py
-│   │   └── visualize.py
-│   ├── train_model.py   <- script for training the model
-│   └── predict_model.py <- script for predicting from a model
+│   ├── predict_fastapi.py    <- script for predicting from a model, hosting back-end API by fastapi
+│   ├── predict_model.py      <- script for predicting from a model (used for local testing)
+│   ├── streamlit_app.py      <- script for hosting front-end  APY by streamlit
+│   ├── sweep_train_model.py  <- script for doing hyperparameter sweep on training the model
+│   ├── train_model.py        <- script for training the model
+│   └── validate_model.py     <- script for validating the model
 │
-└── LICENSE              <- Open-source license if one is chosen
+├── .dvc                <- DVC configurations and cache
+│   └── config          <- DVC configuration file
+├── data.dvc            <- DVC file for tracking changes and versions in the data directory bucket (gcp)
+├── models.dvc          <- DVC file for tracking changes and versions in the models directory bucket (gcp)
+│
+├── .pre-commit-config.yaml             <- dvc configurations
+├── cloudbuild_dockerfiles_api.yaml     <- gcp cloudbuild file for deploying the model by the APIs
+├── cloudbuild_dockerfiles_train.yaml   <- gcp cloudbuild file for building and pushing the train image
+├── config_vertexai_train_cpu.yaml      <- gcp config file used for Vertex AI
+│
+└── LICENSE              <- open-source license if one is chosen
 ```
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
@@ -372,7 +398,7 @@ This project exists thanks to the following contributors:
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 # :key: License
-`Apache-2.0`
+`The MIT License (MIT)`
 
 <p align="center">
   <img src="assets/rice_meme.jpg" alt="Rice meme" height="350">
