@@ -500,8 +500,8 @@ We did not manage to implement monitoring. Despite recognizing its importance, w
 > Answer:
 
 As of wednesday afternoon including credits used for the exercises:
-- Group member 1 used 5 $ (from this account we ran triggers and VertexAI and stored container registry)
-- Group member 2 used 20 $ (from this account we stored the buckets and ran the Cloud Run)
+- Group member 1 used 10 $ (from this account we ran triggers and VertexAI, Cloud Run and stored container registry)
+- Group member 2 used 25 $ (from this account we stored the buckets and ran tests for Cloud Run)
 - Group member 3 used 33 $ (account mainly used for exercises - some buckets drained the budget...)
 - Group member 4 used 1 $ (account mainly used for exercises)
 
