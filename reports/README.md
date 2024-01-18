@@ -101,13 +101,13 @@ end of the project.
 
 ### Questions
 
-* [ ] Q1
-* [ ] Q2
-* [ ] Q3
-* [ ] Q4
-* [ ] Q5
-* [ ] Q6
-* [ ] Q7
+* [X] Q1
+* [X] Q2
+* [X] Q3
+* [X] Q4
+* [X] Q5
+* [X] Q6
+* [X] Q7
 * [ ] Q8
 * [ ] Q9
 * [ ] Q10
@@ -176,9 +176,9 @@ For the project the [PyTorch Image Models](https://github.com/huggingface/pytorc
 >
 > Answer:
 
-The Python dependencies were saved within the requirements file using pipreqs, a tool that exclusively records the utilized packages in the project. Each team member subsequently employed a virtual environment manager of their choosing, with some opting for conda, others for virtualenv, or simply the venv module. Within this designated environment, members installed the dependencies utilizing the requirements file.
+The Python dependencies were saved within the requirements file using pipreqs, a tool that exclusively records the utilized packages in the project. Each team member subsequently employed a virtual environment manager of their choosing, with some opting for conda, others for virtualenv, or simply the venv module. Within this designated environment, members installed the dependencies utilizing the requirements file. Conda is however recommended due to the ability of selecting a specific python version.
 
-Establishment of a development container was also experimented with, seeking a fully reproducible development environment containing GCP packages and other dependencies. However, the process encountered intricacies, primarily stemming from the management of GCP authorization.
+Establishment of a development container was also experimented with, seeking a fully reproducible development environment containing GCP packages and other dependencies. However, the process encountered intricacies, primarily stemming from the management of different authentication requirements such as GCP authorization.
 
 ### Question 5
 
@@ -193,7 +193,7 @@ Establishment of a development container was also experimented with, seeking a f
 > *experiments.*
 > Answer:
 
-We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops_template) but did change the structure along the way by restructuring e.g. the docker files and added the `.dvc` folder. Additionally in the project folder a `config` folder is added for the config files used by Hydra and a `utility` folder is added for minor utility scripts used for various other scripts as well as scripts used for testing various stuff like connecting to wandb (no pytests in this folder). The `models` and `visualizations` folders are removed as the model is replaced by using the TIMM framework and the visualizations are generated in wandb. For minor tests etc. a `misc` folder is added. Furthermore and `output` folder is added for coverage reports, hydra config logs, and wandb logs. Also, additional `requirements files` are implemented to be used for the docker images in order to minimize the size of training and prediction image.
+We used the cookiecutter [`MLOps template`](https://github.com/SkafteNicki/mlops_template) but did change the structure along the way by restructuring e.g. the docker files and added the `.dvc` folder. Additionally in the project folder a `config` folder is added for the config files used by Hydra and a `utility` folder is added for minor utility scripts used for various other scripts as well as scripts used for testing various stuff like connecting to wandb (no pytests in this folder). The `models` and `visualizations` folders are removed as the model is replaced by using the TIMM framework and the visualizations are generated in wandb. For minor tests etc. a `misc` folder is added. Furthermore an `output` folder is added for coverage reports, hydra config logs, and wandb logs. Also, more specific `requirements files` are implemented to be used for the different docker images in order to minimize the size of training and prediction image.
 
 ### Question 6
 
@@ -446,13 +446,10 @@ In addition, we used the Cloud Run service to host the applications for predicti
 > Answer:
 
 This is the bucket for the data (we used DVC to manage the data)):
-<p align="center">
-  <img src="figures/bucket_g8.png" height="150">
-</p>
 
-<p align="center">
-  <img src="figures/bucket_g8e.png" height="400">
-</p>
+
+![bucket_g8](figures/bucket_g8.png)
+![bucket_g8e](figures/bucket_g8e.png)
 
 ### Question 20
 
@@ -462,9 +459,8 @@ This is the bucket for the data (we used DVC to manage the data)):
 > Answer:
 
 TODO: Lucas update this?
-<p align="center">
-  <img src="figures/grp8-container_reg.png" height="150">
-</p>
+
+![container_reg](figures/grp8-container_reg.png)
 
 ### Question 21
 
@@ -475,9 +471,7 @@ TODO: Lucas update this?
 
 TODO: Lucas update this?
 
-<p align="center">
-  <img src="figures/grp8-cloud_build.png" height="150">
-</p>
+![cloud_build](figures/grp8-cloud_build.png)
 
 ### Question 22
 
