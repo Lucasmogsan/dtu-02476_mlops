@@ -101,8 +101,8 @@ end of the project.
 
 ### Questions
 
-* [ ] Q1
-* [ ] Q2
+* [X] Q1
+* [X] Q2
 * [ ] Q3
 * [ ] Q4
 * [ ] Q5
@@ -446,6 +446,10 @@ In addition, we used the Cloud Run service to host the applications for predicti
 > Answer:
 
 This is the bucket for the data (we used DVC to manage the data)):
+
+
+![bucket_g8](figures/bucket_g8.png)
+
 <p align="center">
   <img src="figures/bucket_g8.png" height="150">
 </p>
