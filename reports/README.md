@@ -524,6 +524,15 @@ As of wednesday afternoon including credits used for the exercises:
 >
 > Answer:
 
+The starting point of the diagram is our GitHub repo. When a new pull request is made to merge into the main branch, workflows are initiated. These workflows involve code checking with Ruff and unit tests for our code. Additionally, a trigger for building Docker files in the repo is activated. The resulting Docker images contain the relevant files from the repo for training and the production environment. However, data for training and the model for prediction are not included in the images to reduce their size. These Docker images are then stored in the Google Cloud Container Registry.
+
+After that we can initiate retraining of the network with a make command. We specifically avoid automatic retraining for minor changes to the repo, but rebuilding the Docker image for training is happening.
+The make command for training initializes a Virtual Machine (VM) through Vertex AI based on specifications in a configuration file and the Docker image. Inside the container, an Entrypoint script is executed, pulling data from a Google Cloud Platform (GCP) bucket, starting the training script, and pushing the saved model file to another GCP bucket. Training progress, including training loss and validation accuracy, is logged in Weights & Biases.
+
+The newly trained model undergoes evaluation by a person before being pushed to a release bucket. Once the new model is in the release bucket, the operator can trigger the rebuilding of the production environment and retrieve the new model. The production environment comprises two containers — one for the frontend and one for the backend. These are being hosted by the Cloud run service, where two separate instances of the service is created based on a cloudbuild yaml file. The backend is a FastAPI application that serves as an interface for the model, while the frontend is a Streamlit application providing an interactive user interface. Users can upload an image of a rice grain, and the predicted result from the model will be displayed.
+
+![architecture](figures/grp8-flowchart.jpg)
+
 TODO: All
 --- question 25 fill here ---
 
