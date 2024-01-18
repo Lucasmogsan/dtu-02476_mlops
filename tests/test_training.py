@@ -17,19 +17,19 @@ config_path = "../" + _PROJECT_NAME + "/config/"
 def test_train_config() -> None:
     # config path is relative to this file
     with initialize(version_base=None, config_path=config_path):
-        cfg = compose(config_name="default_config.yaml")
+        cfg = compose(config_name="test_config.yaml")
         hparams = cfg.experiment
         assert hparams == {
-            "dataset_path": "data/processed",
+            "dataset_path": "tests/data",
             "batch_size": 64,
-            "epochs": 20,
+            "epochs": 3,
             "lr": 1e-4,
             "seed": 123,
             "model_name": "eva02_tiny_patch14_224",
             "classes": [0, 1, 2, 3, 4],
             "test_size": 0.2,
             "val_size": 0.25,
-            "n_samples": 5000,
+            "n_samples": 500,
             "optimizer": "adam",
         }, "Configurations should match"
 
