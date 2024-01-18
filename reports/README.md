@@ -450,13 +450,13 @@ This is the bucket for the data (we used DVC to manage the data)):
 
 ![bucket_g8](figures/bucket_g8.png)
 
-<p align="center">
-  <img src="figures/bucket_g8.png" height="150">
-</p>
+[//]: <p align="center">
+  [//]: <img src="figures/bucket_g8.png" height="150">
+[//]: </p>
 
-<p align="center">
-  <img src="figures/bucket_g8e.png" height="400">
-</p>
+[//]: <p align="center">
+  [//]: <img src="figures/bucket_g8e.png" height="400">
+[//]: </p>
 
 ### Question 20
 
