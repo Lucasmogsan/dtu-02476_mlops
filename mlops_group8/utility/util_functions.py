@@ -35,9 +35,9 @@ def load_data(classes_to_train: list[int], batch_size: int, processed_path: str,
     elif job_type == "test":
         file_name = "/test_data_"
     elif job_type == "unittest":
-        file_name = "/train_data_"
+        file_name = "/unittest_data_"
     else:
-        raise ValueError("job_type should be one of 'train', 'val', 'test'")
+        raise ValueError("job_type should be one of 'train', 'val', 'test', 'unittest'")
 
     dataset = torch.load(processed_path + file_name + str(classes_to_train[0]) + ".pt")
     # Iterate over the rest of the classes and concatenate them
