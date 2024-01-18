@@ -374,7 +374,7 @@ Docker container images:
 >
 > Answer:
 
-The main bugs we have had have been due to access and integration to gcp or GitHub not the code itself. Regarding the coding bugs the whole group have been using the VSCode debugger as well as some from the group have been using the integrated Copilot chat function to VSCode.
+The main bugs we have had have been due to access and integration to Google Cloud Project (gcp) or GitHub not the code itself. Regarding the coding bugs the whole group have been using the VSCode debugger as well as some from the group have been using the integrated Copilot chat function to VSCode. As many challenges arose on gcp the `Logs Explorer` was used often and with great succes.
 
 We did run profiling on the training and inference to see if we could decrease the time. However profiling the training script showed (as expected) that the model architecture is strictly speaking the only factor adding to increased training time and thus the profiling itself wasn't that interesting. As expected using a larger train dataset or more epoch naturally increased the training time which could be evaluated by comparing the two profilings.
 
