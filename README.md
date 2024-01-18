@@ -162,7 +162,7 @@ Streamlit:
 ```bash
 gcr.io/mlops-group8/api_streamlit:latest
 ```
-
+The API URLs will change according to setup. For the project the [FastAPI (back-end) URL](https://run-fastapi-fz6jdlv7kq-oa.a.run.app/docs) and [Streamlit (front-end) URL](https://run-streamlit-fz6jdlv7kq-oa.a.run.app) were used (given by Cloud Run - Presumably not active anymore).
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
