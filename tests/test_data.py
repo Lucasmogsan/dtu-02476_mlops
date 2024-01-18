@@ -54,7 +54,7 @@ def test_data_length():
     assert len(test_dataset) == expected_test, f"Testset should have {expected_test} datapoints"
 
 
-@pytest.mark.skipif(not os.path.exists(unittest_data_folder), reason="Unit test data files not found")
+@pytest.mark.skipif(not os.path.exists(processed_data_folder), reason="Data files not found")
 def test_data_shape():
     # # Assert each processed tensor has shape 1x224x224
     for i in range(len(train_dataset)):
@@ -67,7 +67,7 @@ def test_data_shape():
         assert test_dataset[i][0].shape == (1, 224, 224), "Test image should be 28x28"
 
 
-@pytest.mark.skipif(not os.path.exists(_DATA_PATH), reason="Unit test data files not found")
+@pytest.mark.skipif(not os.path.exists(processed_data_folder), reason="Data files not found")
 def test_data_labels():
     # Assert that all labels are represented
     train_labels = [label.item() for _, label in train_dataset]
@@ -76,3 +76,13 @@ def test_data_labels():
     test_labels = set(test_labels)
     assert len(train_labels) == 5, "Train labels should have 5 classes"
     assert len(test_labels) == 5, "Test labels should have 5 classes"
+
+
+@pytest.mark.skipif(not os.path.exists(unittest_data_folder), reason="Data files not found")
+def test_unittest_data():
+    # Assert that all labels are represented
+    unittest_labels = [label.item() for _, label in unittest_dataset]
+    unittest_labels = set(unittest_labels)
+    assert len(unittest_labels) == 5, "Unittest labels should have 5 classes"
+    for i in range(len(unittest_dataset)):
+        assert unittest_dataset[i][0].shape == (1, 224, 224), "Unittest image should be 1,224,224"
