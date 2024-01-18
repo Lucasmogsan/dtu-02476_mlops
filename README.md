@@ -71,23 +71,28 @@ A Google Cloud Platform (GCP) account with credits is necessary for:
 # :rocket: Usage
 
 ## Training
+Training can be done in one of the following three ways:
+1. Locally (potentially without any cloud-connection)
+2. Containerized locally using the gcp buckets. The container and entrypoint is the same used in the cloud.
+3. Cloud training utilizing Vertex AI as a virtual compute engine running the training image/container from the [cloudbuild_dockerfiles_train.yaml](cloudbuild_dockerfiles_train.yaml).
 
-**Locally**
+**1 - Locally**
 1. Pull data
 ```bash
-dvc pull -r remote_storage data.dvc
+dvc pull -r remote_storage data.dvc # Pulls latest from gcp bucket
+make data # Pulls from kaggle - this does not require gcp connection
 ```
 2. Run training
 ```bash
 make train-local
 ```
-3. (if desired) Push data:
+3. (if desired) Push data to gcp:
 ```bash
 dvc add models
 dvc push -r remote_storage_models_train models.dvc
 ```
 
-**Local container**
+**2 - Local container**
 
 *NB: This uses `dvc` pull and push from/to `gcp` buckets as well as the config file specified*
 See [docker/train/](docker/train/) folder for entrypoint and dockerfile.
@@ -101,27 +106,31 @@ docker compose up trainer
 ```
 
 
-**In the cloud (using [Vertex AI](https://cloud.google.com/vertex-ai)):**
-1. On `gcp` a `trigger` has been set up for the GitHub repository using the [cloudbuild_dockerfiles.yaml](cloudbuild_dockerfiles.yaml) every time the main branch is updated (also experimented with a webhook from the GitHub Workflows). This rebuilds the training image (from this [Dockerfile](docker/train/Dockerfile)) and thus the current config file is being used in the next step.
+**3 - In the cloud (using [Vertex AI](https://cloud.google.com/vertex-ai)):**
+1. On `gcp` a `trigger` has been set up for the GitHub repository using the [cloudbuild_dockerfiles_train.yaml](cloudbuild_dockerfiles_train.yaml) every time the main branch is updated (also experimented with a webhook from the GitHub Workflows). This rebuilds the training image (from this [Dockerfile](docker/train/Dockerfile)) and thus the current config file is being used in the next step.
 2. Following creates a compute instance and runs the image (pulled from gcp `container registry`). This will pull from the `data bucket`, do training, and push to the `models bucket` after training. See [docker/train/](docker/train/) folder to see entrypoint and dockerfile used.
 ```bash
 make train-cloud
 ```
 
 
-## Validate
+## Validate and test model
 
-**Locally**
+The validation and testing is implemented in the training loop.
+- Validation evaluates the current model after each epoch during training on a set of unseen data.
+- Testing uses the final model and evaluates on a new set of unseen data.
 
-NB: You need a model in `models` folder and specify this in your `config` file.
-
-```bash
-make validate
-```
+As of now it does not run independently but this could easily be implemented if desried.
 
 ## Predict
+The prediction is implemented by utilizing fastapi as back-end and streamlit as frontend.
 
-**Locally**
+Prediction can be run in one of the following three ways
+1. Locally (NB: without fastapi or streamlit)
+2. Containerized (NB: you need to at least run `api-fastapi` and if frontend is desired also the `api_streamlit`)
+3. Cloud Run which is activated by the trigger and [`cloudbuild_dockerfiles_api.yaml`](/cloudbuild_dockerfiles_api.yaml)
+
+**1 - Locally**
 
 1. Run predict
 
@@ -129,7 +138,7 @@ make validate
 make predict_test model=<path-to-model-file> path_image=<path-to-image-file>
 ```
 
-**Local container**
+**2 - Local container**
 NB: You can run both fastapi and streamlit.
 
 1. Build container from dockerfile and run image:
@@ -141,8 +150,7 @@ make <api-fastapi/api_streamlit>
 docker compose up <api_fastapi/api_streamlit>
 ```
 
-**Using API and Cloud Run**
-
+**3 - Using API and Cloud Run**
 1. On `gcp` a `trigger` has been set up for the GitHub repository using the [cloudbuild_dockerfiles_api.yaml](cloudbuild_dockerfiles_api.yaml) every time the main branch is updated. This rebuilds the api images.
 2. Create a [Cloud Run](https://cloud.google.com/run?hl=en) service for each api and use the docker image in gcr.io:
 
@@ -159,7 +167,7 @@ gcr.io/mlops-group8/api_streamlit:latest
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 # :computer: Development
-
+The following contains miscellaneous information useful for development.
 
 ## Data
 Pull from Google Cloud Bucket (must be logged in to gcp):
@@ -243,7 +251,14 @@ python mlops_group8/utility/profiling_pstats.py
 ```bash
 tensorboard --logdir=./log
 ```
+## Google Cloud Project (GCP)
+- Be aware that all services needed are enabled on gcp:
 
+  - Cloud Build (in setting also enable Cloud Run, Service Accounts and Cloud Build)
+  - Cloud Run Admin API
+  - Cloud Storage (remember to make buckets public)
+  - Vertex AI
+  - Artifact Registry (remember to make images public)
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
