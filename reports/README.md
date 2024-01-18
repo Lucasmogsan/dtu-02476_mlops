@@ -108,26 +108,26 @@ end of the project.
 * [X] Q5
 * [X] Q6
 * [X] Q7
-* [ ] Q8
-* [ ] Q9
-* [ ] Q10
-* [ ] Q11
-* [ ] Q12
-* [ ] Q13
+* [ ] Q8 Is code coverage correct? length is sufficient.
+* [X] Q9
+* [X] Q10
+* [X] Q11
+* [X] Q12
+* [X] Q13
 * [ ] Q14
-* [ ] Q15
-* [ ] Q16
-* [ ] Q17
-* [ ] Q18
+* [X] Q15
+* [X] Q16
+* [X] Q17
+* [X] Q18
 * [ ] Q19
 * [ ] Q20
 * [ ] Q21
-* [ ] Q22
+* [X] Q22
 * [ ] Q23
-* [ ] Q24
+* [X] Q24
 * [ ] Q25
-* [ ] Q26
-* [ ] Q27
+* [X] Q26
+* [X] Q27
 
 ## Group information
 
@@ -238,7 +238,7 @@ In total, 7 tests were implemented for the data, model, and training. The data t
 >
 > Answer:
 
-The total code coverage of the source code is 48%. Which includes tests for the data, model, and training. This 48% coverage means that nearly half of our codebase is covered by tests, which is a significant portion, however, we are far from 100% coverage.
+The total code coverage of the source code is 48%. Which includes tests for the data, model, and training. This 48% coverage means that nearly half of our codebase is covered by tests, which is a significant portion, however, we are far from 100% coverage. Even with almost perfect code coverage, we would not trust it to be error free, since the code coverage does not test for all possible corner cases. Neither does the code coverage describe the quality of the actual tests implemented, but only the fact that the code is being tested. However, any test is better than no test.
 
 
 ### Question 9
@@ -254,7 +254,7 @@ The total code coverage of the source code is 48%. Which includes tests for the 
 >
 > Answer:
 
-In our project, we used both branches and pull requests (PRs). Whenever a new feature was in the works, we created a new branch. Instead of everyone making changes directly to the main branch, working on branches added a layer of security and made collaboration smoother. Feature branches provided a safe space for development, free from interference by other team members' changes. This approach was super handy for juggling multiple features at the same time – you could easily hop between branches and work on different things without any hassle.
+In our project, we used both branches and pull requests (PRs). Whenever a new feature was in the works, we created a new branch. Instead of everyone making changes directly to the main branch, working on branches added a layer of security and made collaboration smoother. Feature branches provided a safe space for development, free from interference by other team members' changes. This approach was super handy for juggling multiple features at the same time – you could easily hop between branches and work on different things without any hassle. However, this does not mean that merge conflicts were avoided. This would require each member to only work with a specific set of files, which is not always possible.
 
 ### Question 10
 
@@ -287,7 +287,7 @@ We used DVC to manage the data in our project, following the guide provided in t
 > Answer:
 
 When a pull request was created to merge with main, at least one other team member was required to do a review of the code. Code check with Ruff and unit test workflows were set up as part of CI ([link](https://github.com/Lucasmogsan/dtu-02476_mlops/actions/workflows/codecheck.yml)). The workflows were tested on Windows-latest and Ubuntu-latest OS, with py3.11. Caching was used to speed up the dependencies installation, especially for the unit test workflow.
-A considerable amount of time was dedicated to ensuring that workflows executed sequentially. The objective was to initiate a code check, and upon completion, trigger an event to run unit tests. Subsequently, this event would lead to the execution of a final workflow, prompting a cloud build through a webhook. Nevertheless, complications arose with the webhook, primarily attributed to permission issues—an ongoing challenge throughout the project. Despite providing both an API key and a GCP secrets key, the problem persisted. Another aspect to consider in the sequential flow was that the first workflow would be based from the file located in the feature branch, while the subsequent workflows would be based on the files in the target branch, typically the main branch. Ideally, it should run the workflow files situated in the feature branch, however this issue is only relevant when actually modifying the workflow files.
+A considerable amount of time was dedicated to ensuring that workflows executed sequentially. The objective was to initiate a code check, and upon completion, trigger an event to run unit tests. Subsequently, this event would lead to the execution of a final workflow, prompting a cloud build through a webhook. Nevertheless, complications arose with the webhook, primarily attributed to permission issues — an ongoing challenge throughout the project. Despite providing both an API key and a GCP secrets key, the problem persisted. Another aspect to consider in the sequential flow was that the first workflow would be based from the file located in the feature branch, while the subsequent workflows would be based on the files in the target branch, typically the main branch. Ideally, it should run the workflow files situated in the feature branch, since we want to do the unittests on the code on the feature branch and not the target branch. Furthermore we would like to know if the new workflow files works as intended if there are any modifications to these.
 
 ## Running code and tracking experiments
 
@@ -417,7 +417,7 @@ We did run profiling on the training and inference to see if we could decrease t
 In the project we made use of the following five services directly while some services (e.g. Compute Engine) is used indirectly:
 - **Buckets** for storing the (training) data and model (.pt files).
 - **Container Registry** for storing Docker images.
-- **Trigger** for automatically building the Docker images from dockerfiles from the GitHub repository.
+- **Trigger** for automatically building the Docker images from dockerfiles from the GitHub repository and deploying our production environment.
 - **Vertex AI** for running the training (running the images - including pulling data, running the training script, and pushing the trained model).
 - **Cloud Run** for hosting the inference API (running the fastapi and streamlit images - including pulling the model, gets the user input from the API to save it locally, and runs the prediction script which outputs the result).
 
@@ -487,7 +487,8 @@ TODO: Lucas update this?
 >
 > Answer:
 
-After the model has been trained and certified to meet the acceptance criteria, it is pushed to a designated 'release bucket'. This bucket contains the most recent and advanced model. Two separate applications utilize the model. One of the applications uses FastAPI that can be invoked by using this command: *`curl -X 'POST' 'https://api-fastapi-yhdjmsx7ja-ew.a.run.app/predict/' -F 'data=@image.jpg'`*. And the second application is intended to provide an interactive use of the model, by running a Streamlit-based app that can be accessed on this [Link](https://api-streamlit-yhdjmsx7ja-ew.a.run.app)
+After the model has been trained and certified to meet the acceptance criteria, it is pushed to a designated 'release bucket'. This bucket contains the most recent and advanced model. Two separate applications have been setup. One of the applications uses FastAPI as the backend that can be invoked by using this command: *`curl -X 'POST' 'https://api-fastapi-yhdjmsx7ja-ew.a.run.app/predict/' -F 'data=@image.jpg'`*. And the second application is intended to provide an interactive use of the model through the backend, by running a Streamlit-based app that can be accessed on this [Link](https://api-streamlit-yhdjmsx7ja-ew.a.run.app)
+
 
 These two applications operate in separate Docker containers. Initially, these containers were enabled locally and subsequently deployed as services on Google Cloud Run using a manual trigger in cloud build.
 
@@ -560,7 +561,7 @@ TODO: All
 >
 > Answer:
 
-The biggest challenges in the project were implementing gcp and administrating access, keys, etc. across group members. In general, the collaboration made it harder as the workflow - also on git using GitHub - had to be more strictly managed. This also caused some time spent on merging conflicts which however was one of the more simple tasks. To be mentioned is setting up the training pipeline with the training script and image, buckets, and Vertex AI. This was one of the more challenging tasks as it required extensive understanding of multiple aspects and the overall pipeline including access to the buckets and the training image on gcp.
+The biggest challenges in the project were implementing gcp and administrating access, keys, etc. across group members. In general, the collaboration made it harder as the workflow - also on git using GitHub - had to be more strictly managed. This also caused some time spent on merging conflicts which however was one of the more simple tasks. To be mentioned is setting up the training pipeline with the training script and image, buckets, and Vertex AI. This was one of the more challenging tasks as it required extensive understanding of multiple aspects and the overall pipeline including access to the buckets and the training image on gcp. Spending some time understanding and getting familiar with the usage of IAM & Admin and service accounts would have been very beneficial to the project.
 
 We also encountered issues with DVC performance. The process of uploading and downloading data was extremely slow due to the large number of files (images). As a result, we had to reduce the size of the dataset to one-third of the original data set. Additionally, we changed the DVC setting to `version_aware = false`. This grouped the files in DVC's format in md5 files, which helped reduce the number of files uploaded to the bucket and reduce the latency.
 
@@ -580,7 +581,7 @@ We also encountered issues with DVC performance. The process of uploading and do
 >
 > Answer:
 
-Student s230003 was in charge of setting up the environment including cookue cutter. Additionally s230003 was in charge of implementing both Hydra and WandB as well as the pyTest and GitHub workflows. s230003 was also involved in training and evaluation of the model as well as prediction.
+Student s230003 was in charge of setting up the environment including cookie cutter. Additionally s230003 was in charge of implementing both Hydra and WandB as well as the pyTest and GitHub workflows. s230003 was also involved in training and evaluation of the model as well as prediction.
 Student s223093 and s223189 were in charge of implementing the whole training pipeline including the docker images, training script and cloud integration using Vertex AI and dvc pull/push from/to gcp bukets. s223093 additionally worked on the evaluation of the model while s223189 was integrating GitHub workflows. s230025 was in charge of the deployment of the models and prediction pipeline including docker images, the back- and front-end APIs, as well as the cloud gcp setup. Also s230025 was in charge of the data preparation.
 
 NB: Everyone from the group has contributed equally and have committed to the project aligned with everyones expectation helping eachother and working together.
