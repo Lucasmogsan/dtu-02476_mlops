@@ -36,7 +36,6 @@ def test_train_config() -> None:
 
 # Assert training loss drops after 3 epochs on smaller dataset
 def test_train_loss() -> None:
-    # TODO: call the right function
     """Train a model on subset of data found in tests/data"""
     losses = []
     with initialize(version_base=None, config_path=config_path):
@@ -62,10 +61,10 @@ def test_train_loss() -> None:
             classes_to_train,
             batch_size,
             dataset_path,
-            "train",
+            "unittest",
             seed,
         )
-        for epoch in range(epochs):
+        for _ in range(epochs):
             _, train_loss = train_epoch(model, unit_dataloader, optimizer_name, lr)
             losses.append(train_loss)
         assert losses[0] > losses[-1], "Training loss should decrease after 3 epochs"
