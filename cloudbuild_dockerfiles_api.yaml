@@ -18,6 +18,7 @@ steps:
   - 'europe-west6'
   - '--memory'
   - '2Gi'
+  - '--allow-unauthenticated'
 # Complete build, push and deployment for the second container image (streamlit)
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-f', 'docker/api_streamlit/Dockerfile', '.', '-t', 'gcr.io/mlops-group8/api_streamlit:latest']
@@ -35,6 +36,7 @@ steps:
   - 'europe-west6'
   - '--memory'
   - '2Gi'
+  - '--allow-unauthenticated'
 
 # Images to be used in the pipeline
 images:
