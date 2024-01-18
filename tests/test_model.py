@@ -15,9 +15,8 @@ def test_model_forward():
     assert y.shape == (1, 5), "Model output should have shape (1,5)"
 
 
+# Assert ValueErrors from the model
 def test_model_raises():
-    """Check that model makes the correct raises"""
-
     # Missing batch dimension
     with pytest.raises(
         ValueError,
