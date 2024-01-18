@@ -60,28 +60,28 @@ end of the project.
 * [X] Remember to comply with good coding practices (`pep8`) while doing the project
 * [X] Do a bit of code typing and remember to document essential parts of your code
 * [X] Setup version control for your data or part of your data
-* [ ] Construct one or multiple docker files for your code
-* [ ] Build the docker files locally and make sure they work as intended
+* [X] Construct one or multiple docker files for your code
+* [X] Build the docker files locally and make sure they work as intended
 * [X] Write one or multiple configurations files for your experiments
 * [X] Used Hydra to load the configurations and manage your hyperparameters
-* [ ] When you have something that works somewhat, remember at some point to to some profiling and see if
+* [X] When you have something that works somewhat, remember at some point to to some profiling and see if
       you can optimize your code
-* [ ] Use Weights & Biases to log training progress and other important metrics/artifacts in your code. Additionally,
+* [X] Use Weights & Biases to log training progress and other important metrics/artifacts in your code. Additionally,
       consider running a hyperparameter optimization sweep.
 * [ ] Use Pytorch-lightning (if applicable) to reduce the amount of boilerplate in your code
 
 ### Week 2
 
-* [ ] Write unit tests related to the data part of your code
-* [ ] Write unit tests related to model construction and or model training
-* [ ] Calculate the coverage.
-* [ ] Get some continuous integration running on the github repository
+* [X] Write unit tests related to the data part of your code
+* [X] Write unit tests related to model construction and or model training
+* [X] Calculate the coverage.
+* [X] Get some continuous integration running on the github repository
 * [X] Create a data storage in GCP Bucket for you data and preferable link this with your data version control setup
-* [ ] Create a trigger workflow for automatically building your docker images
-* [ ] Get your model training in GCP using either the Engine or Vertex AI
-* [ ] Create a FastAPI application that can do inference using your model
+* [X] Create a trigger workflow for automatically building your docker images
+* [X] Get your model training in GCP using either the Engine or Vertex AI
+* [X] Create a FastAPI application that can do inference using your model
 * [ ] If applicable, consider deploying the model locally using torchserve
-* [ ] Deploy your model in GCP using either Functions or Run as the backend
+* [X] Deploy your model in GCP using either Functions or Run as the backend
 
 ### Week 3
 
@@ -94,9 +94,9 @@ end of the project.
 
 ### Additional
 
-* [ ] Revisit your initial project description. Did the project turn out as you wanted?
-* [ ] Make sure all group members have a understanding about all parts of the project
-* [ ] Uploaded all your code to github
+* [X] Revisit your initial project description. Did the project turn out as you wanted?
+* [X] Make sure all group members have a understanding about all parts of the project
+* [X] Uploaded all your code to github
 
 
 ### Questions
@@ -487,7 +487,8 @@ TODO: Lucas update this?
 >
 > Answer:
 
-After the model has been trained and certified to meet the acceptance criteria, it is pushed to a designated 'release bucket'. This bucket contains the most recent and advanced model. Two separate applications have been setup. One of the applications uses FastAPI as the backend that can be invoked by using this command: *`curl -X 'POST' 'https://gcp-group8-app-yhdjmsx7ja-ew.a.run.app/predict/' -F 'data=@image.jpg'`*. And the second application is intended to provide an interactive use of the model through the backend, by running a Streamlit-based app that can be accessed on this [Link](https://gcp-group8-api-st-yhdjmsx7ja-ew.a.run.app/)
+After the model has been trained and certified to meet the acceptance criteria, it is pushed to a designated 'release bucket'. This bucket contains the most recent and advanced model. Two separate applications have been setup. One of the applications uses FastAPI as the backend that can be invoked by using this command: *`curl -X 'POST' 'https://api-fastapi-yhdjmsx7ja-ew.a.run.app/predict/' -F 'data=@image.jpg'`*. And the second application is intended to provide an interactive use of the model through the backend, by running a Streamlit-based app that can be accessed on this [Link](https://api-streamlit-yhdjmsx7ja-ew.a.run.app)
+
 
 These two applications operate in separate Docker containers. Initially, these containers were enabled locally and subsequently deployed as services on Google Cloud Run using a manual trigger in cloud build.
 

@@ -69,9 +69,7 @@ train-cloud:
     --display-name=test-training \
     --config=config_vertexai_train_cpu.yaml
 
-## Validate model
-validate:
-	python $(PROJECT_NAME)/eval_model.py
+## Validate model (is implemented in the training)
 
 ## Predict
 predict_test:

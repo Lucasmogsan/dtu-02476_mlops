@@ -1,12 +1,16 @@
 # Install with cache
 name: Run unit tests
 
+#on:
+  #workflow_run:
+    #workflows:
+      #- Ruff code check
+    #types:
+      #- completed
+
 on:
-  workflow_run:
-    workflows:
-      - Ruff code check
-    types:
-      - completed
+  pull_request:
+    branches: [ main ]
 
 jobs:
   build:
@@ -33,7 +37,7 @@ jobs:
     - name: Get pip cache dir
       id : pip-cache
       run: |
-        echo "::set-output name=dir::$(pip cache dir)"
+        echo "name=dir::$(pip cache dir)" >> $GITHUB_OUTPUT
 
     - name: Cache dependencies
       uses: actions/cache@v3
