@@ -356,7 +356,11 @@ Also, parameters used to create the datasets are included this ensures that iden
 > Answer:
 
 TODO: Yu Fan
---- question 14 fill here ---
+
+![wandb charts](figures/wandb_charts.png)
+![wandb table](figures/wandb_table.png)
+![wandb confusion matrix](figures/wandb_cm.png)
+
 
 ### Question 15
 
