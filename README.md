@@ -260,6 +260,8 @@ tensorboard --logdir=./log
   - Vertex AI
   - Artifact Registry (remember to make images public)
 
+Logs Explorer is extremely useful for logging and tracing errors on gcp.
+
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 # :scroll: Report

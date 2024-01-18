@@ -16,6 +16,8 @@ steps:
   - 'gcr.io/mlops-group8/api_fastapi:latest'
   - '--region'
   - 'europe-west6'
+  - '--memory'
+  - '2Gi'
 # Complete build, push and deployment for the second container image (streamlit)
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-f', 'docker/api_streamlit/Dockerfile', '.', '-t', 'gcr.io/mlops-group8/api_streamlit:latest']
@@ -31,6 +33,8 @@ steps:
   - 'gcr.io/mlops-group8/api_streamlit:latest'
   - '--region'
   - 'europe-west6'
+  - '--memory'
+  - '2Gi'
 
 # Images to be used in the pipeline
 images:
