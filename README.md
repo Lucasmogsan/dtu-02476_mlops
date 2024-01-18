@@ -120,7 +120,7 @@ Tested a few machines:
 - n1-highmem-2: Approx 15 s per iteration (0.14$/hour)
 - n1-highmem-32: Approx 1 s per iteration (2.2$/hour)
 - c2-standard-16: Approx 1 s per iteration (1$/hour)
-- c2-standard-60: Not tested (3.6$/hour)
+- c2-standard-30: Not tested (3.6$/hour) - NB: Most likely need to increase quota `Quota Increase Requests`
 
 
 ## Validate and test model
