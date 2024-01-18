@@ -76,6 +76,8 @@ Training can be done in one of the following three ways:
 2. Containerized locally using the gcp buckets. The container and entrypoint is the same used in the cloud.
 3. Cloud training utilizing Vertex AI as a virtual compute engine running the training image/container from the [cloudbuild_dockerfiles_train.yaml](cloudbuild_dockerfiles_train.yaml).
 
+NB: Hyperparams and settings for training is stated in the config file referred to from the [default_config.yaml](mlops_group8/config/default_config.yaml) file. For a new training you must create a new `exp.yaml` file in the [experiment](mlops_group8/config/experiment) folder and refer to that from the [default_config.yaml](mlops_group8/config/default_config.yaml).
+
 **1 - Locally**
 1. Pull data
 ```bash
@@ -112,6 +114,13 @@ docker compose up trainer
 ```bash
 make train-cloud
 ```
+NB: The region (default: `europe-west1`) and name (default: `training`) of the training is specified in the `Makefile`.
+
+Tested a few machines:
+- n1-highmem-2: Approx 15 s per iteration (0.14$/hour)
+- n1-highmem-32: Approx 1 s per iteration (2.2$/hour)
+- c2-standard-16: Approx 1 s per iteration (1$/hour)
+- c2-standard-60: Not tested (3.6$/hour)
 
 
 ## Validate and test model

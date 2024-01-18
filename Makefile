@@ -66,7 +66,7 @@ train-container:
 train-cloud:
 	gcloud ai custom-jobs create \
     --region=europe-west1 \
-    --display-name=test-training \
+    --display-name=training \
     --config=config_vertexai_train_cpu.yaml
 
 ## Validate model (is implemented in the training)

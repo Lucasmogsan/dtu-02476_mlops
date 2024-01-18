@@ -119,11 +119,11 @@ end of the project.
 * [X] Q16
 * [X] Q17
 * [X] Q18
-* [ ] Q19
-* [ ] Q20
-* [ ] Q21
+* [X] Q19
+* [X] Q20
+* [X] Q21
 * [X] Q22
-* [ ] Q23
+* [X] Q23
 * [X] Q24
 * [ ] Q25
 * [X] Q26
@@ -361,6 +361,10 @@ Metrics obtained from the training, validation and testing steps were logged usi
 ![wandb table](figures/wandb_table.png)
 ![wandb confusion matrix](figures/wandb_cm.png)
 
+![grp8-acc_loss](figures/grp8-acc_loss.png)
+![grp8-validation](figures/grp8-validation.png)
+![grp8-confusion_matrix](figures/grp8-confusion_matrix.png)
+
 
 ### Question 15
 
@@ -438,9 +442,12 @@ In the project we made use of the following five services directly while some se
 >
 > Answer:
 
-As mentioned we didn't actually use the Compute Engines / VMs directly as we were able to do the preliminary tests locally on small datasets. However using the compute engines as a part of the Vertex AI was really beneficial as both storage and computational capabilities are much more flexible. We used the n1-highmem-2 machine type (vCPU). This was not much faster than our local computers but being able to run the training in the cloud made it possible to progress on other stuff meanwhile. It would be interesting optimizing and accelerating the training with GPU supported machines for further work.
+As mentioned we didn't actually use the Compute Engines / VMs directly as we were able to do the preliminary tests locally on small datasets. However using the compute engines as a part of the Vertex AI was really beneficial as both storage and computational capabilities are much more flexible. We tested various machines and while the `n1-highmem-2` was too slow we ended up using the `c2-standard-16` machine type (vCPU). This was not much faster than our local computers but being able to run the training in the cloud made it possible to progress on other stuff meanwhile. It would be interesting optimizing and accelerating the training with GPU supported machines for further work.
 
 In addition, we used the Cloud Run service to host the applications for prediction, both services run docker container with the applications.
+
+![cloud_run](figures/grp8-cloud_run.png)
+![vertexai](figures/grp8-vertexai.png)
 
 ### Question 19
 
@@ -451,7 +458,7 @@ In addition, we used the Cloud Run service to host the applications for predicti
 
 This is the bucket for the data (we used DVC to manage the data)):
 
-
+![bucket_g8_overview](figures/grp8-buckets.jpeg)
 ![bucket_g8](figures/bucket_g8.png)
 ![bucket_g8e](figures/bucket_g8e.png)
 
@@ -462,8 +469,6 @@ This is the bucket for the data (we used DVC to manage the data)):
 >
 > Answer:
 
-TODO: Lucas update this?
-
 ![container_reg](figures/grp8-container_reg.png)
 
 ### Question 21
@@ -472,8 +477,6 @@ TODO: Lucas update this?
 > **your project. You can take inspiration from [this figure](figures/build.png).**
 >
 > Answer:
-
-TODO: Lucas update this?
 
 ![cloud_build](figures/grp8-cloud_build.png)
 
@@ -491,7 +494,7 @@ TODO: Lucas update this?
 >
 > Answer:
 
-After the model has been trained and certified to meet the acceptance criteria, it is pushed to a designated 'release bucket'. This bucket contains the most recent and advanced model. Two separate applications have been setup. One of the applications uses FastAPI as the backend that can be invoked by using this command: *`curl -X 'POST' 'https://api-fastapi-yhdjmsx7ja-ew.a.run.app/predict/' -F 'data=@image.jpg'`*. And the second application is intended to provide an interactive use of the model through the backend, by running a Streamlit-based app that can be accessed on this [Link](https://api-streamlit-yhdjmsx7ja-ew.a.run.app)
+After the model has been trained and certified to meet the acceptance criteria, it is pushed to a designated 'release bucket'. This bucket contains the most recent and advanced model. Two separate applications have been setup. One of the applications uses FastAPI as the backend that can be invoked by using this command: *`curl -X 'POST' 'https://run-fastapi-fz6jdlv7kq-oa.a.run.app/predict/' -F 'data=@image.jpg'`*. And the second application is intended to provide an interactive use of the model through the backend, by running a Streamlit-based app that can be accessed on this [Link](https://run-streamlit-fz6jdlv7kq-oa.a.run.app)
 
 
 These two applications operate in separate Docker containers. Initially, these containers were enabled locally and subsequently deployed as services on Google Cloud Run using a manual trigger in cloud build.
@@ -510,8 +513,7 @@ These two applications operate in separate Docker containers. Initially, these c
 >
 > Answer:
 
-TODO: All - Maybe implement?
---- question 23 fill here ---
+We did not manage to implement monitoring. Despite recognizing its importance, we prioritized other tasks due to resource constraints and time limitations. However, implementing monitoring is crucial for the longevity of our application. It would enable us to track key performance metrics, detect anomalies, and analyze user interactions. Monitoring would provide valuable insights into the model's accuracy, identify potential issues like data drift, and inform us about the evolving behavior of our application. This proactive approach ensures timely adjustments, improves user experience, and enhances the overall reliability and performance of the deployed model.
 
 ### Question 24
 
