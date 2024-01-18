@@ -108,13 +108,13 @@ end of the project.
 * [X] Q5
 * [X] Q6
 * [X] Q7
-* [ ] Q8 Is code coverage correct? length is sufficient.
+* [X] Q8
 * [X] Q9
 * [X] Q10
 * [X] Q11
 * [X] Q12
 * [X] Q13
-* [ ] Q14
+* [X] Q14 Insufficient length. Needs 40 more words.
 * [X] Q15
 * [X] Q16
 * [X] Q17
@@ -238,7 +238,7 @@ In total, 7 tests were implemented for the data, model, and training. The data t
 >
 > Answer:
 
-The total code coverage of the source code is 48%. Which includes tests for the data, model, and training. This 48% coverage means that nearly half of our codebase is covered by tests, which is a significant portion, however, we are far from 100% coverage. Even with almost perfect code coverage, we would not trust it to be error free, since the code coverage does not test for all possible corner cases. Neither does the code coverage describe the quality of the actual tests implemented, but only the fact that the code is being tested. However, any test is better than no test.
+The total code coverage of the source code is 65%. Which includes tests for the data, model, and training. Unit tests for the application were not done as it requires a running service to test. 65% is still far from 100% coverage. Even with almost perfect code coverage, we would not trust it to be error free, since the code coverage does not test for all possible corner cases. Neither does the code coverage describe the quality of the actual tests implemented, but only the fact that the code is being tested. However, any test is better than no test.
 
 
 ### Question 9
@@ -355,8 +355,12 @@ Also, parameters used to create the datasets are included this ensures that iden
 >
 > Answer:
 
-TODO: Yu Fan
---- question 14 fill here ---
+Metrics obtained from the training, validation and testing steps were logged using W&B. They include training accuracy and loss, validation accuracy, and testing accuracy. A confusion matrix was also generated from the test results. The training and validation metrics serve as an indication whether training is progressing as desired (e.g. no overfitting, convergence). The test accuracy is used as a final benchmark to compare the performance of different models. The configurations used to train in each run is also logged on W&B. Thus, a model (with the hyperparameters known) can be manually selected to become a release candidate for deployment. To visualize the performance of the model, a few images from each validation batch were displayed on W&B, together with the label, prediction, and output scores for each class. A hyperparameter sweep was attempted using W&B, but there was insufficient time to integrate it into the pipeline and get sufficient runs in. Thus, they have been excluded from this report.
+
+![wandb charts](figures/wandb_charts.png)
+![wandb table](figures/wandb_table.png)
+![wandb confusion matrix](figures/wandb_cm.png)
+
 ![grp8-acc_loss](figures/grp8-acc_loss.png)
 ![grp8-validation](figures/grp8-validation.png)
 ![grp8-confusion_matrix](figures/grp8-confusion_matrix.png)
