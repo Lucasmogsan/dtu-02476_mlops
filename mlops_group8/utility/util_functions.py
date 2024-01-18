@@ -48,12 +48,20 @@ def load_data(classes_to_train: list[int], batch_size: int, processed_path: str,
             dataset_intermediate = torch.load(processed_path + file_name + str(i) + ".pt")
             dataset = torch.utils.data.ConcatDataset([dataset, dataset_intermediate])
     # Convert to dataloader (to convert to batches and shuffle)
-    dataloader = torch.utils.data.DataLoader(
-        dataset,
-        batch_size=batch_size,
-        shuffle=True,
-        worker_init_fn=seed,
-    )
+
+    if seed != 0:
+        dataloader = torch.utils.data.DataLoader(
+            dataset,
+            batch_size=batch_size,
+            shuffle=True,
+            worker_init_fn=seed,
+        )
+    else:
+        dataloader = torch.utils.data.DataLoader(
+            dataset,
+            batch_size=batch_size,
+            shuffle=True,
+        )
 
     return dataloader
 

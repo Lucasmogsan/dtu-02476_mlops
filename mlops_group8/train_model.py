@@ -180,7 +180,8 @@ def main(cfg):
     val_table = wandb.Table(columns=columns)
 
     # Set seed for reproducibility
-    torch.manual_seed(seed)
+    if seed != 0:
+        torch.manual_seed(seed)
 
     # Import model
     model = timm.create_model(
