@@ -114,6 +114,13 @@ docker compose up trainer
 ```bash
 make train-cloud
 ```
+NB: The region (default: `europe-west1`) and name (default: `training`) of the training is specified in the `Makefile`.
+
+Tested a few machines:
+- n1-highmem-2: Approx 15 s per iteration (0.14$/hour)
+- n1-highmem-32: Approx 1 s per iteration (2.2$/hour)
+- c2-standard-16: Approx 1 s per iteration (1$/hour)
+- c2-standard-60: Not tested (3.6$/hour)
 
 
 ## Validate and test model
