@@ -5,7 +5,7 @@ from hydra import initialize, compose
 from tests import _DATA_PATH, _PROJECT_NAME
 
 
-data_folder = _DATA_PATH + "processed/"
+processed_data_folder = _DATA_PATH + "processed/"
 config_path = "../" + _PROJECT_NAME + "/config/"
 
 # Load hydra test_config
@@ -22,14 +22,14 @@ n_val_per_file = int((1 - test_size) * (val_size) * n_samples)
 n_test_per_file = int(test_size * n_samples)
 
 # Load pt data files
-if os.path.exists(_DATA_PATH):
+if os.path.exists(processed_data_folder):
     train_dataset = []
     val_dataset = []
     test_dataset = []
     for i in range(n_classes):
-        train_dataset.append(torch.load(data_folder + f"train_data_{i}.pt"))
-        val_dataset.append(torch.load(data_folder + f"val_data_{i}.pt"))
-        test_dataset.append(torch.load(data_folder + f"test_data_{i}.pt"))
+        train_dataset.append(torch.load(processed_data_folder + f"train_data_{i}.pt"))
+        val_dataset.append(torch.load(processed_data_folder + f"val_data_{i}.pt"))
+        test_dataset.append(torch.load(processed_data_folder + f"test_data_{i}.pt"))
     train_dataset = torch.utils.data.ConcatDataset(train_dataset)
     val_dataset = torch.utils.data.ConcatDataset(val_dataset)
     test_dataset = torch.utils.data.ConcatDataset(test_dataset)
@@ -44,7 +44,7 @@ if os.path.exists(unittest_data_folder):
 
 # Skip test if data files are not found
 # Assert length of dataset loaded
-@pytest.mark.skipif(not os.path.exists(_DATA_PATH), reason="Data files not found")
+@pytest.mark.skipif(not os.path.exists(processed_data_folder), reason="Data files not found")
 def test_data_length():
     expected_train = n_classes * n_train_per_file
     expected_val = n_classes * n_val_per_file
