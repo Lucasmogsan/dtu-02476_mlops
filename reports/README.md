@@ -99,36 +99,6 @@ end of the project.
 * [X] Uploaded all your code to github
 
 
-### Questions
-
-* [X] Q1
-* [X] Q2
-* [X] Q3
-* [X] Q4
-* [X] Q5
-* [X] Q6
-* [X] Q7
-* [X] Q8
-* [X] Q9
-* [X] Q10
-* [X] Q11
-* [X] Q12
-* [X] Q13
-* [X] Q14 Insufficient length. Needs 40 more words.
-* [X] Q15
-* [X] Q16
-* [X] Q17
-* [X] Q18
-* [X] Q19
-* [X] Q20
-* [X] Q21
-* [X] Q22
-* [X] Q23
-* [X] Q24
-* [ ] Q25
-* [X] Q26
-* [X] Q27
-
 ## Group information
 
 ### Question 1
@@ -355,12 +325,14 @@ Also, parameters used to create the datasets are included this ensures that iden
 >
 > Answer:
 
-Metrics obtained from the training, validation and testing steps were logged using W&B. They include training accuracy and loss, validation accuracy, and testing accuracy. A confusion matrix was also generated from the test results. The training and validation metrics serve as an indication whether training is progressing as desired (e.g. no overfitting, convergence). The test accuracy is used as a final benchmark to compare the performance of different models. The configurations used to train in each run is also logged on W&B. Thus, a model (with the hyperparameters known) can be manually selected to become a release candidate for deployment. To visualize the performance of the model, a few images from each validation batch were displayed on W&B, together with the label, prediction, and output scores for each class. A hyperparameter sweep was attempted using W&B, but there was insufficient time to integrate it into the pipeline and get sufficient runs in. Thus, they have been excluded from this report.
+Metrics obtained from the training, validation and testing steps were logged using Weights and Biases (W&B). They include training accuracy and training loss, validation accuracy, and testing accuracy. A confusion matrix was also generated from the test results on the final model. The training and validation metrics serve as an indication whether training is progressing as desired (e.g. no overfitting, convergence). The test accuracy is used as a final benchmark to compare the performance of different models. The configurations used to train in each run is also logged on W&B. Thus, a model (with the hyperparameters known) can be manually selected to become a release candidate for deployment. To visualize the performance of the model, a few images from each validation batch were displayed on W&B, together with the label, prediction, and output scores for each class. Although a hyperparameter sweep was attempted using W&B, but there was insufficient time to integrate it into the pipeline and get sufficient runs in. Thus, they have been excluded from this report, but the scripts are still included in the GitHub repository.
 
+These charts are from the initial runs:
 ![wandb charts](figures/wandb_charts.png)
 ![wandb table](figures/wandb_table.png)
 ![wandb confusion matrix](figures/wandb_cm.png)
 
+These charts are from the final runs:
 ![grp8-acc_loss](figures/grp8-acc_loss.png)
 ![grp8-validation](figures/grp8-validation.png)
 ![grp8-confusion_matrix](figures/grp8-confusion_matrix.png)
