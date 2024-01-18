@@ -58,7 +58,7 @@ def combine_data(dataset_folder_name: str, data_path: str, n_samples: int):
 
         # Make dataset and save
         train_data = torch.utils.data.TensorDataset(images_train, labels_train)
-        torch.save(train_data, processed_path + f"/train_data_{i}.pt")
+        torch.save(train_data, processed_path + f"/unittest_data_{i}.pt")
 
         # Data is not combined into 1 file as the utility function load_data()
         # expects a separate file for each class

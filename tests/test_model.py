@@ -1,5 +1,6 @@
 import torch
 import pytest
+import os
 from tests import _MODEL_PATH
 
 
@@ -7,6 +8,7 @@ model_name = "model_latest.pt"
 
 
 # Assert given input with shape X, model returns output with shape Y
+@pytest.mark.skipif(not os.path.exists(_MODEL_PATH + model_name), reason="model not found")
 def test_model_forward():
     x = torch.randn((1, 224, 224))
     x = x.unsqueeze(0)  # (1, 1, 224, 224), added a dimension for batch size
@@ -15,9 +17,9 @@ def test_model_forward():
     assert y.shape == (1, 5), "Model output should have shape (1,5)"
 
 
+# Assert ValueErrors from the model
+@pytest.mark.skipif(not os.path.exists(_MODEL_PATH + model_name), reason="model not found")
 def test_model_raises():
-    """Check that model makes the correct raises"""
-
     # Missing batch dimension
     with pytest.raises(
         ValueError,
