@@ -565,7 +565,7 @@ The make command for training initializes a Virtual Machine (VM) through Vertex 
 
 The newly trained model undergoes evaluation by a person before being pushed to a release bucket. Once the new model is in the release bucket, the operator can trigger the rebuilding of the production environment and retrieve the new model. The production environment comprises two containers — one for the frontend and one for the backend. The backend is a FastAPI application that serves as an interface for the model, while the frontend is a Streamlit application providing an interactive user interface. Users can upload an image of a rice grain, and the predicted result from the model will be displayed.
 
-![architecture](figures/grp8-flowchart.png)
+![architecture](figures/grp8-flowchart.jpg)
 
 TODO: All
 --- question 25 fill here ---
