@@ -16,7 +16,8 @@ COPY requirements_train.txt requirements.txt
 
 #Install requirements
 RUN pip install -r requirements.txt --no-cache-dir
-RUN apt-get update && apt-get install git-all
+RUN apt-get -y update
+RUN apt-get -y install git
 
 
 COPY pyproject.toml pyproject.toml
