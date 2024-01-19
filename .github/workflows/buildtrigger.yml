@@ -1,10 +1,10 @@
 name: Call GCP Build Trigger
 
-#on:
-  #workflow_run:
-    #workflows: [Ruff code check]
-    #types:
-      #- completed
+on:
+  workflow_run:
+    workflows: [Ruff code check]
+    types:
+      - completed
 
 jobs:
   call-gcp-build-trigger:
@@ -21,3 +21,5 @@ jobs:
       env:
         API_KEY: ${{ secrets.WEBHOOK }}
         WEBHOOK_SECRET: ${{ secrets.WEBHOOK_SECRET }}
+
+  # TODO: dependency on other runs doesn't work

@@ -7,6 +7,8 @@ git rm -r --cached 'models'
 dvc add models -f
 dvc push -r remote_storage_models_train models.dvc
 
+# TODO: dvc and git tracking needs to be updated.
+# Either needs git authentication to push the models.dvc tracking file to git
 
 # Execute the command passed into this entrypoint
 #exec "$@
